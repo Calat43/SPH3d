@@ -6,9 +6,12 @@
 #include "Grid.h"
 #include "Cell.h"
 #include "Params.h"
+#include "CompareFiles.h"
+#include "Solver.h"
 
-Particle new_random_particle(Particle::Kind kind, Point border1, Point border2) {
 
+Particle new_random_particle(Particle::Kind kind, Point border1, Point border2)
+{
     double radius = (border2.x - border1.x) / 50;
 
     double center_x = (border2.x - border1.x) / 2;
@@ -53,46 +56,7 @@ ParticlesState random_init_state()
     return init_state;
 }
 
-double find_density(Particle * particle, Cell * cell)
-{
-    double density = 0;
-    // std::cout << "--------" << std::endl;
-    // std::cout << *particle  << " in " << *cell << std::endl;
-    // std::cout << "--------" << std::endl;
-    for (Cell * neighbour : cell->get_neighbours())
-    {
-        // std::cout << *neighbour << std::endl;
-        for (Particle & p : particle->kind == Particle::Kind::Gas ? neighbour->gas_particles : neighbour->dust_particles)
-        { // TODO remove direct access
-            // std::cout << p  << " in " << *neighbour << std::endl;
-            double tmp = kernel(*particle, p, Params::get_instance().dimensions);
-            density += p.mass * kernel(*particle, p, Params::get_instance().dimensions);
-        }
-    }
-
-    return density;
-}
-
-void recalc_density(ParticlesState & state)
-{
-    Grid & grid = state.grid;
-    for (int i = 0; i < grid.x_size; ++i)
-    {
-        for (int j = 0; j < grid.y_size; ++j)
-        {
-            for (int k = 0; k < grid.z_size; ++k)
-            {
-                Cell & cell = grid.cells[i][j][k];
-                for (Particle * particle : cell.get_all_particles())
-                {
-                    particle->density = find_density(particle, &(cell));
-                }
-            }
-        }
-    }
-}
-
-ParticlesState regular_init_state()
+ParticlesState sphere_init_state()
 {
     ParticlesState init_state;
 
@@ -125,18 +89,157 @@ ParticlesState regular_init_state()
         init_state.with_copy_of(particle);
     }
 
-    recalc_density(init_state);
+    recalc_density(init_state, 0.1);
 
     return init_state;
 }
 
-Point find_new_coordinates(Particle const & particle)
+ParticlesState ball_init_state(double radius)
+{
+    ParticlesState init_state;
+
+    Params & params = Params::get_instance();
+
+    double center_x = (params.border2.x - params.border1.x) / 2;
+    double center_y = (params.border2.y - params.border1.y) / 2;
+    double center_z = (params.border2.z - params.border1.z) / 2;
+
+    int rad_quantity = 0;
+    int part_quant = 1;
+
+    while(part_quant <= params.n_gas)
+    {
+        part_quant = part_quant + part_quant * 3;
+        rad_quantity += 1;
+    }
+
+    part_quant = 1;
+    double rad_step = radius / (double) rad_quantity;
+
+    for(int i = 0; i <= rad_quantity; ++i)
+    {
+        double this_rad = rad_step * i;
+
+        for(int k = 0; k < part_quant; ++k)
+        {
+            double theta = acos(1 - 2 * (k + 0.5) / part_quant);
+            double phi = PI * (1 + pow(5, 0.5)) * (k + 0.5);
+
+            double rel_x = this_rad * cos(phi) * sin(theta);
+            double rel_y = this_rad * sin(phi) * sin(theta);
+            double rel_z = this_rad * cos(theta);
+
+            Particle particle(Particle::Kind::Gas, rel_x + center_x, rel_y + center_y, rel_z + center_z);
+
+            particle.vx = 0;
+            particle.vy = 0;
+            particle.vz = 0;
+
+            particle.mass = 1. / params.n_gas;
+
+            init_state.with_copy_of(particle);
+        }
+        part_quant *= 3;
+
+    }
+
+    recalc_density(init_state, radius);
+
+    return init_state;
+}
+
+ParticlesState ball_rand_init_state(double radius)
+{
+    ParticlesState init_state;
+
+    Params & params = Params::get_instance();
+
+    double center_x = (params.border2.x - params.border1.x) / 2;
+    double center_y = (params.border2.y - params.border1.y) / 2;
+    double center_z = (params.border2.z - params.border1.z) / 2;
+
+    int i = 0;
+    while(i < params.n_gas)
+    {
+        double x = center_x + random_double(-radius, radius);
+        double y = center_y + random_double(-radius, radius);
+        double z = center_z + random_double(-radius, radius);
+
+        if(sqrt(pow((x - center_x), 2) + pow((y - center_y), 2) + pow((z - center_z), 2)) <= radius)
+        {
+            Particle particle(Particle::Kind::Gas, x, y, z);
+
+            particle.vx = 0;
+            particle.vy = 0;
+            particle.vz = 0;
+
+            particle.mass = 1. / params.n_gas;
+
+            init_state.with_copy_of(particle);
+
+            i += 1;
+        }
+    }
+
+    recalc_density(init_state, radius);
+
+    return init_state;
+}
+
+ParticlesState squared_ball_init_state(double radius, double step)
 {
     Params & params = Params::get_instance();
-    double x = particle.x + params.tau * particle.vx;
-    double y = particle.y + params.tau * particle.vy;
-    double z = particle.z + params.tau * particle.vz;
-    return {x, y, z};
+
+    ParticlesState init_state;
+
+    double center_x = (params.border2.x - params.border1.x) / 2;
+    double center_y = (params.border2.y - params.border1.y) / 2;
+    double center_z = (params.border2.z - params.border1.z) / 2;
+
+    int count = 0;
+
+    for(double x = params.border1.x; x < params.border2.x; x += step)
+    {
+        for(double y = params.border1.y; y < params.border2.y; y += step)
+        {
+            for(double z = params.border1.z; z < params.border2.z; z += step)
+            {
+                if (distance(Point(x, y, z), Point(center_x, center_y, center_z)) <= radius)
+                {
+                    Particle particle(Particle::Kind::Gas, x, y, z);
+
+                    particle.vx = 0;
+                    particle.vy = 0;
+                    particle.vz = 0;
+
+                    // particle.mass = 1. / params.n_gas;
+
+                    init_state.with_copy_of(particle);
+                    ++count;
+                }
+            }
+        }
+    }
+
+
+    for (int i = 0; i < init_state.grid.x_size; ++i)
+    {
+        for(int j = 0; j < init_state.grid.y_size; ++j)
+        {
+            for(int k = 0; k < init_state.grid.z_size; ++k)
+            {
+                Cell * cell = &(init_state.grid.cells[i][j][k]);
+                for (Particle * particle : cell->get_all_particles())
+                {
+                    particle->mass = 1. / count;
+                }
+            }
+        }
+    }
+
+    recalc_density(init_state, radius);
+
+    return init_state;
 }
 
 ParticlesState do_time_step(ParticlesState & old, int step_num)
@@ -147,7 +250,12 @@ ParticlesState do_time_step(ParticlesState & old, int step_num)
 
     ParticlesState nextState;
 
-    Grid old_grid = old.grid;
+    Params & params = Params::get_instance();
+    double center_x = (params.border2.x - params.border1.x) / 2;
+    double center_y = (params.border2.y - params.border1.y) / 2;
+    double center_z = (params.border2.z - params.border1.z) / 2;
+
+    Grid & old_grid = old.grid;
     for (int i = 0; i < old_grid.x_size; ++i)
     { // TODO foreach
         for (int j = 0; j < old_grid.y_size; ++j)
@@ -157,19 +265,36 @@ ParticlesState do_time_step(ParticlesState & old, int step_num)
                 Cell cell = old_grid.cells[i][j][k];
                 for (Particle * particle : cell.get_all_particles())
                 {
-                    fprintf(f, "%lf %lf %lf %lf\n", particle->x, particle->y, particle->z, particle->density);
+                    if(PRINT_DENSITY)
+                    {
+                        fprintf(f, "%lf %lf %lf %lf\n", particle->x, particle->y, particle->z, particle->density);
+                    }
+                    else
+                    {
+                        fprintf(f, "%lf %lf %lf %lf %lf %lf %lf\n", particle->x, particle->y, particle->z, particle->vx,
+                                particle->vy, particle->vz, particle->density);
+                    }
+
 
                     Particle new_particle(*particle);
-                    Point new_coords = find_new_coordinates(new_particle);
+                    Point new_coords = find_new_coordinates(*particle);
+                    //Cell * new_particle_old_cell = old.grid.find_cell(new_particle);
+                    //assert(new_particle_old_cell != nullptr);
+
+                    Point new_vel = find_new_velocity(particle, &cell);
+                    //Point new_vel = find_new_velocity_no_sort(&new_particle, &nextState.grid);
+                    new_particle.density = NAN;
+                    //new_particle.density = 42;
                     new_particle.set_coordinates(new_coords.x, new_coords.y, new_coords.z);
+                    new_particle.set_velocities(new_vel.x, new_vel.y, new_vel.z);
 
                     nextState.with_copy_of(new_particle);
                 }
             }
         }
     }
+    recalc_density(nextState, 1); // TODO next
 
-    recalc_density(old); // TODO next
     fclose(f);
 
     return nextState;
@@ -178,19 +303,42 @@ ParticlesState do_time_step(ParticlesState & old, int step_num)
 int main()
 {
     clock_t startTime = clock();
-    ParticlesState state = regular_init_state();
+    Params & params = Params::get_instance();
+    //ParticlesState state = ball_rand_init_state(0.1);
+    ParticlesState state = squared_ball_init_state(0.1, 0.01); // FIXME squared_ball does not take n_gas into account !!
 
-    for (int i = 0; i < 10; ++i)
+    //clock_t iter_start = clock();
+    //state = do_time_step(state, 0);
+    //clock_t iter_fin = clock();
+
+    //double iter_time = (double)(iter_fin - iter_start) / CLOCKS_PER_SEC;
+    //std::cout << 0 << " " << iter_time << " s" << std::endl;
+
+    for (int frameId = 0; frameId < floor(params.t / params.tau); ++frameId)
     {
         clock_t iter_start = clock();
-        state = do_time_step(state, i);
+        state = do_time_step(state, frameId);
         clock_t iter_fin = clock();
 
         double iter_time = (double)(iter_fin - iter_start) / CLOCKS_PER_SEC;
-        std::cout << i << " " << iter_time << " s" << std::endl;
+        std::cout << frameId << " " << iter_time << " s" << std::endl;
+
     }
+
+    //compare_third_column("/home/calat/tmp/no_sort.dat", "/home/calat/tmp/sort.dat");
+
+
+    Particle p1(Particle::Gas, 0.5, 0, 0);
+    Particle p2(Particle::Gas, 0.51, 0, 0);
+
+    double kern = kernel(p1, p2, 1);
+    double grad_x = kernel_gradient_x(p1, p2, 1);
+
+    std::cout << "kernel: " << kern << "\n" << "grad_x: " << grad_x << std::endl;
+
     std::cout << "Done!" << std::endl;
     clock_t finishTime = clock();
+
 
     double executionTime = (double)(finishTime - startTime) / CLOCKS_PER_SEC;
     printf("Finished in %lf seconds.\n", executionTime);

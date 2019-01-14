@@ -1,19 +1,25 @@
 #pragma once
 
 #include "Particle.h"
+#include "Point.h"
 #include <cmath>
 
 const double PI = acos(-1);
+
+const bool PRINT_DENSITY = false;
 
 class Particle;
 
 double random_double(double from, double to);
 
-double kernel(Particle part1, Particle part2, int dimensions);
+double cubic_3dkernel(Particle const part1, Particle const part2);
 
-double kernel_gradient_x(Particle part1, Particle part2, int dimensions);
+double kernel(Particle const part1, Particle const part2, int dimensions);
 
-double kernel_gradient_y(Particle part1, Particle part2, int dimensions);
+double kernel_gradient_x(Particle const & part1, Particle const & part2, int dimensions);
 
-double kernel_gradient_z(Particle part1, Particle part2, int dimensions);
+double kernel_gradient_y(Particle const & part1, Particle const & part2, int dimensions);
 
+double kernel_gradient_z(Particle const & part1, Particle const & part2, int dimensions);
+
+double distance(Point const & p1, Point const & p2);

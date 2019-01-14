@@ -3,6 +3,7 @@
 #include <vector>
 #include <cmath>
 #include <cassert>
+#include <functional>
 #include "Cell.h"
 #include "Point.h"
 
@@ -34,19 +35,10 @@ public:
 
     Cell * find_cell(const Particle &particle);
 
+    void for_each_cell(std::function<void(Cell &)> const & f);
+
+    void for_each_cell(std::function<void(Cell *)> const & f);
+
 private:
     bool encloses_point(Point point);
-
-public:
-    /*void for_each_cell(Consumer<Cell *> f) {
-        for (int i = 0; i < x_size; ++i) {
-            for (int j = 0; j < y_size; ++j) {
-                for (int k = 0; k < z_size; ++k) {
-                    Cell cell = cells[i][j][k];
-                    f.accept(&(cell));
-                }
-            }
-        }
-    }*/
-
 };

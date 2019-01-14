@@ -17,5 +17,9 @@ ParticlesState & ParticlesState::operator=(ParticlesState const & that) {
 
 void ParticlesState::with_copy_of(Particle const & particle) {
     Cell * cell = grid.find_cell(particle);
+    if (cell == nullptr)
+    {
+        return;
+    }
     cell->add_copy_of_particle(particle);
 }

@@ -48,6 +48,10 @@ bool Grid::encloses_point(Point point) {
 
 Grid::Grid(Grid const & that) : Grid(that.step_x, that.step_y, that.step_z, that.border1, that.border2) {
     cells = that.cells;
+    for_each_cell([this] (Cell & cell)
+    {
+        cell.grid = this;
+    });
     x_size = that.x_size;
     y_size = that.y_size;
     z_size = that.z_size;
@@ -63,5 +67,33 @@ Grid & Grid::operator=(Grid const & that) {
     border1 = that.border1;
     border2 = that.border2;
     cells = that.cells;
+    for_each_cell([this] (Cell & cell)
+    {
+        cell.grid = this;
+    });
     return *this;
+}
+
+void Grid::for_each_cell(std::function<void(Cell &)> const & f)
+{
+    for (int i = 0; i < x_size; ++i) {
+        for (int j = 0; j < y_size; ++j) {
+            for (int k = 0; k < z_size; ++k) {
+                Cell & cell = cells[i][j][k];
+                f(cell);
+            }
+        }
+    }
+}
+
+void Grid::for_each_cell(std::function<void(Cell *)> const & f)
+{
+    for (int i = 0; i < x_size; ++i) {
+        for (int j = 0; j < y_size; ++j) {
+            for (int k = 0; k < z_size; ++k) {
+                Cell & cell = cells[i][j][k];
+                f(&cell);
+            }
+        }
+    }
 }

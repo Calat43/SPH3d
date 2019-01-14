@@ -13,18 +13,18 @@ public:
         return p;
     }
 
-    double t = NAN;
-    double c_s = NAN;
+    double t = 0.2;
+    double c_s = 1;
     double K = NAN;
     double kx = NAN;
     double ky = NAN;
     double kz = NAN;
-    int n_gas = 100;
+    int n_gas = 10000;
     int n_dust = 0;
-    int dimensions = 3;
-    double h = 0.1;
+    int dimensions = 2;
+    double h = 0.04;
     double smooth_radius = 2. * h;
-    double tau = 0.1;
+    double tau = 0.001;
 
     double middle_gas_dens = NAN;
     double d2g = NAN;
@@ -34,17 +34,17 @@ public:
     Point border1 = Point(0, 0, 0);
     Point border2 = Point(1, 1, 1);
 
-    double grid_step_x = 0.1;
-    double grid_step_y = 0.1;
-    double grid_step_z = 0.1;
+    double grid_step_x = 0.01;
+    double grid_step_y = 0.01;
+    double grid_step_z = 0.01;
 
     static int DBG_ID;
+
+    Params(Params const &) = delete;
+    Params & operator=(Params const &) = delete;
 
 private:
     Params() = default;
 
     ~Params() = default;
-public:
-    Params(Params const &) = delete;
-    Params & operator=(Params const &) = delete;
 };

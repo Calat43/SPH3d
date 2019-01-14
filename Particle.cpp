@@ -9,7 +9,7 @@ Particle::Particle(Particle::Kind kind, double x, double y, double z) : Numbered
     this->z = z;
 }
 
-Particle::Particle(Particle const & that) : Numbered(that)
+Particle::Particle(Particle const & that) : Numbered(that) //WHY Numbered(that)??
 {
     kind = that.kind;
     x = that.x;
@@ -41,10 +41,18 @@ Particle & Particle::operator=(Particle const & that)
     return *this;
 }
 
-void Particle::set_coordinates(double new_x, double new_y, double new_z) { // TODO maybe remove
+void Particle::set_coordinates(double new_x, double new_y, double new_z)
+{ // TODO maybe remove
     x = new_x;
     y = new_y;
     z = new_z;
+}
+
+void Particle::set_velocities(double new_vx, double new_vy, double new_vz)
+{ // TODO maybe remove
+    vx = new_vx;
+    vy = new_vy;
+    vz = new_vz;
 }
 
 std::ostream & operator<<(std::ostream & stream, Particle const & p)

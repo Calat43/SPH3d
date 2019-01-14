@@ -2,6 +2,7 @@
 #include "Params.h"
 #include "Numbered.h"
 #include <cassert>
+#include <iostream>
 
 
 double magnitude(double x, double y, double z)
@@ -32,23 +33,40 @@ double find_sigma(int dimensions)
     return sigma;
 }
 
-//cubic
-double kernel(Particle part1, Particle part2, int dimensions)
+double max0(double value)
 {
-    double sigma = find_sigma(dimensions);
+    return (value > 0) ? value : 0;
+}
+
+double cubic_3dkernel(Particle const part1, Particle const part2)
+{
+    double result = 0;
     double h = Params::get_instance().h;
     double r = magnitude(part1.x - part2.x, part1.y - part2.y, part1.z - part2.z);
     double q = r / h;
+
+    result = 1. / h / h / h * 16. / PI * (pow(max0(1 - q), 3) - 4 * pow(max0(0.5 - q), 3));
+
+    return result;
+}
+
+//cubic
+double kernel(Particle const part1, Particle const part2, int dimensions)
+{
+    double sigma = find_sigma(dimensions);
+    double h = Params::get_instance().h;
+    double mag_r = magnitude(part1.x - part2.x, part1.y - part2.y, part1.z - part2.z);
+    double q = mag_r / h;
     double result = 0;
 
     if (q >= 0 && q <= 1)
     {
-        result = 1 - 3. / 2 * pow(q, 2) + 3. / 4 * pow(q, 3);
+        result = 1 - 3. / 2. * pow(q, 2) + 3. / 4. * pow(q, 3);
         return sigma / pow(h, dimensions) * result;
     }
     if (q > 1 && q <= 2)
     {
-        result = 1. / 4 * pow((2. - q), 3);
+        result = 1. / 4. * pow((2. - q), 3);
         return sigma / pow(h, dimensions) * result;
     }
     if (q > 2)
@@ -58,13 +76,13 @@ double kernel(Particle part1, Particle part2, int dimensions)
     assert(false);
 }
 
-double kernel_gradient_x(Particle part1, Particle part2, int dimensions)
+double kernel_gradient_x(Particle const & part1, Particle const & part2, int dimensions)
 {
     double sigma = find_sigma(dimensions);
-
     double h = Params::get_instance().h;
-    double r = fabs(part1.x - part2.x);
-    double q = r / h;
+    double r = part1.x - part2.x;
+    double mag_r = magnitude(part1.x - part2.x, part1.y - part2.y, part1.z - part2.z);
+    double q = mag_r / h;
     double result = 0;
 
     if(q >= 0 && q <= 1)
@@ -75,6 +93,7 @@ double kernel_gradient_x(Particle part1, Particle part2, int dimensions)
     {
         result = - 3. / 4. * pow((2 - q), 2);
     }
+    /*
     if (part1.x > part2.x)
     {
         return sigma / h / pow(h, dimensions) * result;
@@ -87,17 +106,26 @@ double kernel_gradient_x(Particle part1, Particle part2, int dimensions)
     {
         return - sigma / h / pow(h, dimensions) * result;
     }
+     */
 
-    assert(false);
+    if(part1.x == part2.x && part1.y == part2.y && part1.z == part2.z)
+    {
+        return 0;
+    }
+    else
+    {
+        return sigma / pow(h, dimensions) * r / h / mag_r * result;
+    }
 }
 
-double kernel_gradient_y(Particle part1, Particle part2, int dimensions)
+double kernel_gradient_y(Particle const & part1, Particle const & part2, int dimensions)
 {
     double sigma = find_sigma(dimensions);
 
     double h = Params::get_instance().h;
-    double r = fabs(part1.y - part2.y);
-    double q = r / h;
+    double r = part1.y - part2.y;
+    double mag_r = magnitude(part1.x - part2.x, part1.y - part2.y, part1.z - part2.z);
+    double q = mag_r / h;
     double result = 0;
 
     if(q >= 0 && q <= 1)
@@ -108,6 +136,8 @@ double kernel_gradient_y(Particle part1, Particle part2, int dimensions)
     {
         result = - 3. / 4. * pow((2 - q), 2);
     }
+
+    /*
     if (part1.y > part2.y)
     {
         return sigma / h / pow(h, dimensions) * result;
@@ -120,17 +150,26 @@ double kernel_gradient_y(Particle part1, Particle part2, int dimensions)
     {
         return - sigma / h / pow(h, dimensions) * result;
     }
+    */
 
-    assert(false);
+    if(part1.x == part2.x && part1.y == part2.y && part1.z == part2.z)
+    {
+        return 0;
+    }
+    else
+    {
+        return sigma / pow(h, dimensions) * r / h / mag_r * result;
+    }
 }
 
-double kernel_gradient_z(Particle part1, Particle part2, int dimensions)
+double kernel_gradient_z(Particle const & part1, Particle const & part2, int dimensions)
 {
     double sigma = find_sigma(dimensions);
 
     double h = Params::get_instance().h;
-    double r = fabs(part1.z - part2.z);
-    double q = r / h;
+    double r = part1.z - part2.z;
+    double mag_r = magnitude(part1.x - part2.x, part1.y - part2.y, part1.z - part2.z);
+    double q = mag_r / h;
     double result = 0;
 
     if(q >= 0 && q <= 1)
@@ -141,6 +180,8 @@ double kernel_gradient_z(Particle part1, Particle part2, int dimensions)
     {
         result = - 3. / 4. * pow((2 - q), 2);
     }
+
+    /*
     if (part1.z > part2.z)
     {
         return sigma / h / pow(h, dimensions) * result;
@@ -153,12 +194,23 @@ double kernel_gradient_z(Particle part1, Particle part2, int dimensions)
     {
         return - sigma / h / pow(h, dimensions) * result;
     }
-
-    assert(false);
+    */
+    if(part1.x == part2.x && part1.y == part2.y && part1.z == part2.z)
+    {
+        return 0;
+    }
+    else
+    {
+        return sigma / pow(h, dimensions) * r / h / mag_r * result;
+    }
 }
 
 double random_double(double from, double to)
 {
     return from + (rand() / (double) RAND_MAX * (to - from));
+}
+
+double distance(Point const & p1, Point const & p2) {
+    return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2) + pow(p1.z - p2.z, 2));
 }
 

@@ -12,19 +12,13 @@ class Particle;
 
 class Cell : public Numbered
 {
+    friend Grid;
 public:
     static const Cell NO_CELL;
 
     std::vector<Particle> gas_particles;
     std::vector<Particle> dust_particles;
 
-private:
-    Grid * grid;
-    int i;
-    int j;
-    int k;
-
-public:
     Cell(Grid * grid, int i, int j, int k);
 
     Cell(Cell const & that);
@@ -35,16 +29,6 @@ public:
 
     friend std::ostream & operator<<(std::ostream & stream, Cell const & c);
 
-private:
-    std::vector<Particle> & particles_of_kind(Particle::Kind kind) {
-        switch(kind) {
-            case Particle::Kind::Gas: return gas_particles;
-            case Particle::Kind::Dust: return dust_particles;
-        }
-	    assert(false);
-    }
-
-public:
     std::vector<Particle *> get_all_particles();
 
     std::vector<Cell *> get_neighbours();
@@ -54,4 +38,18 @@ public:
             f.accept(particle);
         }
     }*/
+
+private:
+    Grid * grid;
+    int i;
+    int j;
+    int k;
+
+    std::vector<Particle> & particles_of_kind(Particle::Kind kind) {
+        switch(kind) {
+            case Particle::Kind::Gas: return gas_particles;
+            case Particle::Kind::Dust: return dust_particles;
+        }
+	    assert(false);
+    }
 };

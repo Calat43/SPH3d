@@ -49,18 +49,29 @@ std::vector<Cell *> Cell::get_neighbours() {
 
     std::vector<Cell *> neighbours;
 
-    int form_x = max(0, i - offset_x);
-    int to_x = min(grid->x_size, i + offset_x);
+    int from_x = max(0, i - offset_x);
+    int to_x = min(grid->x_size - 1, i + offset_x);
 
-    int form_y = max(0, j - offset_x);
-    int to_y = min(grid->y_size, j + offset_y);
+    int from_y = max(0, j - offset_x);
+    int to_y = min(grid->y_size - 1, j + offset_y);
 
-    int form_z = max(0, k - offset_x);
-    int to_z = min(grid->z_size, k + offset_z);
+    int from_z = max(0, k - offset_x);
+    int to_z = min(grid->z_size - 1, k + offset_z);
 
-    for (int id_x = form_x; id_x < to_x; ++id_x) {
-        for (int id_y = form_y; id_y < to_y; ++id_y) {
-            for (int id_z = form_z; id_z < to_z; ++id_z) {
+    /*
+    from_x = 0;
+    to_x = grid->x_size - 1;
+
+    from_y = 0;
+    to_y = grid->y_size - 1;
+
+    from_z = 0;
+    to_z = grid->z_size - 1;
+    //*/
+
+    for (int id_x = from_x; id_x <= to_x; ++id_x) {
+        for (int id_y = from_y; id_y <= to_y; ++id_y) {
+            for (int id_z = from_z; id_z <= to_z; ++id_z) {
                 neighbours.push_back(&(grid->cells[id_x][id_y][id_z]));
             }
         }

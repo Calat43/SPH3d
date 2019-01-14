@@ -35,6 +35,7 @@ public:
     Particle & operator=(Particle const & that);
 
     void set_coordinates(double new_x, double new_y, double new_z); // TODO maybe remove
+    void set_velocities(double new_vx, double new_vy, double new_vz); // TODO maybe remove
 
     friend std::ostream & operator<<(std::ostream & stream, Particle const & p);
 
