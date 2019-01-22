@@ -13,7 +13,7 @@ public:
         return p;
     }
 
-    double t = 0.2;
+    double t = 0.01;
     double c_s = 1;
     double K = NAN;
     double kx = NAN;
@@ -21,8 +21,8 @@ public:
     double kz = NAN;
     int n_gas = 10000;
     int n_dust = 0;
-    int dimensions = 2;
-    double h = 0.04;
+    int dimensions = 3;
+    double h = 0.02;
     double smooth_radius = 2. * h;
     double tau = 0.001;
 

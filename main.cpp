@@ -232,10 +232,12 @@ ParticlesState squared_ball_init_state(double radius, double step)
                 for (Particle * particle : cell->get_all_particles())
                 {
                     particle->mass = 1. / count;
+
                 }
             }
         }
     }
+    std::cout << "------particles:" << count << std::endl;
 
     recalc_density(init_state, radius);
 
@@ -293,7 +295,7 @@ ParticlesState do_time_step(ParticlesState & old, int step_num)
             }
         }
     }
-    recalc_density(nextState, 1); // TODO next
+    recalc_density(nextState, 1);
 
     fclose(f);
 
@@ -303,42 +305,24 @@ ParticlesState do_time_step(ParticlesState & old, int step_num)
 int main()
 {
     clock_t startTime = clock();
+
     Params & params = Params::get_instance();
     //ParticlesState state = ball_rand_init_state(0.1);
     ParticlesState state = squared_ball_init_state(0.1, 0.01); // FIXME squared_ball does not take n_gas into account !!
 
-    //clock_t iter_start = clock();
-    //state = do_time_step(state, 0);
-    //clock_t iter_fin = clock();
-
-    //double iter_time = (double)(iter_fin - iter_start) / CLOCKS_PER_SEC;
-    //std::cout << 0 << " " << iter_time << " s" << std::endl;
-
     for (int frameId = 0; frameId < floor(params.t / params.tau); ++frameId)
     {
-        clock_t iter_start = clock();
+        clock_t step_start = clock();
         state = do_time_step(state, frameId);
-        clock_t iter_fin = clock();
+        clock_t step_fin = clock();
 
-        double iter_time = (double)(iter_fin - iter_start) / CLOCKS_PER_SEC;
-        std::cout << frameId << " " << iter_time << " s" << std::endl;
+        double step_time = (double)(step_fin - step_start) / CLOCKS_PER_SEC;
+        std::cout << frameId << " " << step_time << " s" << std::endl;
 
     }
 
-    //compare_third_column("/home/calat/tmp/no_sort.dat", "/home/calat/tmp/sort.dat");
-
-
-    Particle p1(Particle::Gas, 0.5, 0, 0);
-    Particle p2(Particle::Gas, 0.51, 0, 0);
-
-    double kern = kernel(p1, p2, 1);
-    double grad_x = kernel_gradient_x(p1, p2, 1);
-
-    std::cout << "kernel: " << kern << "\n" << "grad_x: " << grad_x << std::endl;
-
     std::cout << "Done!" << std::endl;
     clock_t finishTime = clock();
-
 
     double executionTime = (double)(finishTime - startTime) / CLOCKS_PER_SEC;
     printf("Finished in %lf seconds.\n", executionTime);

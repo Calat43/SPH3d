@@ -33,23 +33,6 @@ double find_sigma(int dimensions)
     return sigma;
 }
 
-double max0(double value)
-{
-    return (value > 0) ? value : 0;
-}
-
-double cubic_3dkernel(Particle const part1, Particle const part2)
-{
-    double result = 0;
-    double h = Params::get_instance().h;
-    double r = magnitude(part1.x - part2.x, part1.y - part2.y, part1.z - part2.z);
-    double q = r / h;
-
-    result = 1. / h / h / h * 16. / PI * (pow(max0(1 - q), 3) - 4 * pow(max0(0.5 - q), 3));
-
-    return result;
-}
-
 //cubic
 double kernel(Particle const part1, Particle const part2, int dimensions)
 {
@@ -93,20 +76,6 @@ double kernel_gradient_x(Particle const & part1, Particle const & part2, int dim
     {
         result = - 3. / 4. * pow((2 - q), 2);
     }
-    /*
-    if (part1.x > part2.x)
-    {
-        return sigma / h / pow(h, dimensions) * result;
-    }
-    if (part1.x == part2.x)
-    {
-        return 0;
-    }
-    if (part1.x < part2.x)
-    {
-        return - sigma / h / pow(h, dimensions) * result;
-    }
-     */
 
     if(part1.x == part2.x && part1.y == part2.y && part1.z == part2.z)
     {
@@ -137,21 +106,6 @@ double kernel_gradient_y(Particle const & part1, Particle const & part2, int dim
         result = - 3. / 4. * pow((2 - q), 2);
     }
 
-    /*
-    if (part1.y > part2.y)
-    {
-        return sigma / h / pow(h, dimensions) * result;
-    }
-    if (part1.y == part2.y)
-    {
-        return 0;
-    }
-    if (part1.y < part2.y)
-    {
-        return - sigma / h / pow(h, dimensions) * result;
-    }
-    */
-
     if(part1.x == part2.x && part1.y == part2.y && part1.z == part2.z)
     {
         return 0;
@@ -181,20 +135,6 @@ double kernel_gradient_z(Particle const & part1, Particle const & part2, int dim
         result = - 3. / 4. * pow((2 - q), 2);
     }
 
-    /*
-    if (part1.z > part2.z)
-    {
-        return sigma / h / pow(h, dimensions) * result;
-    }
-    if (part1.z == part2.z)
-    {
-        return 0;
-    }
-    if (part1.z < part2.z)
-    {
-        return - sigma / h / pow(h, dimensions) * result;
-    }
-    */
     if(part1.x == part2.x && part1.y == part2.y && part1.z == part2.z)
     {
         return 0;

@@ -19,9 +19,6 @@ double find_density(Particle * particle, Cell * cell)
     double center_y = (params.border2.y - params.border1.y) / 2;
     double center_z = (params.border2.z - params.border1.z) / 2;
 
-    // std::cout << "--------" << std::endl;
-    // std::cout << *particle  << " in " << *cell << std::endl;
-    // std::cout << "--------" << std::endl;
     for (Cell * neighbour : cell->get_neighbours())
     {
         // std::cout << *neighbour << std::endl;
@@ -36,10 +33,10 @@ double find_density(Particle * particle, Cell * cell)
         }
     }
 
-    if((pow((particle->x - center_x), 2) + pow((particle->y - center_y), 2) + pow((particle->z - center_z), 2)) <= 0.0025)
-    {
-        std::cout << particle->get_id() << " " << nears << std::endl;
-    }
+//    if((pow((particle->x - center_x), 2) + pow((particle->y - center_y), 2) + pow((particle->z - center_z), 2)) <= 0.0025)
+//    {
+//        std::cout << particle->get_id() << " " << nears << std::endl;
+//    }
 
     return density;
 }

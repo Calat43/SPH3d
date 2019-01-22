@@ -12,8 +12,6 @@ class Particle;
 
 double random_double(double from, double to);
 
-double cubic_3dkernel(Particle const part1, Particle const part2);
-
 double kernel(Particle const part1, Particle const part2, int dimensions);
 
 double kernel_gradient_x(Particle const & part1, Particle const & part2, int dimensions);

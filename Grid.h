@@ -15,7 +15,6 @@ class Grid {
 public:
     std::vector<std::vector<std::vector<Cell>>> cells;
 
-
     Point border1;
     Point border2;
 
