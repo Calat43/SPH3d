@@ -1,3 +1,0 @@
-/home/calat/CLionProjects/SPH3D-reworked/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/calat/CLionProjects/SPH3D-reworked/cmake-build-debug/CMakeFiles/sph3d.dir
-/home/calat/CLionProjects/SPH3D-reworked/cmake-build-debug/CMakeFiles/edit_cache.dir
