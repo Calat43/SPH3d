@@ -38,6 +38,16 @@ public:
 
     void for_each_cell(std::function<void(Cell *)> const & f);
 
+    void with_copy_of(Particle const & particle);
+
+    /*void print(PrintWriter writer) {
+       grid.for_each_cell(
+               (c) -> c->for_each_particle(
+                       (p) -> writer.println(p->x + " " + p->y + " " + p->z)
+               )
+       );
+   }*/
+
 private:
     bool encloses_point(Point point);
 };

@@ -97,3 +97,12 @@ void Grid::for_each_cell(std::function<void(Cell *)> const & f)
         }
     }
 }
+
+void Grid::with_copy_of(Particle const & particle) {
+    Cell * cell = find_cell(particle);
+    if (cell == nullptr)
+    {
+        return;
+    }
+    cell->add_copy_of_particle(particle);
+}

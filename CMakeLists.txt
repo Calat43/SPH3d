@@ -13,16 +13,14 @@ add_executable(sph3d
                 Grid.h
                 Params.h
                 Particle.h
-                ParticlesState.h
-                Point.h
+        Point.h
                 Numbered.h
                 utils.h
 
                 Cell.cpp
                 Grid.cpp
-                ParticlesState.cpp
-                Particle.cpp
+        Particle.cpp
                 Common.cpp
                 utils.cpp
                 Numbered.cpp
-        CompareFiles.cpp CompareFiles.h Solver.h Solver.cpp)
+        CompareFiles.cpp CompareFiles.h Solver.h Solver.cpp InitStates.cpp InitStates.h)
