@@ -3,24 +3,29 @@ project(sph3d-reworked)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -Wall -Wno-long-long -pedantic -Wextra")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -Wno-long-long -pedantic -Wextra")
 
 add_executable(sph3d
                 main.cpp
 
+                Params.h
+                Point.h
                 Cell.h
                 Common.h
                 Grid.h
-                Params.h
                 Particle.h
-        Point.h
                 Numbered.h
                 utils.h
+                CompareFiles.h
+                Solver.h
+                InitStates.h
 
                 Cell.cpp
-                Grid.cpp
-        Particle.cpp
                 Common.cpp
-                utils.cpp
+                Grid.cpp
+                Particle.cpp
                 Numbered.cpp
-        CompareFiles.cpp CompareFiles.h Solver.h Solver.cpp InitStates.cpp InitStates.h)
+                utils.cpp
+                CompareFiles.cpp
+                Solver.cpp
+                InitStates.cpp SodTube3d.cpp SodTube3d.h)

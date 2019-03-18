@@ -22,6 +22,7 @@ Particle::Particle(Particle const & that) : Numbered(that) //WHY Numbered(that)?
     vx = that.vx;
     vy = that.vy;
     vz = that.vz;
+    dbg_state = that.dbg_state;
 }
 
 Particle & Particle::operator=(Particle const & that)
@@ -38,6 +39,7 @@ Particle & Particle::operator=(Particle const & that)
     vx = that.vx;
     vy = that.vy;
     vz = that.vz;
+    dbg_state = that.dbg_state;
     return *this;
 }
 

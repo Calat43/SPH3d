@@ -8,6 +8,7 @@
 #include "CompareFiles.h"
 #include "Solver.h"
 #include "InitStates.h"
+#include "SodTube3d.h"
 
 
 //TODO empty grid constructor
@@ -31,7 +32,7 @@ Grid do_time_step(Grid & old_grid, int step_num)
         {
             for (int k = 0; k < old_grid.z_size; ++k)
             {
-                Cell cell = old_grid.cells[i][j][k];
+                Cell & cell = old_grid.cells[i][j][k];
                 for (Particle * particle : cell.get_all_particles())
                 {
                     if(PRINT_DENSITY)
@@ -76,12 +77,16 @@ int main()
     Params & params = Params::get_instance();
     //ParticlesState state = ball_rand_init_state(0.1);
     //Grid grid = squared_ball_init_state(0.1, 0.01); // FIXME squared_ball does not take n_gas into account !!
-    Grid grid = sod_tube();
+    clock_t init_start = clock();
+    Grid grid = Sod_tube_3d::init();
+    clock_t init_fin = clock();
+    std::cout << "Init: " << (double)(init_fin - init_start) / CLOCKS_PER_SEC << std::endl;
 
     for (int frameId = 0; frameId < floor(params.t / params.tau); ++frameId)
     {
         clock_t step_start = clock();
-        grid = Sod_tube::do_time_step(grid, frameId);
+        //TODO PRINT
+        grid = Sod_tube_3d::do_time_step(grid, frameId);
         clock_t step_fin = clock();
 
         double step_time = (double)(step_fin - step_start) / CLOCKS_PER_SEC;

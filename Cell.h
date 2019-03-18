@@ -27,6 +27,8 @@ public:
 
     void add_copy_of_particle(Particle const & particle);
 
+    void remove_particle(Particle & particle);
+
     friend std::ostream & operator<<(std::ostream & stream, Cell const & c);
 
     std::vector<Particle *> get_all_particles();

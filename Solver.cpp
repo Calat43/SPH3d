@@ -2,7 +2,6 @@
 
 namespace viscosity_1d
 {
-
     double find_sound_speed(Particle * particle)
     {
         assert(!__isnan(sqrt(Params::get_instance().gamma * particle->pressure / particle->density)));
@@ -65,9 +64,6 @@ double find_density(Particle * particle, Cell * cell)
     int nears = 0;
 
     Params & params = Params::get_instance();
-    double center_x = (params.border2.x - params.border1.x) / 2;
-    double center_y = (params.border2.y - params.border1.y) / 2;
-    double center_z = (params.border2.z - params.border1.z) / 2;
 
     for (Cell * neighbour : cell->get_neighbours())
     {
@@ -83,10 +79,10 @@ double find_density(Particle * particle, Cell * cell)
         }
     }
 
-//    if((pow((particle->x - center_x), 2) + pow((particle->y - center_y), 2) + pow((particle->z - center_z), 2)) <= 0.0025)
-//    {
-//        std::cout << particle->get_id() << " " << nears << std::endl;
-//    }
+    if(PRINT_STUFF)
+    {
+        std::cout << particle->get_id() << " " << nears << std::endl;
+    }
 
     return density;
 }
@@ -108,7 +104,7 @@ double find_density_no_sort(Particle const & particle, Grid const & grid)
         {
             for(int k = 0; k < grid.z_size; ++k)
             {
-                for(Particle p : particle.kind == Particle::Kind::Gas ? grid.cells[i][j][k].gas_particles
+                for(Particle const & p : particle.kind == Particle::Kind::Gas ? grid.cells[i][j][k].gas_particles
                                                                       : grid.cells[i][j][k].dust_particles)
                 {
                     density += p.mass * kernel(particle, p, Params::get_instance().dimensions);
@@ -208,7 +204,7 @@ Point find_new_velocity_no_sort(Particle * particle, Grid * grid)
         {
             for(int k = 0; k < grid->z_size; ++k)
             {
-                for(Particle p : particle->kind == Particle::Kind::Gas ? grid->cells[i][j][k].gas_particles
+                for(Particle & p : particle->kind == Particle::Kind::Gas ? grid->cells[i][j][k].gas_particles
                                                                       : grid->cells[i][j][k].dust_particles)
                 {
                     sum_x += (1. / p.density + 1. / particle->density) * kernel_gradient_x(*(particle), p, params.dimensions);
@@ -229,7 +225,7 @@ Point find_new_velocity_no_sort(Particle * particle, Grid * grid)
 }
 
 //particle from prev step
-Point Sod_tube::find_new_velocity(Particle * particle, Cell * cell)
+Point Sod_tube_1d::find_new_velocity(Particle * particle, Cell * cell)
 {
     double sum_x = 0;
 
@@ -256,12 +252,12 @@ Point Sod_tube::find_new_velocity(Particle * particle, Cell * cell)
     return {vx, 0, 0};
 }
 
-double Sod_tube::find_new_pressure(Particle * particle)
+double Sod_tube_1d::find_new_pressure(Particle * particle)
 {
     return particle->density * particle->energy * (Params::get_instance().gamma - 1);
 }
 
-void Sod_tube::recalc_pressure(Grid & grid)
+void Sod_tube_1d::recalc_pressure(Grid & grid)
 {
     for(int i = 0; i < grid.x_size; ++i)
     {
@@ -272,7 +268,7 @@ void Sod_tube::recalc_pressure(Grid & grid)
                 Cell & cell = grid.cells[i][j][k];
                 for(Particle * particle : cell.get_all_particles())
                 {
-                    particle->pressure = Sod_tube::find_new_pressure(particle);
+                    particle->pressure = Sod_tube_1d::find_new_pressure(particle);
                     //particle->density = find_density_no_sort(*particle, state.grid);
                     assert(!__isnan(particle->pressure));
                 }
@@ -282,7 +278,7 @@ void Sod_tube::recalc_pressure(Grid & grid)
 }
 
 //particle from prev step
-double Sod_tube::find_new_energy(Particle * particle, Cell * cell)
+double Sod_tube_1d::find_new_energy(Particle * particle, Cell * cell)
 {
     double pres_member = 0;
     double visc_member = 0;
@@ -306,7 +302,7 @@ double Sod_tube::find_new_energy(Particle * particle, Cell * cell)
     return result;
 }
 
-Grid Sod_tube::do_time_step(Grid & old_grid, int step_num)
+Grid Sod_tube_1d::do_time_step(Grid & old_grid, int step_num)
 {
     char filename[512];
     sprintf(filename, "/home/calat/tmp/part_%0d.dat", step_num);
@@ -322,7 +318,7 @@ Grid Sod_tube::do_time_step(Grid & old_grid, int step_num)
         {
             for(int k = 0; k < old_grid.z_size; ++k)
             {
-                Cell cell = old_grid.cells[i][j][k];
+                Cell & cell = old_grid.cells[i][j][k];
                 for(Particle * particle : cell.get_all_particles())
                 {
                     fprintf(f, "%lf %lf %lf %lf %lf\n", particle->x, particle->vx, particle->density,
@@ -331,7 +327,7 @@ Grid Sod_tube::do_time_step(Grid & old_grid, int step_num)
                     Particle new_particle(*particle);
                     Point new_coords = find_new_coordinates(*particle);
 
-                    Point new_vel = Sod_tube::find_new_velocity(particle, &cell);
+                    Point new_vel = Sod_tube_1d::find_new_velocity(particle, &cell);
                     new_particle.density = NAN;
 
                     new_particle.set_coordinates(new_coords.x, new_coords.y, new_coords.z);

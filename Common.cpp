@@ -10,6 +10,11 @@ double magnitude(double x, double y, double z)
     return sqrt(x * x + y * y + z * z);
 }
 
+double magnitude(Point p)
+{
+    return sqrt(p.x * p.x + p.y * p.y + p.z * p.z);
+}
+
 //dimensions = 1, 2, 3
 double find_sigma(int dimensions)
 {
@@ -152,5 +157,19 @@ double random_double(double from, double to)
 
 double distance(Point const & p1, Point const & p2) {
     return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2) + pow(p1.z - p2.z, 2));
+}
+
+double dot_product(Point const point1, Point const point2)
+{
+    return point1.x * point2.x + point1.y * point2.y + point1.z * point2.z;
+}
+
+double vel_dot_grad_kernel(Particle const part1, Particle const part2)
+{
+    int dimensions = Params::get_instance().dimensions;
+
+    return (part1.vx - part2.vx) * kernel_gradient_x(part1, part2, dimensions) +
+           (part1.vy - part2.vy) * kernel_gradient_y(part1, part2, dimensions) +
+           (part1.vz - part2.vz) * kernel_gradient_z(part1, part2, dimensions);
 }
 

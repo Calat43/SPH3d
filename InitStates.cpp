@@ -34,7 +34,7 @@ void fill_initial_sod_coord(std::vector<double> & coord, std::vector<double> & i
     }
 }
 
-Grid sod_tube()
+Grid Sod_tube_1d::init()
 {
     Params & params = Params::get_instance();
 
@@ -86,8 +86,7 @@ Grid sod_tube()
     }
 
     recalc_density(init);
-    Sod_tube::recalc_pressure(init);
-
+    Sod_tube_1d::recalc_pressure(init);
 
     return init;
 }

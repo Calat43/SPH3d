@@ -12,6 +12,8 @@ public:
         Dust
     };
 
+    int dbg_state = 0;
+
     Kind kind;
 
     double vx = NAN;

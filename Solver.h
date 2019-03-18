@@ -8,6 +8,8 @@
 
 Point find_new_coordinates(Particle const & particle);
 
+double find_density(Particle * particle, Cell * cell);
+
 double find_density_no_sort(Particle const & particle, Grid const & grid);
 
 void recalc_density(Grid & grid);
@@ -17,7 +19,7 @@ Point find_new_velocity(Particle * particle, Cell * cell);
 Point find_new_velocity_no_sort(Particle * particle, Grid * grid);
 
 // 1D, x axis
-namespace Sod_tube
+namespace Sod_tube_1d
 {
     Point find_new_velocity(Particle * particle, Cell * cell);
 

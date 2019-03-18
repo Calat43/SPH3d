@@ -85,3 +85,8 @@ std::ostream & operator<<(std::ostream & stream, Cell const & c)
     stream << "Cell#" << c.get_id() << "(" << c.i << ", " << c.j << ", " << c.k << ")";
     return stream;
 }
+
+void Cell::remove_particle(Particle & particle)
+{
+
+}
