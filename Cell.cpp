@@ -90,3 +90,18 @@ void Cell::remove_particle(Particle & particle)
 {
 
 }
+
+int Cell::get_i() const
+{
+    return i;
+}
+
+int Cell::get_j() const
+{
+    return j;
+}
+
+int Cell::get_k() const
+{
+    return k;
+}

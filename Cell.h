@@ -41,17 +41,23 @@ public:
         }
     }*/
 
-private:
-    Grid * grid;
-    int i;
-    int j;
-    int k;
+    int get_i() const;
+
+    int get_j() const;
+
+    int get_k() const;
 
     std::vector<Particle> & particles_of_kind(Particle::Kind kind) {
         switch(kind) {
             case Particle::Kind::Gas: return gas_particles;
             case Particle::Kind::Dust: return dust_particles;
         }
-	    assert(false);
+        assert(false);
     }
+
+private:
+    Grid * grid;
+    int i;
+    int j;
+    int k;
 };

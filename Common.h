@@ -6,12 +6,6 @@
 
 const double PI = acos(-1);
 
-const bool PRINT_DENSITY = false;
-
-const bool PRINT_STUFF = false;
-
-const bool PRINT_FILE = false;
-
 class Particle;
 
 double magnitude(double x, double y, double z);

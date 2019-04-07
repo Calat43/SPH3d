@@ -72,9 +72,12 @@ double find_density(Particle * particle, Cell * cell)
         { // TODO remove direct access
             density += p.mass * kernel(*particle, p, Params::get_instance().dimensions);
 
-            if(kernel(*particle, p, Params::get_instance().dimensions) != 0)
+            if(PRINT_STUFF)
             {
-                nears += 1;
+                if(kernel(*particle, p, Params::get_instance().dimensions) != 0)
+                {
+                    nears += 1;
+                }
             }
         }
     }
@@ -83,6 +86,7 @@ double find_density(Particle * particle, Cell * cell)
     {
         std::cout << particle->get_id() << " " << nears << std::endl;
     }
+    assert(!__isnan(density));
 
     return density;
 }
@@ -126,7 +130,7 @@ double find_density_no_sort(Particle const & particle, Grid const & grid)
     return density;
 }
 
-void recalc_density(Grid & grid)
+void recalc_density(Grid & grid, Particle::Kind kind)
 {
     for(int i = 0; i < grid.x_size; ++i)
     {
@@ -135,11 +139,11 @@ void recalc_density(Grid & grid)
             for(int k = 0; k < grid.z_size; ++k)
             {
                 Cell & cell = grid.cells[i][j][k];
-                for(Particle * particle : cell.get_all_particles())
+                for(Particle & particle : cell.particles_of_kind(kind))
                 {
-                    particle->density = find_density(particle, &(cell));
+                    particle.density = find_density(&particle, &(cell));
                     //particle->density = find_density_no_sort(*particle, state.grid);
-                    assert(!__isnan(particle->density));
+                    assert(!__isnan(particle.density));
                 }
             }
         }
@@ -257,7 +261,7 @@ double Sod_tube_1d::find_new_pressure(Particle * particle)
     return particle->density * particle->energy * (Params::get_instance().gamma - 1);
 }
 
-void Sod_tube_1d::recalc_pressure(Grid & grid)
+void Sod_tube_1d::recalc_pressure(Grid & grid, Particle::Kind kind)
 {
     for(int i = 0; i < grid.x_size; ++i)
     {
@@ -266,11 +270,11 @@ void Sod_tube_1d::recalc_pressure(Grid & grid)
             for(int k = 0; k < grid.z_size; ++k)
             {
                 Cell & cell = grid.cells[i][j][k];
-                for(Particle * particle : cell.get_all_particles())
+                for(Particle & particle : cell.particles_of_kind(kind))
                 {
-                    particle->pressure = Sod_tube_1d::find_new_pressure(particle);
+                    particle.pressure = Sod_tube_1d::find_new_pressure(&particle);
                     //particle->density = find_density_no_sort(*particle, state.grid);
-                    assert(!__isnan(particle->pressure));
+                    assert(!__isnan(particle.pressure));
                 }
             }
         }
@@ -341,8 +345,8 @@ Grid Sod_tube_1d::do_time_step(Grid & old_grid, int step_num)
         }
     }
 
-    recalc_density(next_grid);
-    recalc_pressure(next_grid);
+    recalc_density(next_grid, Particle::Kind::Gas);
+    recalc_pressure(next_grid, Particle::Kind::Gas);
 
     return next_grid;
 }

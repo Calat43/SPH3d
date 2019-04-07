@@ -13,4 +13,13 @@ namespace Sod_tube_3d
     double find_new_energy(Particle * particle, Cell * cell);
 
     Grid do_time_step(Grid & old_grid, int step_num);
+
+    Grid do_time_step_with_boundaries(Grid & old_grid, int step_num);
+
+    Grid init_with_boundaries();
+}
+
+namespace viscosity_3d
+{
+    double find_viscosity(Particle * p1, Particle * p2);
 }

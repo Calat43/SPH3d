@@ -9,6 +9,7 @@
 #include "Solver.h"
 #include "InitStates.h"
 #include "SodTube3d.h"
+#include "Dusty_shock.h"
 
 
 //TODO empty grid constructor
@@ -63,7 +64,7 @@ Grid do_time_step(Grid & old_grid, int step_num)
             }
         }
     }
-    recalc_density(next_grid);
+    recalc_density(next_grid, Particle::Kind::Gas);
 
     fclose(f);
 
@@ -78,7 +79,8 @@ int main()
     //ParticlesState state = ball_rand_init_state(0.1);
     //Grid grid = squared_ball_init_state(0.1, 0.01); // FIXME squared_ball does not take n_gas into account !!
     clock_t init_start = clock();
-    Grid grid = Sod_tube_3d::init();
+   // Grid grid = Sod_tube_3d::init_with_boundaries();
+   Grid grid = Dusty_shock_3d::init();
     clock_t init_fin = clock();
     std::cout << "Init: " << (double)(init_fin - init_start) / CLOCKS_PER_SEC << std::endl;
 
@@ -86,7 +88,8 @@ int main()
     {
         clock_t step_start = clock();
         //TODO PRINT
-        grid = Sod_tube_3d::do_time_step(grid, frameId);
+        //grid = Sod_tube_3d::do_time_step_with_boundaries(grid, frameId);
+        grid = Dusty_shock_3d::do_time_step(grid, frameId, IS_IDIC);
         clock_t step_fin = clock();
 
         double step_time = (double)(step_fin - step_start) / CLOCKS_PER_SEC;
@@ -99,5 +102,8 @@ int main()
     double executionTime = (double)(finishTime - startTime) / CLOCKS_PER_SEC;
     printf("Finished in %lf seconds.\n", executionTime);
 
+    //Grid grid = Dusty_shock_3d::init();
+
+    //centering();
     return 0;
 }

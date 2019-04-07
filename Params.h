@@ -3,6 +3,14 @@
 #include <cmath>
 #include "Point.h"
 
+const bool PRINT_DENSITY = false;
+
+const bool PRINT_STUFF = false;
+
+const bool PRINT_FILE = true;
+
+const bool IS_IDIC = false;
+
 // Singleton
 class Params
 {
@@ -13,10 +21,10 @@ public:
         return p;
     }
 
-    double t = 0.1;
+    double t = 0.2;
     double c_s = 1;
     double gamma = 7. / 5.;
-    double K = NAN;
+    double K = 500;
     double kx = NAN;
     double ky = NAN;
     double kz = NAN;
@@ -31,37 +39,23 @@ public:
     double d2g = NAN;
     double delta = NAN;
 
-    //Sod tube
-    uint real_particles = 200;//304;
-    uint image_particles = 20;//32;
-    double membrane = 0.5;
-    double left = 0.2;
-    double right = 0.8;
-
-    double dens_right = 1.;//0.125;
-    double press_right = 0.8;//0.1;
-    double vel_right = 0.;
-    double ener_right = 2.;
-
-    double dens_left = 1.;//3. * dens_right; //0.375
-    double press_left = 1.;//0.375;
-    double vel_left = 0.;
-    double ener_left = 2.5;
-
-
     //viscosity
     double alpha = 1.;
     double beta = 2.;
     double nu = 0.1 * h;
     bool have_viscosity = true;
 
+    //monaghan
+    double sigma = 1. / 3.;
+    double eta_squared = 0.001 * h * h;
+
     // boundary of area
     Point border1 = Point(0, -0.1, -0.1);
     Point border2 = Point(1, 0.2, 0.2);
 
-    double grid_step_x = 0.04;
-    double grid_step_y = 0.04;
-    double grid_step_z = 0.04;
+    double grid_step_x = 0.01;
+    double grid_step_y = 0.01;
+    double grid_step_z = 0.01;
 
     static int DBG_ID;
 
@@ -72,4 +66,54 @@ private:
     Params() = default;
 
     ~Params() = default;
+};
+
+class Dusty_shock_params
+{
+public:
+    static Dusty_shock_params & get_instance()
+    {
+        static Dusty_shock_params p; // lazy initialized
+        return p;
+    }
+
+    double membrane = 0.5;
+    double x_left = 0.2;
+    double x_right = 0.8;
+    double yz_left = 0.;
+    double yz_right = 0.1;
+
+    //gas
+    uint gas_real_particles = 100;
+    uint gas_image_particles = 20;
+    uint gas_yz_particles = 20;
+
+    double gas_dens_right = 1.;
+    double gas_press_right = 0.8;
+    double gas_vel_right = 0.;
+    double gas_ener_right = 2.;
+
+    double gas_dens_left = 1.;
+    double gas_press_left = 1.;
+    double gas_vel_left = 0.;
+    double gas_ener_left = 2.5;
+
+    //dust
+    uint dust_real_particles = 100;//304;
+    uint dust_image_particles = 20;//32;
+    uint dust_yz_particles = 20;
+
+    double dust_dens_right = 1.;//0.125;
+    double dust_vel_right = 0.;
+
+    double dust_dens_left = 1.;
+    double dust_vel_left = 0.;
+
+    Dusty_shock_params(Params const &) = delete;
+    Dusty_shock_params & operator=(Dusty_shock_params const &) = delete;
+
+private:
+    Dusty_shock_params() = default;
+
+    ~Dusty_shock_params() = default;
 };
