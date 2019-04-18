@@ -23,6 +23,8 @@ namespace idic
 
     double eps_asterisk(Cell * cell);
 
+    double density_asterisk(Cell * cell, Particle::Kind kind);
+
     double t_stop_asterisk(Cell * cell);
 
     Point pressure_term_asterisk(Cell * cell);

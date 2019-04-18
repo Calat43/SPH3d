@@ -26,9 +26,9 @@ Point pressure_term(Particle * particle, Cell * cell)
                      * kernel_gradient_z(*(particle), p, params.dimensions);
         }
     }
-    a_p_x *= particle->mass;
-    a_p_y *= particle->mass;
-    a_p_z *= particle->mass;
+    a_p_x *= - particle->mass;
+    a_p_y *= - particle->mass;
+    a_p_z *= - particle->mass;
 
     return {a_p_x, a_p_y, a_p_z};
 }
@@ -83,12 +83,11 @@ Point idic::vel_asterisk(Cell * cell, Particle::Kind kind)
 
 double idic::eps_asterisk(Cell * cell)
 {
-    double dust_mass = cell->dust_particles.at(0).mass;
-    double gas_mass = cell->gas_particles.at(0).mass;
-
     //TODO int or not?
     double dust_size = cell->dust_particles.size();
     double gas_size = cell->gas_particles.size();
+
+    double dust_mass = 0;
 
     if(gas_size == 0)
     {
@@ -96,13 +95,43 @@ double idic::eps_asterisk(Cell * cell)
     }
     else
     {
+        if(dust_size != 0)
+        {
+            dust_mass = cell->dust_particles.at(0).mass;
+        }
+
+        double gas_mass = cell->gas_particles.at(0).mass;
+
         return dust_mass * dust_size / (gas_mass * gas_size);
     }
 }
 
+double idic::density_asterisk(Cell * cell, Particle::Kind kind)
+{
+    int size = (int)cell->particles_of_kind(kind).size();
+
+    double result = 0;
+
+    if(size == 0)
+    {
+        return result;
+    }
+
+    for(Particle & particle : cell->particles_of_kind(kind))
+    {
+        result += particle.density;
+    }
+
+    return result / (double)size;
+}
+
 double idic::t_stop_asterisk(Cell * cell)
 {
-    return magnitude(vel_asterisk(cell, Particle::Kind::Dust)) / Params::get_instance().K;
+    if(Params::get_instance().K != 0)
+    {
+        return density_asterisk(cell, Particle::Kind::Dust) / Params::get_instance().K;
+    }
+    return 0;
 }
 
 Point idic::x_through_vel(Cell * cell)
@@ -152,17 +181,31 @@ Point idic::find_gas_velocity(Particle * particle, Cell * cell)
 {
     double tau = Params::get_instance().tau;
 
-    double front_next_vel = 1. / tau + eps_asterisk(cell) / t_stop_asterisk(cell);
-
     Point prev_vel = {particle->vx, particle->vy, particle->vz};
 
     Point result = {0, 0, 0};
 
+    double front_next_vel = 0;
+
+    if(t_stop_asterisk(cell) == 0)
+    {
+        front_next_vel = 1. / tau;
+
+        result = (prev_vel / tau + pressure_term(particle, cell)) / front_next_vel;
+    }
+
     if(t_stop_asterisk(cell) != 0)
     {
+        front_next_vel = 1. / tau + eps_asterisk(cell) / t_stop_asterisk(cell);
+
         result = (prev_vel / tau + find_dust_vel_asterisk(cell) * (eps_asterisk(cell) / t_stop_asterisk(cell))
-                  + pressure_term_asterisk(cell)) / front_next_vel;
+                  + pressure_term(particle, cell)) / front_next_vel;
     }
+
+    assert(!__isnan(result.x));
+    assert(!__isnan(result.y));
+    assert(!__isnan(result.z));
+
     return result;
 }
 
@@ -180,6 +223,11 @@ Point idic::find_dust_velocity(Particle * particle, Cell * cell)
     {
         result = (prev_vel / tau + find_gas_vel_asterisk(cell) / t_stop_asterisk(cell)) / front_next_vel;
     }
+
+    assert(!__isnan(result.x));
+    assert(!__isnan(result.y));
+    assert(!__isnan(result.z));
+
     return result;
 }
 
@@ -187,17 +235,17 @@ Point monaghan::find_gas_velocity(Particle * particle, Cell * cell)
 {
     Params & params = Params::get_instance();
 
-    double a_p_x = 0;
-    double a_p_y = 0;
-    double a_p_z = 0;
-
     Point a_p = pressure_term(particle, cell);
 
     double drag_x = 0;
     double drag_y = 0;
     double drag_z = 0;
 
-    double dust_mass = cell->dust_particles.at(0).mass;
+    double dust_mass = 0;
+    if((int)cell->dust_particles.size() != 0)
+    {
+        dust_mass = cell->dust_particles.at(0).mass;
+    }
 
     Point vel = {0, 0, 0};
     Point coord = {0, 0, 0};
@@ -227,8 +275,8 @@ Point monaghan::find_gas_velocity(Particle * particle, Cell * cell)
     drag_y *= params.sigma * dust_mass * params.K;
     drag_z *= params.sigma * dust_mass * params.K;
 
-    return {params.tau * (- a_p_x - drag_x) + particle->vx, params.tau * (- a_p_y - drag_y) + particle->vy,
-            params.tau * (- a_p_z - drag_z) + particle->vz};
+    return {params.tau * (a_p.x - drag_x) + particle->vx, params.tau * (a_p.y - drag_y) + particle->vy,
+            params.tau * (a_p.z - drag_z) + particle->vz};
 }
 
 Point monaghan::find_dust_velocity(Particle * particle, Cell * cell)
@@ -239,10 +287,14 @@ Point monaghan::find_dust_velocity(Particle * particle, Cell * cell)
     double drag_y = 0;
     double drag_z = 0;
 
+    double gas_mass = 0;
+    if((int)cell->gas_particles.size() != 0)
+    {
+        gas_mass = cell->gas_particles.at(0).mass;
+    }
+
     Point vel = {0, 0, 0};
     Point coord = {0, 0, 0};
-
-    double gas_mass = cell->gas_particles.at(0).mass;
 
     for(Cell * neighbour : cell->get_neighbours())
     {

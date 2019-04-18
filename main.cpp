@@ -10,6 +10,7 @@
 #include "InitStates.h"
 #include "SodTube3d.h"
 #include "Dusty_shock.h"
+#include "Point.h"
 
 
 //TODO empty grid constructor
@@ -80,7 +81,7 @@ int main()
     //Grid grid = squared_ball_init_state(0.1, 0.01); // FIXME squared_ball does not take n_gas into account !!
     clock_t init_start = clock();
    // Grid grid = Sod_tube_3d::init_with_boundaries();
-   Grid grid = Dusty_shock_3d::init();
+    Grid grid = Dusty_shock_3d::init();
     clock_t init_fin = clock();
     std::cout << "Init: " << (double)(init_fin - init_start) / CLOCKS_PER_SEC << std::endl;
 
@@ -105,5 +106,6 @@ int main()
     //Grid grid = Dusty_shock_3d::init();
 
     //centering();
+
     return 0;
 }

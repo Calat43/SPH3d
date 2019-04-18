@@ -33,7 +33,7 @@ public:
     int dimensions = 3;
     double h = 0.01;
     double smooth_radius = 2. * h;
-    double tau = 0.001;
+    double tau = 0.001 ;
 
     double middle_gas_dens = NAN;
     double d2g = NAN;
@@ -84,9 +84,9 @@ public:
     double yz_right = 0.1;
 
     //gas
-    uint gas_real_particles = 100;
-    uint gas_image_particles = 20;
-    uint gas_yz_particles = 20;
+    uint gas_real_particles = 70;
+    uint gas_image_particles = 12;
+    uint gas_yz_particles = 12;
 
     double gas_dens_right = 1.;
     double gas_press_right = 0.8;
@@ -99,14 +99,14 @@ public:
     double gas_ener_left = 2.5;
 
     //dust
-    uint dust_real_particles = 100;//304;
-    uint dust_image_particles = 20;//32;
-    uint dust_yz_particles = 20;
+    uint dust_real_particles = 70;
+    uint dust_image_particles = 12;
+    uint dust_yz_particles = 12;
 
-    double dust_dens_right = 1.;//0.125;
+    double dust_dens_right = 0.1;
     double dust_vel_right = 0.;
 
-    double dust_dens_left = 1.;
+    double dust_dens_left = 0.1;
     double dust_vel_left = 0.;
 
     Dusty_shock_params(Params const &) = delete;
