@@ -31,3 +31,10 @@ namespace Sod_tube_1d
 
     void recalc_pressure(Grid & grid, Particle::Kind kind);
 }
+
+namespace viscosity_1d
+{
+    double find_sound_speed(Particle * particle);
+    double find_mu(double vel_ab, double coord_ab);
+    double find_viscosity(Particle * p1, Particle * p2);
+}

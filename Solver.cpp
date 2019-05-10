@@ -1,53 +1,48 @@
 #include "Solver.h"
 
-namespace viscosity_1d
+double viscosity_1d::find_sound_speed(Particle * particle)
 {
-    double find_sound_speed(Particle * particle)
-    {
-        assert(!__isnan(sqrt(Params::get_instance().gamma * particle->pressure / particle->density)));
-        return sqrt(Params::get_instance().gamma * particle->pressure / particle->density);
-    }
-
-    double find_mu(double vel_ab, double coord_ab)
-    {
-        return (Params::get_instance().h * vel_ab * coord_ab) /
-               (pow(coord_ab, 2) + pow(Params::get_instance().nu, 2));
-    }
-
-    double find_viscosity(Particle * p1, Particle * p2)
-    {
-        Params & params = Params::get_instance();
-
-        if(params.have_viscosity)
-        {
-            double vel_ab = p1->vx - p2->vx;
-            double coord_ab = p1->x - p2->x;
-
-            if(vel_ab * coord_ab >= 0)
-            {
-                return 0;
-            }
-            if(vel_ab * coord_ab < 0)
-            {
-                double c_a = find_sound_speed(p1);
-                double c_b = find_sound_speed(p2);
-
-                double dens_ab = 1. / 2 * (p1->density + p2->density);
-                double c_ab = 1. / 2 * (c_a + c_b);
-
-                double mu_ab = find_mu(vel_ab, coord_ab);
-
-                assert(!__isnan(c_a));
-                assert(!__isnan(c_b));
-                assert(!__isnan(mu_ab));
-
-                return (- params.alpha * c_ab * mu_ab + params.beta * pow(mu_ab, 2)) / dens_ab;
-            }
-        }
-        return 0;
-    }
-
+    assert(!__isnan(sqrt(Params::get_instance().gamma * particle->pressure / particle->density)));
+    return sqrt(Params::get_instance().gamma * particle->pressure / particle->density);
 }
+
+double viscosity_1d::find_mu(double vel_ab, double coord_ab)
+{
+    return (Params::get_instance().h * vel_ab * coord_ab) / (pow(coord_ab, 2) + pow(Params::get_instance().nu, 2));
+}
+
+double viscosity_1d::find_viscosity(Particle * p1, Particle * p2)
+{
+    Params & params = Params::get_instance();
+
+    if(params.have_viscosity)
+    {
+        double vel_ab = p1->vx - p2->vx;
+        double coord_ab = p1->x - p2->x;
+
+        if(vel_ab * coord_ab >= 0)
+        {
+            return 0;
+        }
+        if(vel_ab * coord_ab < 0)
+        {
+            double c_a = find_sound_speed(p1);
+            double c_b = find_sound_speed(p2);
+            double dens_ab = 1. / 2 * (p1->density + p2->density);
+            double c_ab = 1. / 2 * (c_a + c_b);
+
+            double mu_ab = find_mu(vel_ab, coord_ab);
+
+            assert(!__isnan(c_a));
+            assert(!__isnan(c_b));
+            assert(!__isnan(mu_ab));
+
+            return (- params.alpha * c_ab * mu_ab + params.beta * pow(mu_ab, 2)) / dens_ab;
+        }
+    }
+    return 0;
+}
+
 
 Point find_new_coordinates(Particle const & particle)
 {

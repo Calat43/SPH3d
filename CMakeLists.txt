@@ -28,4 +28,4 @@ add_executable(sph3d
                 utils.cpp
                 CompareFiles.cpp
                 Solver.cpp
-                InitStates.cpp SodTube3d.cpp SodTube3d.h Dusty_shock.cpp Dusty_shock.h Point.cpp)
+                InitStates.cpp SodTube3d.cpp SodTube3d.h Dusty_shock.cpp Dusty_shock.h Point.cpp NonLinear.cpp NonLinear.h DustyShock1d.cpp DustyShock1d.h)
