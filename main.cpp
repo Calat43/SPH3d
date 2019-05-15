@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 #include "Particle.h"
 #include "Common.h"
 #include "Grid.h"
@@ -18,7 +19,7 @@
 Grid do_time_step(Grid & old_grid, int step_num)
 {
     char filename[512];
-    sprintf(filename, "/home/calat/tmp/part_%0d.dat", step_num);
+    sprintf(filename, (OUTPUT_PATH + "part_%0d.dat").c_str(), step_num);
     FILE * f = fopen(filename, "w");
 
     Params & params = Params::get_instance();
@@ -38,7 +39,7 @@ Grid do_time_step(Grid & old_grid, int step_num)
                 Cell & cell = old_grid.cells[i][j][k];
                 for (Particle * particle : cell.get_all_particles())
                 {
-                    if(PRINT_DENSITY)
+                    if(PRINT_DENSITY) // WTF?!
                     {
                         fprintf(f, "%lf %lf %lf %lf\n", particle->x, particle->y, particle->z, particle->density);
                     }
@@ -73,8 +74,75 @@ Grid do_time_step(Grid & old_grid, int step_num)
     return next_grid;
 }
 
+void check_output_dir()
+{
+    std::ofstream test_file(OUTPUT_PATH + "test");
+    if (!test_file.is_open())
+    {
+        std::cout << "Cant write to the output directory";
+        std::exit(1);
+    }
+    else
+    {
+        test_file.close();
+    }
+}
+
+Particle scan_dust_particle(std::ifstream & fin)
+{
+    double x, y, z, vx, vy, vz, density;
+    fin >> x >> y >> z >> vx >> vy >> vz >> density;
+    Particle part(Particle::Kind::Dust, x, y, z);
+    part.vx = vx;
+    part.vy = vy;
+    part.vz = vz;
+    part.density = density;
+    return part;
+}
+
+Particle scan_gas_particle(std::ifstream & fin)
+{
+    double x, y, z, vx, vy, vz, density, pressure, energy;
+    fin >> x >> y >> z >> vx >> vy >> vz >> density >> pressure >> energy;
+    Particle part(Particle::Kind::Gas, x, y, z);
+    part.vx = vx;
+    part.vy = vy;
+    part.vz = vz;
+    part.density = density;
+    part.pressure = pressure;
+    part.energy = energy;
+    return part;
+}
+
+Grid restore_saved_grid()
+{
+    Params & params = Params::get_instance();
+    Grid grid(params.grid_step_x, params.grid_step_y, params.grid_step_z, params.border1, params.border2);
+
+    std::ifstream dust_parts("/home/haitaka/tania/SPH3d/output/dust_part_34.dat");
+    std::ifstream gas_parts("/home/haitaka/tania/SPH3d/output/gas_part_34.dat");
+
+    while (!dust_parts.eof())
+    {
+        grid.with_copy_of(scan_dust_particle(dust_parts));
+    }
+
+    while (!gas_parts.eof())
+    {
+        grid.with_copy_of(scan_gas_particle(gas_parts));
+    }
+
+    return grid;
+}
+
+
 int main()
 {
+    const bool FROM_SAVED = false;
+    const int SAVED_STEP = 34;
+
+    check_output_dir();
+
     clock_t startTime = clock();
 
     Params & params = Params::get_instance();
@@ -83,14 +151,16 @@ int main()
     clock_t init_start = clock();
     //Grid grid = Sod_tube_3d::init_with_boundaries();
     //Grid grid = Sod_tube_1d::init();
-    Grid grid = Dusty_shock_3d::init();
+
+    Grid grid = FROM_SAVED ? restore_saved_grid() : Dusty_shock_3d::init();;
 
     //Grid grid = Dusty_shock_1d::init();
 
     clock_t init_fin = clock();
     std::cout << "Init: " << (double)(init_fin - init_start) / CLOCKS_PER_SEC << std::endl;
 
-    for (int frameId = 0; frameId < floor(params.t / params.tau); ++frameId)
+    for (int frameId = FROM_SAVED ? SAVED_STEP + 1 : 0;
+         frameId < floor(params.t / params.tau); ++frameId)
     {
         clock_t step_start = clock();
         //TODO PRINT

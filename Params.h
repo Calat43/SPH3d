@@ -3,6 +3,8 @@
 #include <cmath>
 #include "Point.h"
 
+const std::string OUTPUT_PATH = "/path/to/output/dir/";
+
 const bool PRINT_DENSITY = false;
 
 const bool PRINT_STUFF = false;

@@ -4,11 +4,11 @@ void compare_third_column(std::string read_1, std::string read_2)
 {
     Params & params = Params::get_instance();
 
-    FILE * f_1 = fopen("/home/calat/tmp/no_sort.dat", "r");
-    FILE * f_2 = fopen("/home/calat/tmp/sort.dat", "r");
+    FILE * f_1 = fopen((OUTPUT_PATH + "no_sort.dat").c_str(), "r");
+    FILE * f_2 = fopen((OUTPUT_PATH + "sort.dat").c_str(), "r");
 
-    double density_1[params.n_gas];
-    double density_2[params.n_gas];
+    double * density_1 = new double[params.n_gas];
+    double * density_2 = new double[params.n_gas];
 
     double none_1[params.n_gas];
 
@@ -30,9 +30,9 @@ void compare_third_column(std::string read_1, std::string read_2)
         elem++;
     }
 
-    char filename[512];
-    sprintf(filename, "/home/calat/tmp/compare_dens.dat");
-    FILE * f = fopen(filename, "w");
+    std::string filename = OUTPUT_PATH + "compare_dens.dat";
+    FILE * f = fopen(filename.c_str(), "w");
+
 
     for(int i = 0; i < params.n_gas; ++i)
     {
@@ -44,7 +44,7 @@ void compare_third_column(std::string read_1, std::string read_2)
 void print_grid_dens(Grid grid, char * name)
 {
     char filename[512];
-    sprintf(filename, "/home/calat/tmp/%s.dat", name);
+    sprintf(filename, (OUTPUT_PATH + "%s.dat").c_str(), name);
     FILE * f = fopen(filename, "w");
 
     Cell & cell = grid.cells[20][10][10];
@@ -61,9 +61,7 @@ void print_grid_dens(Grid grid, char * name)
 
 void centering()
 {
-    Params & params = Params::get_instance();
-
-    FILE * f_1 = fopen("/home/calat/tmp/part_99.dat", "r");
+    FILE * f_1 = fopen((OUTPUT_PATH + "part_99.dat").c_str(), "r");
 
     double coord_x[40000];
     double coord_y[40000];
@@ -82,9 +80,8 @@ void centering()
         elem++;
     }
 
-    char filename[512];
-    sprintf(filename, "/home/calat/tmp/center_tube.dat");
-    FILE * f = fopen(filename, "w");
+    std::string filename = OUTPUT_PATH + "center_tube.dat";
+    FILE * f = fopen(filename.c_str(), "w");
 
     for(int i = 0; i < elem; ++i)
     {

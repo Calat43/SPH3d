@@ -1,3 +1,4 @@
+#include <fstream>
 #include "SodTube3d.h"
 
 Grid Sod_tube_3d::init()
@@ -207,12 +208,10 @@ double Sod_tube_3d::find_new_energy(Particle * particle, Cell * cell)
 
 Grid Sod_tube_3d::do_time_step(Grid & old_grid, int step_num)
 {
-    char filename[512];
-    FILE * f;
+    std::ofstream part_file;
     if(PRINT_FILE)
     {
-        sprintf(filename, "/home/calat/tmp/part_%0d.dat", step_num);
-        f = fopen(filename, "w");
+        part_file.open(OUTPUT_PATH + "part_" + std::to_string(step_num) + ".dat");
     }
 
     Params & params = Params::get_instance();
@@ -231,9 +230,10 @@ Grid Sod_tube_3d::do_time_step(Grid & old_grid, int step_num)
                 {
                     if(PRINT_FILE)
                     {
-                        fprintf(f, "%lf %lf %lf %lf %lf %lf %lf %lf %lf\n", particle->x, particle->y, particle->z,
-                                particle->vx, particle->vy, particle->vz, particle->density, particle->pressure,
-                                particle->energy);
+                        part_file << particle->x << " " << particle->y << " " << particle->z << " "
+                                  << particle->vx << " " << particle->vy << " " << particle->vz << " "
+                                  << particle->density << " " << particle->pressure << " " << particle->energy
+                                  << std::endl;
                     }
 
                     Particle new_particle(*particle);
@@ -252,11 +252,6 @@ Grid Sod_tube_3d::do_time_step(Grid & old_grid, int step_num)
                 }
             }
         }
-    }
-
-    if(PRINT_FILE)
-    {
-        fclose(f);
     }
 
     recalc_density(next_grid, Particle::Kind::Gas);
@@ -492,12 +487,10 @@ Grid Sod_tube_3d::init_with_boundaries()
 
 Grid Sod_tube_3d::do_time_step_with_boundaries(Grid & old_grid, int step_num)
 {
-    char filename[512];
-    FILE * f;
-    if(PRINT_FILE)
+    std::ofstream part_file;
+    if (PRINT_FILE)
     {
-        sprintf(filename, "/home/calat/tmp/part_%0d.dat", step_num);
-        f = fopen(filename, "w");
+        part_file.open(OUTPUT_PATH + "part_" + std::to_string(step_num) + ".dat");
     }
 
     Params & params = Params::get_instance();
@@ -525,9 +518,13 @@ Grid Sod_tube_3d::do_time_step_with_boundaries(Grid & old_grid, int step_num)
                 {
                     if(step_num == 199 || step_num == 99)
                     {
-                        fprintf(f, "%lf %lf %lf %lf %lf %lf %lf %lf %lf\n", particle->x, particle->y, particle->z,
-                                particle->vx, particle->vy, particle->vz, particle->density, particle->pressure,
-                                particle->energy);
+                        if (PRINT_FILE)
+                        {
+                            part_file << particle->x << " " << particle->y << " " << particle->z << " "
+                                      << particle->vx << " " << particle->vy << " " << particle->vz << " "
+                                      << particle->density << " " << particle->pressure << " " << particle->energy
+                                      << std::endl;
+                        }
                     }
 
                     Particle new_particle(*particle);
@@ -732,10 +729,6 @@ Grid Sod_tube_3d::do_time_step_with_boundaries(Grid & old_grid, int step_num)
         }
     }
 
-    if (PRINT_FILE)
-    {
-        fclose(f);
-    }
 
     //PRINT DENSITIES
     if(PRINT_STUFF)

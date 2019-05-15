@@ -1,3 +1,4 @@
+#include <fstream>
 #include "Solver.h"
 
 double viscosity_1d::find_sound_speed(Particle * particle)
@@ -303,9 +304,11 @@ double Sod_tube_1d::find_new_energy(Particle * particle, Cell * cell)
 
 Grid Sod_tube_1d::do_time_step(Grid & old_grid, int step_num)
 {
-    char filename[512];
-    sprintf(filename, "/home/calat/tmp/part_%0d.dat", step_num);
-    FILE * f = fopen(filename, "w");
+    std::ofstream part_file;
+    if(PRINT_FILE)
+    {
+        part_file.open(OUTPUT_PATH + "part_" + std::to_string(step_num) + ".dat");
+    }
 
     Params & params = Params::get_instance();
 
@@ -320,8 +323,12 @@ Grid Sod_tube_1d::do_time_step(Grid & old_grid, int step_num)
                 Cell & cell = old_grid.cells[i][j][k];
                 for(Particle * particle : cell.get_all_particles())
                 {
-                    fprintf(f, "%lf %lf %lf %lf %lf\n", particle->x, particle->vx, particle->density,
-                            particle->pressure, particle->energy);
+                    if(PRINT_FILE)
+                    {
+                        part_file << particle->x << " " << particle->vx << " " << particle->density << " "
+                                  << particle->pressure << " " << particle->energy
+                                  << std::endl;
+                    }
 
                     Particle new_particle(*particle);
                     Point new_coords = find_new_coordinates(*particle);

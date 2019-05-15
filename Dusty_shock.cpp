@@ -1,3 +1,4 @@
+#include <fstream>
 #include "Dusty_shock.h"
 
 Point pressure_term(Particle * particle, Cell * cell)
@@ -355,8 +356,8 @@ Grid Dusty_shock_3d::init()
     double yz_length = shock_params.yz_right - shock_params.yz_left;
     double step_yz = yz_length / (double)shock_params.dust_yz_particles;
 
-    double image_left_lenght = image_coord.at(image_left_1d_p_num + real_left_1d_p_num) - image_coord.at(0);
-    double mass = image_left_lenght * yz_length * yz_length * shock_params.dust_dens_left /
+    double image_left_length = image_coord.at(image_left_1d_p_num + real_left_1d_p_num) - image_coord.at(0);
+    double mass = image_left_length * yz_length * yz_length * shock_params.dust_dens_left /
                   (image_left_1d_p_num + real_left_1d_p_num) / (double)shock_params.dust_yz_particles
                   / (double)shock_params.dust_yz_particles;
 
@@ -536,20 +537,12 @@ Grid Dusty_shock_3d::init()
         }
     }
 
-    char filename1[512];
-    char filename2[512];
-    FILE * f1;
-    if(PRINT_FILE)
+    std::ofstream dust_shock_file;
+    std::ofstream gas_shock_file;
+    if (PRINT_FILE)
     {
-        sprintf(filename1, "/home/calat/tmp/dust_shock.dat");
-        f1 = fopen(filename1, "w");
-    }
-
-    FILE * f2;
-    if(PRINT_FILE)
-    {
-        sprintf(filename2, "/home/calat/tmp/gas_shock.dat");
-        f2 = fopen(filename2, "w");
+        dust_shock_file.open(OUTPUT_PATH + "dust_shock.dat");
+        gas_shock_file.open(OUTPUT_PATH + "gas_shock.dat");
     }
 
     for(int i = 0; i < init.x_size; ++i)
@@ -560,31 +553,26 @@ Grid Dusty_shock_3d::init()
             {
                 Cell & cell = init.cells[i][j][k];
 
-                for(Particle & particle : cell.dust_particles)
+                if(PRINT_FILE)
                 {
-                    if(PRINT_FILE)
+                    for (Particle &particle : cell.dust_particles)
                     {
-                        fprintf(f1, "%lf %lf %lf %lf %lf %lf %lf\n", particle.x, particle.y, particle.z,
-                                particle.vx, particle.vy, particle.vz, particle.density);
+                        dust_shock_file << particle.x << " " << particle.y << " " << particle.z << " "
+                                        << particle.vx << " " << particle.vy << " " << particle.vz << " "
+                                        << particle.density
+                                        << std::endl;
                     }
-                }
 
-                for(Particle & particle : cell.gas_particles)
-                {
-                    if(PRINT_FILE)
+                    for (Particle &particle : cell.gas_particles)
                     {
-                        fprintf(f2, "%lf %lf %lf %lf %lf %lf %lf %lf %lf\n", particle.x, particle.y, particle.z,
-                                particle.vx, particle.vy, particle.vz, particle.density, particle.pressure, particle.energy);
+                        gas_shock_file << particle.x << " " << particle.y << " " << particle.z << " "
+                                       << particle.vx << " " << particle.vy << " " << particle.vz << " "
+                                       << particle.density << " " << particle.pressure << " " << particle.energy
+                                       << std::endl;
                     }
                 }
             }
         }
-    }
-
-    if(PRINT_FILE)
-    {
-        fclose(f1);
-        fclose(f2);
     }
 
     return init;
@@ -592,21 +580,6 @@ Grid Dusty_shock_3d::init()
 
 Grid Dusty_shock_3d::do_time_step(Grid & old_grid, int step_num, bool isIDIC)
 {
-    char filename1[512];
-    char filename2[512];
-    FILE * f_gas;
-    FILE * f_dust;
-    /*
-    if(PRINT_FILE)
-    {
-        sprintf(filename1, "/home/calat/tmp/gas_part_%0d.dat", step_num);
-        f_gas = fopen(filename1, "w");
-
-        sprintf(filename2, "/home/calat/tmp/dust_part_%0d.dat", step_num);
-        f_dust = fopen(filename2, "w");
-    }
-     */
-
     Params & params = Params::get_instance();
     Dusty_shock_params & shock_params = Dusty_shock_params::get_instance();
 
@@ -997,11 +970,14 @@ Grid Dusty_shock_3d::do_time_step(Grid & old_grid, int step_num, bool isIDIC)
         }
     }
 
-    sprintf(filename1, "/home/calat/tmp/dust_part_%0d.dat", step_num);
-    f_dust = fopen(filename1, "w");
+    std::ofstream f_dust;
+    std::ofstream f_gas;
 
-    sprintf(filename2, "/home/calat/tmp/gas_part_%0d.dat", step_num);
-    f_gas = fopen(filename2, "w");
+    if (PRINT_FILE)
+    {
+        f_dust.open(OUTPUT_PATH + "dust_part_" + std::to_string(step_num) + ".dat");
+        f_gas.open(OUTPUT_PATH + "gas_part_" + std::to_string(step_num) + ".dat");
+    }
 
     for(int i = x_left_border; i < x_right_border; ++i)
     {
@@ -1011,29 +987,26 @@ Grid Dusty_shock_3d::do_time_step(Grid & old_grid, int step_num, bool isIDIC)
             {
                 Cell & cell = next_grid.cells[i][j][k];
 
-                for(Particle & particle : cell.dust_particles)
-                {
-                    if(PRINT_FILE)
+                if(PRINT_FILE) {
+                    for (Particle &particle : cell.dust_particles)
                     {
-                        fprintf(f_dust, "%lf %lf %lf %lf %lf %lf %lf\n", particle.x, particle.y, particle.z,
-                                particle.vx, particle.vy, particle.vz, particle.density);
+                        f_dust << particle.x << " " << particle.y << " " << particle.z << " "
+                               << particle.vx << " " << particle.vy << " " << particle.vz << " "
+                               << particle.density
+                               << std::endl;
                     }
-                }
 
-                for(Particle & particle : cell.gas_particles)
-                {
-                    if(PRINT_FILE)
+                    for (Particle &particle : cell.gas_particles)
                     {
-                        fprintf(f_gas, "%lf %lf %lf %lf %lf %lf %lf %lf %lf\n", particle.x, particle.y, particle.z,
-                                particle.vx, particle.vy, particle.vz, particle.density, particle.pressure, particle.energy);
+                        f_gas << particle.x << " " << particle.y << " " << particle.z << " "
+                              << particle.vx << " " << particle.vy << " " << particle.vz << " "
+                              << particle.density << " " << particle.pressure << " " << particle.energy
+                              << std::endl;
                     }
                 }
             }
         }
     }
-
-    fclose(f_dust);
-    fclose(f_gas);
 
     return next_grid;
 }
