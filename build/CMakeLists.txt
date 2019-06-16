@@ -78,6 +78,10 @@ set(Sph3dFiles
   "../sources/NonLinear.cpp"
   "../sources/DustyShock1d.h"
   "../sources/DustyShock1d.cpp"
+  "../sources/BallInVacuum.cpp"
+  "../sources/BallInVacuum.h"
+  "../sources/Viscosity.cpp"
+  "../sources/Viscosity.h"
 )
 
 source_group("sources" FILES ${Sph3dFiles})
