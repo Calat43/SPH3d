@@ -35,9 +35,9 @@ public:
     static const int n_gas = 10000;
     int n_dust = 0;
     int dimensions = 3;
-    double h = 0.001;
+    double h = 0.01;
     double smooth_radius = 2. * h;
-    double tau = 0.0001;
+    double tau = 0.001;
 
     double middle_gas_dens = NAN;
     double d2g = NAN;
@@ -92,7 +92,7 @@ public:
     double yz_right = 0.1;
 
     //gas
-    uint gas_real_particles = 9990;
+    uint gas_real_particles = 200;
     uint gas_image_particles = 33;
     uint gas_yz_particles = 33;
 
@@ -107,7 +107,7 @@ public:
     double gas_ener_right = 2.;
 
     //dust
-    uint dust_real_particles = 9990;
+    uint dust_real_particles = 200;
     uint dust_image_particles = 33;
     uint dust_yz_particles = 33;
 
