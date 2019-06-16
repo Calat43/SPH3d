@@ -361,11 +361,11 @@ Grid Dusty_shock_3d::init()
                   (image_left_1d_p_num + real_left_1d_p_num) / (double)shock_params.dust_yz_particles
                   / (double)shock_params.dust_yz_particles;
 
-    for(int i = 0; i < all_1d_particles; ++i)
+    for(int i = 0; i < (int) all_1d_particles; ++i)
     {
-        for(int j = 0; j < shock_params.dust_yz_particles; ++j)
+        for(int j = 0; j < (int) shock_params.dust_yz_particles; ++j)
         {
-            for(int k = 0; k < shock_params.dust_yz_particles; ++k)
+            for(int k = 0; k < (int) shock_params.dust_yz_particles; ++k)
             {
                 Particle particle_main(Particle::Kind::Dust, image_coord.at(i), step_yz / 2. + j * step_yz,
                                        step_yz / 2. + k * step_yz);
@@ -578,7 +578,7 @@ Grid Dusty_shock_3d::init()
     return init;
 }
 
-Grid Dusty_shock_3d::do_time_step(Grid & old_grid, int step_num, bool isIDIC)
+Grid Dusty_shock_3d::do_time_step(Grid & old_grid, int step_num, bool /*isIDIC*/)
 {
     Params & params = Params::get_instance();
     Dusty_shock_params & shock_params = Dusty_shock_params::get_instance();

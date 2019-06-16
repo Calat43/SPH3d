@@ -59,7 +59,7 @@ double find_density(Particle * particle, Cell * cell)
     double density = 0;
     int nears = 0;
 
-    Params & params = Params::get_instance();
+    //Params & params = Params::get_instance();
 
     for (Cell * neighbour : cell->get_neighbours())
     {

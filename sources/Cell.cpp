@@ -75,7 +75,7 @@ std::ostream & operator<<(std::ostream & stream, Cell const & c)
     return stream;
 }
 
-void Cell::remove_particle(Particle & particle)
+void Cell::remove_particle(Particle & /*particle*/)
 {
     assert(false);
 }
