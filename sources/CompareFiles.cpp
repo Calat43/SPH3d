@@ -1,6 +1,6 @@
 #include "CompareFiles.h"
 
-void compare_third_column(std::string read_1, std::string read_2)
+void compare_third_column(std::string /* read_1 */, std::string /* read_2 */)
 {
     Params & params = Params::get_instance();
 
