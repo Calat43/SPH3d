@@ -2,6 +2,7 @@
 
 #include "SodTube3d.h"
 #include "InitStates.h"
+#include "Viscosity.h"
 #include "Common.h"
 
 namespace Dusty_shock_3d

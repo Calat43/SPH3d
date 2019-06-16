@@ -5,6 +5,7 @@
 #include "Params.h"
 #include "Common.h"
 #include "Cell.h"
+#include "Viscosity.h"
 
 Point find_new_coordinates(Particle const & particle);
 
@@ -30,11 +31,4 @@ namespace Sod_tube_1d
     Grid do_time_step(Grid & old_grid, int step_num);
 
     void recalc_pressure(Grid & grid, Particle::Kind kind);
-}
-
-namespace viscosity_1d
-{
-    double find_sound_speed(Particle * particle);
-    double find_mu(double vel_ab, double coord_ab);
-    double find_viscosity(Particle * p1, Particle * p2);
 }

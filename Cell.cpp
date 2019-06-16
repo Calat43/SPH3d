@@ -94,3 +94,13 @@ int Cell::get_k() const
 {
     return k;
 }
+
+int Cell::get_drag_mode() const
+{
+    return drag_mode;
+}
+
+void Cell::set_drag_mode(int num)
+{
+    this->drag_mode = num;
+}

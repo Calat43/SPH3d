@@ -13,6 +13,7 @@
 #include "Dusty_shock.h"
 #include "Point.h"
 #include "DustyShock1d.h"
+#include "BallInVacuum.h"
 
 
 //TODO empty grid constructor
@@ -39,16 +40,11 @@ Grid do_time_step(Grid & old_grid, int step_num)
                 Cell & cell = old_grid.cells[i][j][k];
                 for (Particle * particle : cell.get_all_particles())
                 {
-                    if(PRINT_DENSITY) // WTF?!
-                    {
-                        fprintf(f, "%lf %lf %lf %lf\n", particle->x, particle->y, particle->z, particle->density);
-                    }
-                    else
+                    if(PRINT_FILE)
                     {
                         fprintf(f, "%lf %lf %lf %lf %lf %lf %lf\n", particle->x, particle->y, particle->z, particle->vx,
                                 particle->vy, particle->vz, particle->density);
                     }
-
 
                     Particle new_particle(*particle);
                     Point new_coords = find_new_coordinates(*particle);
@@ -143,16 +139,17 @@ int main()
 
     check_output_dir();
 
-    clock_t startTime = clock();
-
     Params & params = Params::get_instance();
+
+    /*
+    clock_t startTime = clock();
     //ParticlesState state = ball_rand_init_state(0.1);
     //Grid grid = squared_ball_init_state(0.1, 0.01); // FIXME squared_ball does not take n_gas into account !!
     clock_t init_start = clock();
     //Grid grid = Sod_tube_3d::init_with_boundaries();
     //Grid grid = Sod_tube_1d::init();
 
-    Grid grid = FROM_SAVED ? restore_saved_grid() : Dusty_shock_3d::init();;
+    Grid grid = FROM_SAVED ? restore_saved_grid() : Dusty_shock_3d::init();
 
     //Grid grid = Dusty_shock_1d::init();
 
@@ -172,6 +169,7 @@ int main()
 
         double step_time = (double)(step_fin - step_start) / CLOCKS_PER_SEC;
         std::cout << frameId << " " << step_time << " s" << std::endl;
+        break;
     }
 
     std::cout << "Done!" << std::endl;
@@ -179,8 +177,39 @@ int main()
 
     double executionTime = (double)(finishTime - startTime) / CLOCKS_PER_SEC;
     printf("Finished in %lf seconds.\n", executionTime);
+*/
 
+    /*
+    std::cout << ball_analytic::time_through_R(0.9) << std::endl;
+    std::cout << ball_analytic::time_through_R(0.87714) << std::endl;
+
+    std::cout << ball_analytic::R_bisection(0.2, 0.00001, 0.000001) << std::endl;
+    std::cout << ball_analytic::time_through_R(ball_analytic::R_bisection(0.2, 0.00001, 0.000001)) << std::endl;
+
+    ball_analytic::print_solution(0.2, 0.01, 0.00001, 0.000001);
+
+     */
     //centering();
+
+    Grid grid = ball_in_vacuum::init(0.01);
+
+    clock_t startTime = clock();
+    for (int frameId = 0; frameId < floor(params.t / params.tau); ++frameId)
+    {
+        clock_t step_start = clock();
+
+        grid = ball_in_vacuum::do_time_step(grid, frameId);
+        clock_t step_fin = clock();
+
+        double step_time = (double)(step_fin - step_start) / CLOCKS_PER_SEC;
+        std::cout << frameId << " " << step_time << " s" << std::endl;
+    }
+
+    std::cout << "Done!" << std::endl;
+    clock_t finishTime = clock();
+
+    double executionTime = (double)(finishTime - startTime) / CLOCKS_PER_SEC;
+    printf("Finished in %lf seconds.\n", executionTime);
 
     return 0;
 }

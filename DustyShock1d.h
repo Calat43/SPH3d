@@ -6,6 +6,7 @@
 #include "Grid.h"
 #include "Particle.h"
 #include "NonLinear.h"
+#include "Viscosity.h"
 
 namespace Dusty_shock_1d
 {

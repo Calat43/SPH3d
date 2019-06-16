@@ -19,7 +19,3 @@ namespace Sod_tube_3d
     Grid init_with_boundaries();
 }
 
-namespace viscosity_3d
-{
-    double find_viscosity(Particle * p1, Particle * p2);
-}

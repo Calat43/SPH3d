@@ -3,7 +3,7 @@ project(sph3d-reworked)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -Wno-long-long -pedantic -Wextra")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -Wall -Wno-long-long -pedantic -Wextra")
 
 add_executable(sph3d
                 main.cpp
@@ -28,4 +28,4 @@ add_executable(sph3d
                 utils.cpp
                 CompareFiles.cpp
                 Solver.cpp
-                InitStates.cpp SodTube3d.cpp SodTube3d.h Dusty_shock.cpp Dusty_shock.h Point.cpp NonLinear.cpp NonLinear.h DustyShock1d.cpp DustyShock1d.h)
+                InitStates.cpp SodTube3d.cpp SodTube3d.h Dusty_shock.cpp Dusty_shock.h Point.cpp NonLinear.cpp NonLinear.h DustyShock1d.cpp DustyShock1d.h Viscosity.cpp Viscosity.h BallInVacuum.cpp BallInVacuum.h)

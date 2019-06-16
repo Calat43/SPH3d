@@ -47,6 +47,10 @@ public:
 
     int get_k() const;
 
+    int get_drag_mode() const;
+
+    void set_drag_mode(int num);
+
     std::vector<Particle> & particles_of_kind(Particle::Kind kind) {
         switch(kind) {
             case Particle::Kind::Gas: return gas_particles;
@@ -55,9 +59,11 @@ public:
         assert(false);
     }
 
+
 private:
     Grid * grid;
     int i;
     int j;
     int k;
+    int drag_mode;
 };
