@@ -7,9 +7,9 @@ Numbered::Numbered(Numbered const & that)
 
 Numbered::Numbered()
 {
-    static int id = 0;
-    this->id = id;
-    id += 1;
+    static int id_static = 0;
+    this->id = id_static;
+    id_static += 1;
 }
 
 int Numbered::get_id() const

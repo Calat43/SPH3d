@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <time.h>
+
 #include "Particle.h"
 #include "Common.h"
 #include "Grid.h"
@@ -27,9 +29,10 @@ Grid do_time_step(Grid & old_grid, int step_num)
 
     Grid next_grid(params.grid_step_x, params.grid_step_y, params.grid_step_z, params.border1, params.border2);
 
-    double center_x = (params.border2.x - params.border1.x) / 2;
-    double center_y = (params.border2.y - params.border1.y) / 2;
-    double center_z = (params.border2.z - params.border1.z) / 2;
+    // unreferenced variables
+    //double center_x = (params.border2.x - params.border1.x) / 2;
+    //double center_y = (params.border2.y - params.border1.y) / 2;
+    //double center_z = (params.border2.z - params.border1.z) / 2;
 
     for (int i = 0; i < old_grid.x_size; ++i)
     { // TODO foreach

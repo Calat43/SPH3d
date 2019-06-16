@@ -4,6 +4,11 @@
 #include "Point.h"
 #include <cmath>
 
+#ifdef _WINDOWS
+  #define __isnan std::isnan
+  #define uint unsigned int
+#endif
+
 const double PI = acos(-1);
 
 class Particle;

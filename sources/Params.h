@@ -1,10 +1,10 @@
 #pragma once
 
 #include <cmath>
-#include <string>
 #include "Point.h"
+#include "Common.h"
 
-const std::string OUTPUT_PATH = "/home/calat/tmp/";
+const std::string OUTPUT_PATH = "./output/";
 
 const bool PRINT_DENSITY = false;
 
@@ -31,7 +31,7 @@ public:
     double kx = NAN;
     double ky = NAN;
     double kz = NAN;
-    int n_gas = 10000;
+    static const int n_gas = 10000;
     int n_dust = 0;
     int dimensions = 1;
     double h = 0.01;

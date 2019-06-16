@@ -57,6 +57,7 @@ public:
             case Particle::Kind::Dust: return dust_particles;
         }
         assert(false);
+        return gas_particles; // just to avoid warning
     }
 
 

@@ -37,7 +37,7 @@ Grid Sod_tube_3d::init()
     double mass = image_left_lenght * yz_length * yz_length * shock_params.gas_dens_left /
                   (image_left_1d_p_num + real_left_1d_p_num) / (double)yz_particles / (double)yz_particles;
 
-    for(int i = 0; i < all_1d_particles; ++i)
+    for(int i = 0; i < (int) all_1d_particles; ++i)
     {
         for(int j = 0; j < yz_particles; ++j)
         {
@@ -238,11 +238,11 @@ Grid Sod_tube_3d::init_with_boundaries()
                   (image_left_1d_p_num + real_left_1d_p_num) / (double)shock_params.gas_yz_particles
                                                              / (double)shock_params.gas_yz_particles;
 
-    for(int i = 0; i < all_1d_particles; ++i)
+    for(int i = 0; i < (int) all_1d_particles; ++i)
     {
-        for(int j = 0; j < shock_params.gas_yz_particles; ++j)
+        for(int j = 0; j < (int) shock_params.gas_yz_particles; ++j)
         {
-            for(int k = 0; k < shock_params.gas_yz_particles; ++k)
+            for(int k = 0; k < (int) shock_params.gas_yz_particles; ++k)
             {
                 Particle particle_main(Particle::Kind::Gas, image_coord.at(i), step_yz / 2. + j * step_yz,
                                        step_yz / 2. + k * step_yz);

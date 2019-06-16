@@ -18,7 +18,7 @@ double magnitude(Point p)
 //dimensions = 1, 2, 3
 double find_sigma(int dimensions)
 {
-    double sigma;
+    double sigma = 0;
     if(dimensions == 1)
     {
         sigma = 2. / 3.;
@@ -62,6 +62,7 @@ double kernel(Particle const part1, Particle const part2, int dimensions)
         return 0;
     }
     assert(false);
+    return 0;
 }
 
 double kernel_gradient_x(Particle const & part1, Particle const & part2, int dimensions)
