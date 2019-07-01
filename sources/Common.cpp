@@ -65,6 +65,43 @@ double kernel(Particle const part1, Particle const part2, int dimensions)
     return 0;
 }
 
+Point kernel_gradient(Particle const & part1, Particle const & part2, int dimensions)
+{
+    double sigma = find_sigma(dimensions);
+    double h = Params::get_instance().h;
+    double mag_r = magnitude(part1.x - part2.x, part1.y - part2.y, part1.z - part2.z);
+    double q = mag_r / h;
+    double result = 0;
+
+    if(q >= 0 && q <= 1)
+    {
+        result = - 3 * q + 9. / 4. * q *  q;
+    }
+    if( q > 1 && q <= 2)
+    {
+        result = - 3. / 4. * pow((2 - q), 2);
+    }
+
+    if(part1.x == part2.x && part1.y == part2.y && part1.z == part2.z)
+    {
+        return {0, 0, 0};
+    }
+    else
+    {
+        double r_x = part1.x - part2.x;
+        double r_y = part1.y - part2.y;
+        double r_z = part1.z - part2.z;
+
+        double grad_x = sigma / pow(h, dimensions) * r_x / h / mag_r * result;
+        double grad_y = sigma / pow(h, dimensions) * r_y / h / mag_r * result;
+        double grad_z = sigma / pow(h, dimensions) * r_z / h / mag_r * result;
+
+        return {grad_x, grad_y, grad_z};
+    }
+
+}
+
+/*
 double kernel_gradient_x(Particle const & part1, Particle const & part2, int dimensions)
 {
     double sigma = find_sigma(dimensions);
@@ -174,3 +211,4 @@ double vel_dot_grad_kernel(Particle const part1, Particle const part2)
            (part1.vz - part2.vz) * kernel_gradient_z(part1, part2, dimensions);
 }
 
+*/

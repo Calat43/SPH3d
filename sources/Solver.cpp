@@ -104,13 +104,10 @@ void recalc_density(Grid & grid, Particle::Kind kind)
 
 Point find_new_velocity(Particle * particle, Cell * cell)
 {
-    double sum_x = 0;
-    double sum_y = 0;
-    double sum_z = 0;
-
-    double vx = 0;
-    double vy = 0;
-    double vz = 0;
+    Point sum = {0, 0, 0};
+    Point vel = {0, 0, 0};
+    Point prev_vel = {particle->vx, particle->vy, particle->vz};
+    Point kernel_grad = {0, 0, 0};
 
     Params & params = Params::get_instance();
 
@@ -122,35 +119,32 @@ Point find_new_velocity(Particle * particle, Cell * cell)
         { // TODO remove direct access
             assert(!__isnan(p.density));
             assert(p.density != 42);
-            assert(!__isnan(kernel_gradient_x(*(particle), p, params.dimensions)));
-            assert(!__isnan(kernel_gradient_y(*(particle), p, params.dimensions)));
-            assert(!__isnan(kernel_gradient_z(*(particle), p, params.dimensions)));
-            sum_x += (1. / p.density + 1. / particle->density) * kernel_gradient_x(*(particle), p, params.dimensions);
-            sum_y += (1. / p.density + 1. / particle->density) * kernel_gradient_y(*(particle), p, params.dimensions);
-            sum_z += (1. / p.density + 1. / particle->density) * kernel_gradient_z(*(particle), p, params.dimensions);
+
+            double term1 = (1. / p.density + 1. / particle->density);
+
+            kernel_grad = kernel_gradient(*(particle), p, params.dimensions);
+
+            sum = sum + kernel_grad * term1;
         }
     }
 
-    vx = - params.tau * particle->mass * params.c_s * params.c_s * sum_x + particle->vx;
-    vy = - params.tau * particle->mass * params.c_s * params.c_s * sum_y + particle->vy;
-    vz = - params.tau * particle->mass * params.c_s * params.c_s * sum_z + particle->vz;
+    double term2 = - params.tau * particle->mass * params.c_s * params.c_s;
 
-    assert(!__isnan(vx));
-    assert(!__isnan(vy));
-    assert(!__isnan(vz));
+    vel = sum * term2 + prev_vel;
 
-    return {vx, vy, vz};
+    assert(!__isnan(vel.x));
+    assert(!__isnan(vel.y));
+    assert(!__isnan(vel.z));
+
+    return vel;
 }
 
 Point find_new_velocity_no_sort(Particle * particle, Grid * grid)
 {
-    double sum_x = 0;
-    double sum_y = 0;
-    double sum_z = 0;
-
-    double vx = 0;
-    double vy = 0;
-    double vz = 0;
+    Point sum = {0, 0, 0};
+    Point vel = {0, 0, 0};
+    Point prev_vel = {particle->vx, particle->vy, particle->vz};
+    Point kernel_grad = {0, 0, 0};
 
     Params & params = Params::get_instance();
 
@@ -163,21 +157,23 @@ Point find_new_velocity_no_sort(Particle * particle, Grid * grid)
                 for(Particle & p : particle->kind == Particle::Kind::Gas ? grid->cells[i][j][k].gas_particles
                                                                       : grid->cells[i][j][k].dust_particles)
                 {
-                    sum_x += (1. / p.density + 1. / particle->density) * kernel_gradient_x(*(particle), p, params.dimensions);
-                    sum_y += (1. / p.density + 1. / particle->density) * kernel_gradient_y(*(particle), p, params.dimensions);
-                    sum_z += (1. / p.density + 1. / particle->density) * kernel_gradient_z(*(particle), p, params.dimensions);
+                    double term1 = (1. / p.density + 1. / particle->density);
+
+                    kernel_grad = kernel_gradient(*(particle), p, params.dimensions);
+
+                    sum = sum + kernel_grad * term1;
                 }
             }
         }
     }
 
-    vx = - params.tau * particle->mass * params.c_s * params.c_s * sum_x + particle->vx;
-    vy = - params.tau * particle->mass * params.c_s * params.c_s * sum_y + particle->vy;
-    vz = - params.tau * particle->mass * params.c_s * params.c_s * sum_z + particle->vz;
+    double term2 = - params.tau * particle->mass * params.c_s * params.c_s;
 
-    assert(!__isnan(vx));
+    vel = sum * term2 + prev_vel;
 
-    return {vx, vy, vz};
+    assert(!__isnan(vel.x));
+
+    return vel;
 }
 
 //particle from prev step
@@ -195,11 +191,13 @@ Point Sod_tube_1d::find_new_velocity(Particle * particle, Cell * cell)
     {
         for (Particle & p : particle->kind == Particle::Kind::Gas ? neighbour->gas_particles : neighbour->dust_particles)
         { // TODO remove direct access
+
+            double kernel_grad = kernel_gradient(*(particle), p, params.dimensions).x;
             assert(!__isnan(p.density));
-            assert(!__isnan(kernel_gradient_x(*(particle), p, params.dimensions)));
+            assert(!__isnan(kernel_grad));
             sum_x += (particle->pressure / pow(particle->density, 2) + p.pressure / pow(p.density, 2)
                     + viscosity_1d::find_viscosity(particle, &p))
-                    * kernel_gradient_x(*(particle), p, params.dimensions);
+                    * kernel_grad;
         }
     }
 
@@ -239,13 +237,15 @@ double Sod_tube_1d::find_new_energy(Particle * particle, Cell * cell)
     double pres_member = 0;
     double visc_member = 0;
     double result = 0;
+    double kern_grad_x = 0;
 
     for (Cell * neighbour : cell->get_neighbours())
     {
         for (Particle & p : particle->kind == Particle::Kind::Gas ? neighbour->gas_particles : neighbour->dust_particles)
         {
-            pres_member += (particle->vx - p.vx) * kernel_gradient_x(*(particle), p, Params::get_instance().dimensions);
-            visc_member += (particle->vx - p.vx) * kernel_gradient_x(*(particle), p, Params::get_instance().dimensions) *
+            kern_grad_x = kernel_gradient(*(particle), p, Params::get_instance().dimensions).x;
+            pres_member += (particle->vx - p.vx) * kern_grad_x;
+            visc_member += (particle->vx - p.vx) * kern_grad_x *
                             viscosity_1d::find_viscosity(particle, &p);
         }
     }

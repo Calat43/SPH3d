@@ -79,13 +79,10 @@ Grid Sod_tube_3d::init()
 
 Point Sod_tube_3d::find_new_velocity(Particle * particle, Cell * cell)
 {
-    double sum_x = 0;
-    double sum_y = 0;
-    double sum_z = 0;
-
-    double vx = 0;
-    double vy = 0;
-    double vz = 0;
+    Point sum = {0, 0, 0};
+    Point vel = {0, 0, 0};
+    Point prev_vel = {particle->vx, particle->vy, particle->vz};
+    Point kernel_grad = {0, 0, 0};
 
     Params & params = Params::get_instance();
 
@@ -104,26 +101,24 @@ Point Sod_tube_3d::find_new_velocity(Particle * particle, Cell * cell)
     {
         for (Particle & p : particle->kind == Particle::Kind::Gas ? neighbour->gas_particles : neighbour->dust_particles)
         { // TODO remove direct access
+
+            kernel_grad = kernel_gradient(*(particle), p, params.dimensions);
+
             assert(!__isnan(p.density));
-            assert(!__isnan(kernel_gradient_x(*(particle), p, params.dimensions)));
+            assert(!__isnan(kernel_grad.x));
             double viscosity = viscosity_3d::find_viscosity(particle, &p);
 
-            sum_x += (particle->pressure / pow(particle->density, 2) + p.pressure / pow(p.density, 2) + viscosity)
-                     * kernel_gradient_x(*(particle), p, params.dimensions);
+            double term1 = (particle->pressure / pow(particle->density, 2) + p.pressure / pow(p.density, 2) + viscosity);
 
-            sum_y += (particle->pressure / pow(particle->density, 2) + p.pressure / pow(p.density, 2) + viscosity)
-                     * kernel_gradient_y(*(particle), p, params.dimensions);
-
-            sum_z += (particle->pressure / pow(particle->density, 2) + p.pressure / pow(p.density, 2) + viscosity)
-                     * kernel_gradient_z(*(particle), p, params.dimensions);
+            sum = sum + kernel_grad * term1;
         }
     }
 
-    vx = particle->vx - params.tau * particle->mass * sum_x;
-    vy = particle->vy - params.tau * particle->mass * sum_y;
-    vz = particle->vz - params.tau * particle->mass * sum_z;
+    double term2 = params.tau * particle->mass;
 
-    return {vx, vy, vz};
+    vel = prev_vel - sum * term2;
+
+    return vel;
 }
 
 double Sod_tube_3d::find_new_energy(Particle * particle, Cell * cell)
@@ -136,8 +131,12 @@ double Sod_tube_3d::find_new_energy(Particle * particle, Cell * cell)
     {
         for (Particle & p : particle->kind == Particle::Kind::Gas ? neighbour->gas_particles : neighbour->dust_particles)
         {
-            pres_member += vel_dot_grad_kernel(*particle, p);
-            visc_member += vel_dot_grad_kernel(*particle, p) * viscosity_3d::find_viscosity(particle, &p);
+            //TODO calculate one time
+
+            double vel_dot_gr_k = vel_dot_grad_kernel(*particle, p);
+
+            pres_member += vel_dot_gr_k;
+            visc_member += vel_dot_gr_k * viscosity_3d::find_viscosity(particle, &p);
         }
     }
 

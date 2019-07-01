@@ -144,7 +144,6 @@ int main()
 
     Params & params = Params::get_instance();
 
-    /*
     clock_t startTime = clock();
     //ParticlesState state = ball_rand_init_state(0.1);
     //Grid grid = squared_ball_init_state(0.1, 0.01); // FIXME squared_ball does not take n_gas into account !!
@@ -180,7 +179,6 @@ int main()
 
     double executionTime = (double)(finishTime - startTime) / CLOCKS_PER_SEC;
     printf("Finished in %lf seconds.\n", executionTime);
-*/
 
     /*
     std::cout << ball_analytic::time_through_R(0.9) << std::endl;
@@ -194,6 +192,7 @@ int main()
      */
     //centering();
 
+    /*
     Grid grid = ball_in_vacuum::init(0.01);
 
     clock_t startTime = clock();
@@ -206,13 +205,8 @@ int main()
 
         double step_time = (double)(step_fin - step_start) / CLOCKS_PER_SEC;
         std::cout << frameId << " " << step_time << " s" << std::endl;
+        break;
     }
-
-    std::cout << "Done!" << std::endl;
-    clock_t finishTime = clock();
-
-    double executionTime = (double)(finishTime - startTime) / CLOCKS_PER_SEC;
-    printf("Finished in %lf seconds.\n", executionTime);
-
+*/
     return 0;
 }

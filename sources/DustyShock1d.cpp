@@ -72,11 +72,10 @@ double Dusty_shock_1d::pressure_term(Particle * particle, Cell * cell)
         for (Particle & p : neighbour->gas_particles)
         { // TODO remove direct access
             assert(!__isnan(p.density));
-            assert(!__isnan(kernel_gradient_x(*(particle), p, params.dimensions)));
             double viscosity = viscosity_1d::find_viscosity(particle, &p);
 
             a_p_x += (particle->pressure / pow(particle->density, 2) + p.pressure / pow(p.density, 2) + viscosity)
-                     * kernel_gradient_x(*(particle), p, params.dimensions);
+                     * kernel_gradient(*(particle), p, params.dimensions).x;
 
         }
     }

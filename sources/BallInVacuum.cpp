@@ -100,9 +100,9 @@ double ball_in_vacuum::find_pressure(Particle * particle, Cell * cell)
         { // TODO remove direct access
             assert(!__isnan(p.density));
 
-           sum +=  (p.vx - particle->vx) * kernel_gradient_x(*(particle), p, params.dimensions) +
-                   (p.vy - particle->vy) * kernel_gradient_y(*(particle), p, params.dimensions) +
-                   (p.vz - particle->vz) * kernel_gradient_z(*(particle), p, params.dimensions);
+           sum +=  (p.vx - particle->vx) * kernel_gradient(*(particle), p, params.dimensions).x +
+                   (p.vy - particle->vy) * kernel_gradient(*(particle), p, params.dimensions).y +
+                   (p.vz - particle->vz) * kernel_gradient(*(particle), p, params.dimensions).z;
         }
     }
 

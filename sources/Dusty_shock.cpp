@@ -5,33 +5,29 @@ Point pressure_term(Particle * particle, Cell * cell)
 {
     Params & params = Params::get_instance();
 
-    double a_p_x = 0;
-    double a_p_y = 0;
-    double a_p_z = 0;
+    Point a_p = {0, 0, 0};
+    Point kernel_grad = {0, 0, 0};
 
     for (Cell * neighbour : cell->get_neighbours())
     {
         for (Particle & p : neighbour->gas_particles)
         { // TODO remove direct access
+
+            kernel_grad = kernel_gradient(*(particle), p, params.dimensions);
+
             assert(!__isnan(p.density));
-            assert(!__isnan(kernel_gradient_x(*(particle), p, params.dimensions)));
+            assert(!__isnan(kernel_grad.x));
             double viscosity = viscosity_3d::find_viscosity(particle, &p);
 
-            a_p_x += (particle->pressure / pow(particle->density, 2) + p.pressure / pow(p.density, 2) + viscosity)
-                     * kernel_gradient_x(*(particle), p, params.dimensions);
+            double term = particle->pressure / pow(particle->density, 2) + p.pressure / pow(p.density, 2) + viscosity;
 
-            a_p_y += (particle->pressure / pow(particle->density, 2) + p.pressure / pow(p.density, 2) + viscosity)
-                     * kernel_gradient_y(*(particle), p, params.dimensions);
-
-            a_p_z += (particle->pressure / pow(particle->density, 2) + p.pressure / pow(p.density, 2) + viscosity)
-                     * kernel_gradient_z(*(particle), p, params.dimensions);
+            a_p = a_p + kernel_grad * term;
         }
     }
-    a_p_x *= - particle->mass;
-    a_p_y *= - particle->mass;
-    a_p_z *= - particle->mass;
 
-    return {a_p_x, a_p_y, a_p_z};
+    a_p = a_p * (- particle->mass);
+
+    return a_p;
 }
 
 Point idic::pressure_term_asterisk(Cell * cell)
