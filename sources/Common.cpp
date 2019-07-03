@@ -187,6 +187,7 @@ double kernel_gradient_z(Particle const & part1, Particle const & part2, int dim
         return sigma / pow(h, dimensions) * r / h / mag_r * result;
     }
 }
+ */
 
 double random_double(double from, double to)
 {
@@ -206,9 +207,9 @@ double vel_dot_grad_kernel(Particle const part1, Particle const part2)
 {
     int dimensions = Params::get_instance().dimensions;
 
-    return (part1.vx - part2.vx) * kernel_gradient_x(part1, part2, dimensions) +
-           (part1.vy - part2.vy) * kernel_gradient_y(part1, part2, dimensions) +
-           (part1.vz - part2.vz) * kernel_gradient_z(part1, part2, dimensions);
-}
+    Point kernel_grad = kernel_gradient(part1, part2, dimensions);
 
-*/
+    return (part1.vx - part2.vx) * kernel_grad.x +
+           (part1.vy - part2.vy) * kernel_grad.y +
+           (part1.vz - part2.vz) * kernel_grad.z;
+}

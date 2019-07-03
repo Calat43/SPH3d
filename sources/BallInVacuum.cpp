@@ -97,12 +97,13 @@ double ball_in_vacuum::find_pressure(Particle * particle, Cell * cell)
     for (Cell * neighbour : cell->get_neighbours())
     {
         for (Particle & p : particle->kind == Particle::Kind::Gas ? neighbour->gas_particles : neighbour->dust_particles)
-        { // TODO remove direct access
+        { // TODO remove direct access//
             assert(!__isnan(p.density));
 
-           sum +=  (p.vx - particle->vx) * kernel_gradient(*(particle), p, params.dimensions).x +
-                   (p.vy - particle->vy) * kernel_gradient(*(particle), p, params.dimensions).y +
-                   (p.vz - particle->vz) * kernel_gradient(*(particle), p, params.dimensions).z;
+            Point kernel_grad = kernel_gradient(*(particle), p, params.dimensions);
+           sum +=  (p.vx - particle->vx) * kernel_grad.x +
+                   (p.vy - particle->vy) * kernel_grad.y +
+                   (p.vz - particle->vz) * kernel_grad.z;
         }
     }
 
