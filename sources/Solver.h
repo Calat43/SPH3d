@@ -1,11 +1,7 @@
 #pragma once
 
-#include <iostream>
-
-#include "Params.h"
-#include "Common.h"
-#include "Cell.h"
-#include "Viscosity.h"
+class Cell;
+class Grid;
 
 Point find_new_coordinates(Particle const & particle);
 

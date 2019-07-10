@@ -1,5 +1,14 @@
 #include <fstream>
 #include <sstream>
+
+#include "Params.h"
+#include "Grid.h"
+#include "Cell.h"
+#include "Viscosity.h"
+#include "NonLinear.h"
+
+#include "Solver.h"
+#include "InitStates.h"
 #include "DustyShock1d.h"
 
 Grid Dusty_shock_1d::init()

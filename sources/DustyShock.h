@@ -1,9 +1,10 @@
 #pragma once
 
-#include "SodTube3d.h"
-#include "InitStates.h"
-#include "Viscosity.h"
-#include "Common.h"
+#include "Particle.h"
+
+class Grid;
+class Cell;
+class Point;
 
 namespace Dusty_shock_3d
 {

@@ -1,3 +1,8 @@
+
+#include "Params.h"
+#include "Cell.h"
+#include "Grid.h"
+
 #include "CompareFiles.h"
 
 void compare_third_column(std::string /* read_1 */, std::string /* read_2 */)

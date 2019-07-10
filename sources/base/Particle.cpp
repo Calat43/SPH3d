@@ -1,4 +1,6 @@
+
 #include <iostream>
+
 #include "Particle.h"
 
 Particle::Particle(Particle::Kind kind, double x, double y, double z) : Numbered()

@@ -1,4 +1,12 @@
 #include <fstream>
+#include <iostream>
+
+#include "Params.h"
+
+#include "Grid.h"
+#include "Cell.h"
+#include "Viscosity.h"
+
 #include "Solver.h"
 
 Point find_new_coordinates(Particle const & particle)

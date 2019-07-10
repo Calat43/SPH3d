@@ -1,5 +1,8 @@
+
 #include <iostream>
+
 #include "Grid.h"
+#include "Cell.h"
 
 Grid::Grid(double step_x, double step_y, double step_z, Point const & border1, Point const & border2)
     : cells(),

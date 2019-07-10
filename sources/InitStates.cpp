@@ -1,4 +1,14 @@
+#include <vector>
+#include <iostream>
+
+#include "MathUtils.h"
+#include "Params.h"
+#include "Grid.h"
+#include "Cell.h"
+#include "Solver.h"
+
 #include "InitStates.h"
+
 
 void fill_initial_sod_coord(std::vector<double> & coord, std::vector<double> & image_coord, uint real_left_p_num,
                         uint real_right_p_num, uint image_left_p_num, uint image_right_p_num)

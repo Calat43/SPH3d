@@ -1,14 +1,13 @@
 #pragma once
 
 #include <vector>
-#include <cmath>
-#include <cassert>
 #include <functional>
-#include "Cell.h"
+
 #include "Point.h"
 
 
 class Cell;
+class Particle;
 
 class Grid {
 

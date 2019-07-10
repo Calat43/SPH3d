@@ -1,12 +1,9 @@
 #pragma once
 
-#include "Solver.h"
-#include "InitStates.h"
-#include "Cell.h"
-#include "Grid.h"
 #include "Particle.h"
-#include "NonLinear.h"
-#include "Viscosity.h"
+
+class Cell;
+class Grid;
 
 namespace Dusty_shock_1d
 {

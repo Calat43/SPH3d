@@ -1,5 +1,10 @@
-#include "Cell.h"
 #include <iostream>
+
+#include "Params.h"
+#include "MathUtils.h"
+#include "Grid.h"
+#include "Cell.h"
+
 
 const Cell Cell::NO_CELL = Cell(nullptr, -1, -1, -1);
 

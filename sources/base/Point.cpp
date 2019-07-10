@@ -1,5 +1,7 @@
-#include "Point.h"
 
+#include <cassert>
+
+#include "Point.h"
 
 Point Point::operator +(const Point & p)
 {

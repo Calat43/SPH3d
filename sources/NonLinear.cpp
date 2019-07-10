@@ -1,4 +1,10 @@
+
+#include "Params.h"
+#include "Cell.h"
 #include "NonLinear.h"
+
+#include "DustyShock.h"
+
 
 /*
 double find_lambda(double gas_density)

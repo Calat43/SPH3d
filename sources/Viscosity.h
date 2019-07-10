@@ -1,11 +1,7 @@
 #pragma once
 
-#include "cassert"
-
-#include "Particle.h"
-#include "Params.h"
-#include "Point.h"
-#include "Solver.h"
+class Particle;
+class Point;
 
 namespace viscosity_3d
 {
@@ -14,7 +10,7 @@ namespace viscosity_3d
 
 namespace viscosity_1d
 {
-    double find_mu(double vel_ab, double coord_ab);
+    //double find_mu(double vel_ab, double coord_ab); // no function definition
     double find_viscosity(Particle * p1, Particle * p2);
 }
 

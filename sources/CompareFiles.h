@@ -1,8 +1,6 @@
 #pragma once
 
-#include <iostream>
-#include "Params.h"
-#include "Grid.h"
+class Grid;
 
 void compare_third_column(std::string read_1, std::string read_2);
 
