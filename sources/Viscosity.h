@@ -25,5 +25,5 @@ namespace viscosity
     double find_mu(Point vel_ab, Point coord_ab);
     double find_mu(double vel_ab, double coord_ab);
 
-    double find_viscosity(Particle * p1, Particle * p2);
+    //double find_viscosity(Particle * p1, Particle * p2);
 }

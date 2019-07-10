@@ -19,11 +19,15 @@ double viscosity::find_mu(double vel_ab, double coord_ab)
     return (Params::get_instance().h * vel_ab * coord_ab) / (pow(coord_ab, 2) + pow(Params::get_instance().nu, 2));
 }
 
-double viscosity::find_viscosity(Particle * p1, Particle * p2)
+
+/*
+double viscosity::find_viscosity(Particle * p1 , Particle * p2 )
 {
     Params & params = Params::get_instance();
-    int dim = params.dimensions;
+    //int dim = params.dimensions;
+    return 0;
 }
+*/
 
 namespace viscosity_3d
 {
