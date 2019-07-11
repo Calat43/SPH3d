@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Particle.h"
-#include "Grid.h"
-#include "Common.h"
-#include "Solver.h"
+#include <vector>
+
+#include "MathUtils.h"
+
+class Grid;
 
 Grid squared_ball_init_state(double radius, double step);
 

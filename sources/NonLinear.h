@@ -1,9 +1,6 @@
 #pragma once
 
-#include "cmath"
-#include "Particle.h"
-#include "Cell.h"
-#include "Dusty_shock.h"
+class Cell;
 
 namespace nl_idic
 {

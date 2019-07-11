@@ -4,7 +4,7 @@
 #include <time.h>
 
 #include "Particle.h"
-#include "Common.h"
+#include "MathUtils.h"
 #include "Grid.h"
 #include "Cell.h"
 #include "Params.h"
@@ -12,7 +12,7 @@
 #include "Solver.h"
 #include "InitStates.h"
 #include "SodTube3d.h"
-#include "Dusty_shock.h"
+#include "DustyShock.h"
 #include "Point.h"
 #include "DustyShock1d.h"
 #include "BallInVacuum.h"

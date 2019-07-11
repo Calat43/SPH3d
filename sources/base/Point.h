@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cassert>
-
 class Point {
 public:
     double x;

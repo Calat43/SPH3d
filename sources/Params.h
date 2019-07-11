@@ -1,8 +1,9 @@
 #pragma once
 
-#include <cmath>
+#include <string>
+
 #include "Point.h"
-#include "Common.h"
+#include "MathUtils.h"
 
 const std::string OUTPUT_PATH = "./output/";
 

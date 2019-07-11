@@ -1,5 +1,15 @@
+
 #include <fstream>
-#include "Dusty_shock.h"
+
+#include "Params.h"
+#include "Cell.h"
+#include "Grid.h"
+#include "Viscosity.h"
+
+#include "InitStates.h"
+#include "Solver.h"
+#include "SodTube3d.h"
+#include "DustyShock.h"
 
 Point pressure_term(Particle * particle, Cell * cell)
 {

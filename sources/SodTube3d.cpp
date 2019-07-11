@@ -1,6 +1,17 @@
+
 #include <fstream>
-#include "SodTube3d.h"
+#include <iostream>
+
+#include "Params.h"
+#include "Cell.h"
+#include "Grid.h"
 #include "Viscosity.h"
+
+#include "InitStates.h"
+#include "CompareFiles.h"
+#include "Solver.h"
+#include "SodTube3d.h"
+
 
 Grid Sod_tube_3d::init()
 {

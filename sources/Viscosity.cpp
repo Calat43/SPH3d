@@ -1,3 +1,9 @@
+
+#include <cassert>
+
+#include "MathUtils.h"
+#include "Params.h"
+#include "Particle.h"
 #include "Viscosity.h"
 
 double viscosity::find_sound_speed(Particle * particle)

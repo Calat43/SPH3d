@@ -1,4 +1,15 @@
+
+#include <fstream>
+#include <iostream>
+#include <string>
+
+#include "Params.h"
+#include "Cell.h"
+#include "Grid.h"
+
+#include "Solver.h"
 #include "BallInVacuum.h"
+#include "SodTube3d.h"
 
 double ball_analytic::time_through_R(double R)
 {

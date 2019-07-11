@@ -1,9 +1,20 @@
-#include "Common.h"
-#include "Params.h"
-#include "Numbered.h"
 #include <cassert>
-#include <iostream>
 
+#include "Particle.h"
+#include "Point.h"
+#include "Params.h"
+#include "MathUtils.h"
+
+
+int max(int a, int b)
+{
+    return a > b ? a : b;
+}
+
+int min(int a, int b)
+{
+    return a < b ? a : b;
+}
 
 double magnitude(double x, double y, double z)
 {

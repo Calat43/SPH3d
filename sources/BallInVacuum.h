@@ -1,15 +1,7 @@
 #pragma once
 
-#include <cassert>
-#include <iostream>
-#include <fstream>
-
-#include "Params.h"
-#include "Common.h"
-#include "Cell.h"
-#include "Grid.h"
-#include "SodTube3d.h"
-#include "Solver.h"
+class Grid;
+class Point;
 
 namespace ball_analytic
 {

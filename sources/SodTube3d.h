@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Solver.h"
-#include "InitStates.h"
-#include "CompareFiles.h"
+class Grid;
+class Particle;
+class Cell;
 
 namespace Sod_tube_3d
 {

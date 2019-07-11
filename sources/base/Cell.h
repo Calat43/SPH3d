@@ -1,14 +1,12 @@
 #pragma once
 #include <vector>
 #include <cassert>
-#include <cmath>
+
+#include "Numbered.h"
 #include "Particle.h"
-#include "Params.h"
-#include "Grid.h"
-#include "utils.h"
 
 class Grid;
-class Particle;
+
 
 class Cell : public Numbered
 {
