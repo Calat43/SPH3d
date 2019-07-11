@@ -63,6 +63,8 @@ set(Sph3dFiles
   "../sources/base/Particle.cpp"
   "../sources/base/Numbered.h"
   "../sources/base/Numbered.cpp"
+  "../sources/base/Viscosity.cpp"
+  "../sources/base/Viscosity.h"
   "../sources/CompareFiles.h"
   "../sources/CompareFiles.cpp"
   "../sources/Solver.h"
@@ -79,8 +81,6 @@ set(Sph3dFiles
   "../sources/DustyShock1d.cpp"
   "../sources/BallInVacuum.cpp"
   "../sources/BallInVacuum.h"
-  "../sources/Viscosity.cpp"
-  "../sources/Viscosity.h"
 )
 
 source_group("sources" FILES ${Sph3dFiles})
