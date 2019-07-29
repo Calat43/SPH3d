@@ -9,7 +9,7 @@
 
 #include "InitStates.h"
 #include "CompareFiles.h"
-#include "Solver.h"
+#include "SodTube1d.h"
 #include "SodTube3d.h"
 
 

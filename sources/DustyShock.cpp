@@ -7,7 +7,7 @@
 #include "Viscosity.h"
 
 #include "InitStates.h"
-#include "Solver.h"
+#include "SodTube1d.h"
 #include "SodTube3d.h"
 #include "DustyShock.h"
 
@@ -42,7 +42,7 @@ Point pressure_term(Particle * particle, Cell * cell)
 
 Point idic::pressure_term_asterisk(Cell * cell)
 {
-    double gas_size = cell->gas_particles.size();
+    size_t gas_size = cell->gas_particles.size();
 
     double a_p_x_astr = 0;
     double a_p_y_astr = 0;
@@ -91,8 +91,8 @@ Point idic::vel_asterisk(Cell * cell, Particle::Kind kind)
 double idic::eps_asterisk(Cell * cell)
 {
     //TODO int or not?
-    double dust_size = cell->dust_particles.size();
-    double gas_size = cell->gas_particles.size();
+    size_t dust_size = cell->dust_particles.size();
+    size_t gas_size = cell->gas_particles.size();
 
     double dust_mass = 0;
 
@@ -115,7 +115,7 @@ double idic::eps_asterisk(Cell * cell)
 
 double idic::density_asterisk(Cell * cell, Particle::Kind kind)
 {
-    int size = (int)cell->particles_of_kind(kind).size();
+    size_t size = cell->particles_of_kind(kind).size();
 
     double result = 0;
 

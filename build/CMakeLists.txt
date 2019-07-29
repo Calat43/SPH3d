@@ -63,12 +63,12 @@ set(Sph3dFiles
   "../sources/base/Particle.cpp"
   "../sources/base/Numbered.h"
   "../sources/base/Numbered.cpp"
-  "../sources/base/Viscosity.cpp"
   "../sources/base/Viscosity.h"
+  "../sources/base/Viscosity.cpp"
   "../sources/CompareFiles.h"
   "../sources/CompareFiles.cpp"
-  "../sources/Solver.h"
-  "../sources/Solver.cpp"
+  "../sources/SodTube1d.h"
+  "../sources/SodTube1d.cpp"
   "../sources/InitStates.h"
   "../sources/InitStates.cpp"
   "../sources/SodTube3d.h"
@@ -79,8 +79,10 @@ set(Sph3dFiles
   "../sources/NonLinear.cpp"
   "../sources/DustyShock1d.h"
   "../sources/DustyShock1d.cpp"
-  "../sources/BallInVacuum.cpp"
   "../sources/BallInVacuum.h"
+  "../sources/BallInVacuum.cpp"
+  "../sources/SPHSolver.h"
+  "../sources/SPHSolver.cpp"
 )
 
 source_group("sources" FILES ${Sph3dFiles})
@@ -91,9 +93,16 @@ set(Sph3dLib
 
 add_library(Sph3d STATIC ${Sph3dLib})
 
-add_executable(Sph3dRunner "../sources/main.cpp")
-target_link_libraries(Sph3dRunner Sph3d)
+add_executable(Sph3dTestsRunner "../sources/SPHTestsRunner.cpp")
+target_link_libraries(Sph3dTestsRunner Sph3d)
 if (NOT DEFINED MSVC)
-  target_link_libraries(Sph3dRunner m)  # link libm math library
+  target_link_libraries(Sph3dTestsRunner m)  # link libm math library
 endif()
+
+add_executable(Sph3dSolverRunner "../sources/SPHSolverRunner.cpp")
+target_link_libraries(Sph3dSolverRunner Sph3d)
+if (NOT DEFINED MSVC)
+  target_link_libraries(Sph3dSolverRunner m)  # link libm math library
+endif()
+
 
