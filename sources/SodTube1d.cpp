@@ -7,7 +7,7 @@
 #include "Cell.h"
 #include "Viscosity.h"
 
-#include "Solver.h"
+#include "SodTube1d.h"
 
 Point find_new_coordinates(Particle const & particle)
 {

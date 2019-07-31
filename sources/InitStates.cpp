@@ -5,7 +5,7 @@
 #include "Params.h"
 #include "Grid.h"
 #include "Cell.h"
-#include "Solver.h"
+#include "SodTube1d.h"
 
 #include "InitStates.h"
 
