@@ -49,8 +49,7 @@ include_directories(
   "../sources/base"
 )
 
-set(Sph3dFiles
-  "../sources/Params.h"
+set(Sph3dFilesBase
   "../sources/base/Point.h"
   "../sources/base/Point.cpp"
   "../sources/base/Cell.h"
@@ -65,6 +64,9 @@ set(Sph3dFiles
   "../sources/base/Numbered.cpp"
   "../sources/base/Viscosity.h"
   "../sources/base/Viscosity.cpp"
+)
+
+set(Sph3dFilesSolvers
   "../sources/CompareFiles.h"
   "../sources/CompareFiles.cpp"
   "../sources/SodTube1d.h"
@@ -85,10 +87,19 @@ set(Sph3dFiles
   "../sources/SPHSolver.cpp"
 )
 
-source_group("sources" FILES ${Sph3dFiles})
+set(Sph3dFilesSettings
+  "../sources/Params.h"
+)
+
+
+source_group("base" FILES ${Sph3dFilesBase})
+source_group("solvers" FILES ${Sph3dFilesSolvers})
+source_group("settings" FILES ${Sph3dFilesSettings})
 
 set(Sph3dLib
-  ${Sph3dFiles}
+  ${Sph3dFilesBase}
+  ${Sph3dFilesSolvers}
+  ${Sph3dFilesSettings}
 )
 
 add_library(Sph3d STATIC ${Sph3dLib})
