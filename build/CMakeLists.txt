@@ -47,6 +47,8 @@ file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 include_directories(
   "../sources"
   "../sources/base"
+  "../sources/solvers"
+  "../sources/settings"
 )
 
 set(Sph3dFilesBase
@@ -67,28 +69,28 @@ set(Sph3dFilesBase
 )
 
 set(Sph3dFilesSolvers
-  "../sources/CompareFiles.h"
-  "../sources/CompareFiles.cpp"
-  "../sources/SodTube1d.h"
-  "../sources/SodTube1d.cpp"
-  "../sources/InitStates.h"
-  "../sources/InitStates.cpp"
-  "../sources/SodTube3d.h"
-  "../sources/SodTube3d.cpp"
-  "../sources/DustyShock.h"
-  "../sources/DustyShock.cpp"
-  "../sources/NonLinear.h"
-  "../sources/NonLinear.cpp"
-  "../sources/DustyShock1d.h"
-  "../sources/DustyShock1d.cpp"
-  "../sources/BallInVacuum.h"
-  "../sources/BallInVacuum.cpp"
-  "../sources/SPHSolver.h"
-  "../sources/SPHSolver.cpp"
+  "../sources/solvers/SodTube1d.h"
+  "../sources/solvers/SodTube1d.cpp"
+  "../sources/solvers/InitStates.h"
+  "../sources/solvers/InitStates.cpp"
+  "../sources/solvers/SodTube3d.h"
+  "../sources/solvers/SodTube3d.cpp"
+  "../sources/solvers/DustyShock.h"
+  "../sources/solvers/DustyShock.cpp"
+  "../sources/solvers/NonLinear.h"
+  "../sources/solvers/NonLinear.cpp"
+  "../sources/solvers/DustyShock1d.h"
+  "../sources/solvers/DustyShock1d.cpp"
+  "../sources/solvers/BallInVacuum.h"
+  "../sources/solvers/BallInVacuum.cpp"
+  "../sources/solvers/SPHSolver.h"
+  "../sources/solvers/SPHSolver.cpp"
 )
 
 set(Sph3dFilesSettings
-  "../sources/Params.h"
+  "../sources/settings/Params.h"
+  "../sources/settings/CompareFiles.h"
+  "../sources/settings/CompareFiles.cpp"
 )
 
 
