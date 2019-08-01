@@ -58,6 +58,8 @@ public:
         return gas_particles; // just to avoid warning
     }
 
+    void clear_arrays();
+
 
 private:
     Grid * grid;

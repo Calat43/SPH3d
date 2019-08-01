@@ -9,10 +9,15 @@ public:
     SPHSolver();
     virtual ~SPHSolver();
 
-    int generate_initial_conditions();
+    int generate_initial_distribution();
     int do_time_step();
 
 private:
-    Grid* grid;
+    int generate_uniform_distribution();
+    int generate_ball_distribution();
 
+    void swap_grids_and_clear_next();
+    
+    Grid* current_grid = 0;
+    Grid* next_grid = 0;
 };
