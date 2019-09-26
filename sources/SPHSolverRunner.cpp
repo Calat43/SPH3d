@@ -15,7 +15,7 @@ int main()
     SPHSolver solver;
 
     // 1. Generate initial coniditions (values from global parameters are used)
-    solver.generate_initial_conditions();
+    solver.generate_initial_distribution();
 
     // 2. Main Loop with time step increment
     int nb_time_steps = (int) floor(params.t / params.tau);

@@ -3,8 +3,6 @@
 class Cell;
 class Grid;
 
-Point find_new_coordinates(Particle const & particle);
-
 double find_density(Particle * particle, Cell * cell);
 
 double find_density_no_sort(Particle const & particle, Grid const & grid);

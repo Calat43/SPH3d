@@ -49,6 +49,7 @@ include_directories(
   "../sources/base"
   "../sources/solvers"
   "../sources/settings"
+  "../sources/tests"
 )
 
 set(Sph3dFilesBase
@@ -64,25 +65,9 @@ set(Sph3dFilesBase
   "../sources/base/Particle.cpp"
   "../sources/base/Numbered.h"
   "../sources/base/Numbered.cpp"
-  "../sources/base/Viscosity.h"
-  "../sources/base/Viscosity.cpp"
 )
 
 set(Sph3dFilesSolvers
-  "../sources/solvers/SodTube1d.h"
-  "../sources/solvers/SodTube1d.cpp"
-  "../sources/solvers/InitStates.h"
-  "../sources/solvers/InitStates.cpp"
-  "../sources/solvers/SodTube3d.h"
-  "../sources/solvers/SodTube3d.cpp"
-  "../sources/solvers/DustyShock.h"
-  "../sources/solvers/DustyShock.cpp"
-  "../sources/solvers/NonLinear.h"
-  "../sources/solvers/NonLinear.cpp"
-  "../sources/solvers/DustyShock1d.h"
-  "../sources/solvers/DustyShock1d.cpp"
-  "../sources/solvers/BallInVacuum.h"
-  "../sources/solvers/BallInVacuum.cpp"
   "../sources/solvers/SPHSolver.h"
   "../sources/solvers/SPHSolver.cpp"
 )
@@ -91,6 +76,26 @@ set(Sph3dFilesSettings
   "../sources/settings/Params.h"
   "../sources/settings/CompareFiles.h"
   "../sources/settings/CompareFiles.cpp"
+)
+
+set(Sph3dFilesTests
+  "../sources/tests/SodTube1d.h"
+  "../sources/tests/SodTube1d.cpp"
+  "../sources/tests/InitStates.h"
+  "../sources/tests/InitStates.cpp"
+  "../sources/tests/SodTube3d.h"
+  "../sources/tests/SodTube3d.cpp"
+  "../sources/tests/DustyShock.h"
+  "../sources/tests/DustyShock.cpp"
+  "../sources/tests/NonLinear.h"
+  "../sources/tests/NonLinear.cpp"
+  "../sources/tests/DustyShock1d.h"
+  "../sources/tests/DustyShock1d.cpp"
+  "../sources/tests/BallInVacuum.h"
+  "../sources/tests/BallInVacuum.cpp"
+  "../sources/tests/Viscosity.h"
+  "../sources/tests/Viscosity.cpp"
+  "../sources/SPHTestsRunner.cpp"
 )
 
 
@@ -106,7 +111,7 @@ set(Sph3dLib
 
 add_library(Sph3d STATIC ${Sph3dLib})
 
-add_executable(Sph3dTestsRunner "../sources/SPHTestsRunner.cpp")
+add_executable(Sph3dTestsRunner ${Sph3dFilesTests})
 target_link_libraries(Sph3dTestsRunner Sph3d)
 if (NOT DEFINED MSVC)
   target_link_libraries(Sph3dTestsRunner m)  # link libm math library
