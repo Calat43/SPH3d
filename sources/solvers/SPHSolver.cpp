@@ -72,28 +72,26 @@ int SPHSolver::do_time_step()
                 Cell & cell = current_grid->cells[i][j][k];
                 for (Particle * particle : cell.get_all_particles())
                 {
-                    /*
                     Particle new_particle(*particle);
                     Point new_coords = find_new_coordinates(*particle);
 
-                    Point new_vel = Sod_tube_3d::find_new_velocity(particle, &cell);
+                    Point new_vel = MathUtils::find_new_velocity(particle, &cell); // was got from Sod_tube_3d
                     new_particle.density = NAN;
                     new_particle.dbg_state = 2;
 
                     new_particle.set_coordinates(new_coords.x, new_coords.y, new_coords.z);
                     new_particle.set_velocities(new_vel.x, new_vel.y, new_vel.z);
 
-                    new_particle.energy = Sod_tube_3d::find_new_energy(particle, &cell);
+                    new_particle.energy = MathUtils::find_new_energy(particle, &cell); // was got from Sod_tube_3d
 
-                    next_grid.with_copy_of(new_particle);
-                    */
+                    next_grid->with_copy_of(new_particle);
                 }
             }
         }
     }
 
-    //recalc_density(next_grid, Particle::Kind::Gas);
-    //Sod_tube_1d::recalc_pressure(next_grid, Particle::Kind::Gas);
+    MathUtils::recalc_density(*next_grid, Particle::Kind::Gas); // was got from file Sod_tube_1d (not its namespace)
+    MathUtils::recalc_pressure(*next_grid, Particle::Kind::Gas); // was got from Sod_tube_1d
 
     // swap grids and clear next grid (prepare for the next timestep)
     swap_grids_and_clear_next();

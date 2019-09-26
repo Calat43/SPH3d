@@ -9,15 +9,6 @@
 
 #include "SodTube1d.h"
 
-Point find_new_coordinates(Particle const & particle)
-{
-    Params & params = Params::get_instance();
-    double x = particle.x + params.tau * particle.vx;
-    double y = particle.y + params.tau * particle.vy;
-    double z = particle.z + params.tau * particle.vz;
-    return {x, y, z};
-}
-
 double find_density(Particle * particle, Cell * cell)
 {
     double density = 0;
