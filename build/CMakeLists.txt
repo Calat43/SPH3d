@@ -47,10 +47,12 @@ file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 include_directories(
   "../sources"
   "../sources/base"
+  "../sources/solvers"
+  "../sources/settings"
+  "../sources/tests"
 )
 
-set(Sph3dFiles
-  "../sources/Params.h"
+set(Sph3dFilesBase
   "../sources/base/Point.h"
   "../sources/base/Point.cpp"
   "../sources/base/Cell.h"
@@ -63,37 +65,62 @@ set(Sph3dFiles
   "../sources/base/Particle.cpp"
   "../sources/base/Numbered.h"
   "../sources/base/Numbered.cpp"
-  "../sources/base/Viscosity.cpp"
-  "../sources/base/Viscosity.h"
-  "../sources/CompareFiles.h"
-  "../sources/CompareFiles.cpp"
-  "../sources/Solver.h"
-  "../sources/Solver.cpp"
-  "../sources/InitStates.h"
-  "../sources/InitStates.cpp"
-  "../sources/SodTube3d.h"
-  "../sources/SodTube3d.cpp"
-  "../sources/DustyShock.h"
-  "../sources/DustyShock.cpp"
-  "../sources/NonLinear.h"
-  "../sources/NonLinear.cpp"
-  "../sources/DustyShock1d.h"
-  "../sources/DustyShock1d.cpp"
-  "../sources/BallInVacuum.cpp"
-  "../sources/BallInVacuum.h"
 )
 
-source_group("sources" FILES ${Sph3dFiles})
+set(Sph3dFilesSolvers
+  "../sources/solvers/SPHSolver.h"
+  "../sources/solvers/SPHSolver.cpp"
+)
+
+set(Sph3dFilesSettings
+  "../sources/settings/Params.h"
+  "../sources/settings/CompareFiles.h"
+  "../sources/settings/CompareFiles.cpp"
+)
+
+set(Sph3dFilesTests
+  "../sources/tests/SodTube1d.h"
+  "../sources/tests/SodTube1d.cpp"
+  "../sources/tests/InitStates.h"
+  "../sources/tests/InitStates.cpp"
+  "../sources/tests/SodTube3d.h"
+  "../sources/tests/SodTube3d.cpp"
+  "../sources/tests/DustyShock.h"
+  "../sources/tests/DustyShock.cpp"
+  "../sources/tests/NonLinear.h"
+  "../sources/tests/NonLinear.cpp"
+  "../sources/tests/DustyShock1d.h"
+  "../sources/tests/DustyShock1d.cpp"
+  "../sources/tests/BallInVacuum.h"
+  "../sources/tests/BallInVacuum.cpp"
+  "../sources/tests/Viscosity.h"
+  "../sources/tests/Viscosity.cpp"
+  "../sources/SPHTestsRunner.cpp"
+)
+
+
+source_group("base" FILES ${Sph3dFilesBase})
+source_group("solvers" FILES ${Sph3dFilesSolvers})
+source_group("settings" FILES ${Sph3dFilesSettings})
 
 set(Sph3dLib
-  ${Sph3dFiles}
+  ${Sph3dFilesBase}
+  ${Sph3dFilesSolvers}
+  ${Sph3dFilesSettings}
 )
 
 add_library(Sph3d STATIC ${Sph3dLib})
 
-add_executable(Sph3dRunner "../sources/main.cpp")
-target_link_libraries(Sph3dRunner Sph3d)
+add_executable(Sph3dTestsRunner ${Sph3dFilesTests})
+target_link_libraries(Sph3dTestsRunner Sph3d)
 if (NOT DEFINED MSVC)
-  target_link_libraries(Sph3dRunner m)  # link libm math library
+  target_link_libraries(Sph3dTestsRunner m)  # link libm math library
 endif()
+
+add_executable(Sph3dSolverRunner "../sources/SPHSolverRunner.cpp")
+target_link_libraries(Sph3dSolverRunner Sph3d)
+if (NOT DEFINED MSVC)
+  target_link_libraries(Sph3dSolverRunner m)  # link libm math library
+endif()
+
 

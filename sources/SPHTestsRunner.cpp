@@ -9,13 +9,14 @@
 #include "Cell.h"
 #include "Params.h"
 #include "CompareFiles.h"
-#include "Solver.h"
+#include "SodTube1d.h"
 #include "InitStates.h"
 #include "SodTube3d.h"
 #include "DustyShock.h"
 #include "Point.h"
 #include "DustyShock1d.h"
 #include "BallInVacuum.h"
+
 
 
 //TODO empty grid constructor
@@ -72,6 +73,7 @@ Grid do_time_step(Grid & old_grid, int step_num)
 
     return next_grid;
 }
+
 
 void check_output_dir()
 {

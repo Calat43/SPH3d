@@ -4,6 +4,7 @@
 #include <functional>
 
 #include "Point.h"
+#include "Cell.h"
 
 
 class Cell;
@@ -38,6 +39,8 @@ public:
     void for_each_cell(std::function<void(Cell *)> const & f);
 
     void with_copy_of(Particle const & particle);
+
+    void clear_all_particles();
 
     /*void print(PrintWriter writer) {
        grid.for_each_cell(

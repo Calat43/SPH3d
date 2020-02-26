@@ -25,7 +25,9 @@ public:
         return p;
     }
 
-    double t = 0.2;
+    double t = 0.2; // total time of numerical experiment
+    double t_diagnostics = 0.05; // time interval to save intermediate results
+
     double c_s = 1;
     double gamma = 4. / 3.; //7. / 5.;
     double K = 0;
@@ -37,7 +39,8 @@ public:
     int dimensions = 3;
     double h = 0.01;
     double smooth_radius = 2. * h;
-    double tau = 0.0001;
+    double tau = 0.001; // time step
+
     double middle_gas_dens = NAN;
     double d2g = NAN;
     double delta = NAN;
@@ -74,6 +77,23 @@ public:
 
     Params(Params const &) = delete;
     Params & operator=(Params const &) = delete;
+
+    enum DistributionType
+    {
+        dtUniform = 0,
+        dtBall = 1,
+    };
+    DistributionType dt = dtUniform;
+
+    enum BoundaryConditions
+    {
+        bcIsolated = 0, // particles do not leave global computational domain and reflect from boundaries
+        bcPeriodic = 1, // particles move as in periodic global computational domain
+    };
+    BoundaryConditions bc = bcIsolated;
+
+    size_t sz_gas_particles_total; // total number of gas particles for all processors
+    size_t sz_dust_particles_total; // total number of dust particles for all processors
 
 private:
     Params() = default;

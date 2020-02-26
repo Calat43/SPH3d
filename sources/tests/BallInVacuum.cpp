@@ -6,7 +6,7 @@
 #include "Cell.h"
 #include "Grid.h"
 
-#include "Solver.h"
+#include "SodTube1d.h"
 #include "BallInVacuum.h"
 #include "SodTube3d.h"
 

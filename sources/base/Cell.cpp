@@ -109,3 +109,10 @@ void Cell::set_drag_mode(int num)
 {
     this->drag_mode = num;
 }
+
+
+void Cell::clear_arrays()
+{
+    gas_particles.clear();
+    dust_particles.clear();
+}
