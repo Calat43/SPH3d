@@ -86,7 +86,7 @@ Point kernel_gradient(Particle const & part1, Particle const & part2, int dimens
 
     if(q >= 0 && q <= 1)
     {
-        result = - 3 * q + 9. / 4. * q *  q;
+        result = - 3. * q + 9. / 4. * q *  q;
     }
     if( q > 1 && q <= 2)
     {

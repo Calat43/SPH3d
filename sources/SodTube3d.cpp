@@ -108,6 +108,7 @@ Point Sod_tube_3d::find_new_velocity(Particle * particle, Cell * cell)
     }
     assert(!__isnan(particle->density));
 
+
     for (Cell * neighbour : cell->get_neighbours())
     {
         for (Particle & p : particle->kind == Particle::Kind::Gas ? neighbour->gas_particles : neighbour->dust_particles)
@@ -121,13 +122,32 @@ Point Sod_tube_3d::find_new_velocity(Particle * particle, Cell * cell)
 
             double term1 = (particle->pressure / pow(particle->density, 2) + p.pressure / pow(p.density, 2) + viscosity);
 
-            sum = sum + kernel_grad * term1;
+            //sum = sum + kernel_grad * term1;
+            sum.x += kernel_grad.x * term1;
+            sum.y += kernel_grad.y * term1;
+            sum.z += kernel_grad.z * term1;
         }
     }
 
     double term2 = params.tau * particle->mass;
 
-    vel = prev_vel - sum * term2;
+    vel.x = prev_vel.x - params.tau * particle->mass * sum.x;
+    vel.y = prev_vel.y - params.tau * particle->mass * sum.y;
+    vel.z = prev_vel.z - params.tau * particle->mass * sum.z;
+
+    //vel = prev_vel - sum * term2;
+
+    double center_x = (params.border2.x - params.border1.x) / 2;
+    double center_y = (params.border2.y - params.border1.y) / 2;
+    double center_z = (params.border2.z - params.border1.z) / 2;
+
+    Point center(center_x, center_y, center_z);
+    Point coord = {particle->x, particle->y, particle->z};
+
+    Point p = coord - center;
+
+    //vel = prev_vel + (p * params.tau * 100. * 2.) / particle->density;
+    //vel = prev_vel + (p * params.tau * 100 / magnitude(p)) / particle->density;
 
     return vel;
 }

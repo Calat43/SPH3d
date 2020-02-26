@@ -1,0 +1,6 @@
+build/bin/
+build/cmake-build-debug/
+build/cmake-build-release/
+cmake-build-debug/
+cmake-build-release/
+

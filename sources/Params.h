@@ -5,7 +5,7 @@
 #include "Point.h"
 #include "MathUtils.h"
 
-const std::string OUTPUT_PATH = "./output/";
+const std::string OUTPUT_PATH = "/home/calat/documents/SPH3D-reworked/output/";
 
 const bool PRINT_DENSITY = false;
 
@@ -34,11 +34,10 @@ public:
     double kz = NAN;
     static const int n_gas = 10000;
     int n_dust = 0;
-    int dimensions = 1;
+    int dimensions = 3;
     double h = 0.01;
     double smooth_radius = 2. * h;
-    double tau = 0.001;
-
+    double tau = 0.0001;
     double middle_gas_dens = NAN;
     double d2g = NAN;
     double delta = NAN;
@@ -57,7 +56,7 @@ public:
     double alpha = 1.;
     double beta = 2.;
     double nu = 0.1 * h;
-    bool have_viscosity = true;
+    bool have_viscosity = false;
 
     //monaghan
     double sigma = 1. / 3.;
@@ -65,7 +64,7 @@ public:
 
     // boundary of area
     Point border1 = Point(0, 0, 0);
-    Point border2 = Point(1, 1, 1);
+    Point border2 = Point(3, 3, 3);
 
     double grid_step_x = 0.01;
     double grid_step_y = 0.01;

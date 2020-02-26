@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <cmath>
 #include "Numbered.h"
 
 class Particle : public Numbered

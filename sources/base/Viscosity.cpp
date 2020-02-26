@@ -10,8 +10,22 @@ double viscosity::find_sound_speed(Particle * particle)
 {
     assert(!__isnan(particle->pressure));
     assert(!__isnan(particle->density));
-    assert(!__isnan(sqrt(Params::get_instance().gamma * particle->pressure / particle->density)));
-    return sqrt(Params::get_instance().gamma * particle->pressure / particle->density);
+    assert(particle->density != 0);
+
+    double pres = 0;
+
+    //TODO убрать костыль!!
+    if(particle->pressure < 0)
+    {
+        pres = 0;
+    }
+    else
+    {
+        pres = particle->pressure;
+    }
+    assert(!__isnan(sqrt(Params::get_instance().gamma * pres / particle->density)));
+
+    return sqrt(Params::get_instance().gamma * pres / particle->density);
 }
 
 double viscosity::find_mu(Point vel_ab, Point coord_ab)

@@ -1,4 +1,3 @@
-
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -88,7 +87,8 @@ void ball_analytic::print_solution(double exact_time, double step_r, double step
 
     std::ofstream f_solv;
 
-    f_solv.open(OUTPUT_PATH + "ball_solution_" + std::to_string(exact_time) + ".dat");
+    f_solv.open(OUTPUT_PATH + "ball_solution_" + std::to_string(exact_time) + "_"
+                + std::to_string(params.ball_init_radius) + ".dat");
 
     for(double radius = 0; radius <= R; radius += step_r)
     {
@@ -118,16 +118,29 @@ double ball_in_vacuum::find_pressure(Particle * particle, Cell * cell)
         }
     }
 
-    return - params.tau * params.gamma * particle->pressure / particle->density * sum + particle->pressure;
+    double result = - params.tau * params.gamma * particle->mass * particle->pressure / particle->density * sum + particle->pressure;
+
+    //assert(result >= 0);
+    return result;
 }
 
 Point ball_in_vacuum::init_velocity(Point center, Point particle_coordinates)
 {
+    /*
     Point vel = particle_coordinates - center;
 
     double magn = magnitude(vel);
 
     return vel / magn * Params::get_instance().ball_init_velocity;
+     */
+
+    double radius = distance(particle_coordinates, center);
+
+    double velocity = Params::get_instance().ball_init_velocity / Params::get_instance().ball_init_radius * radius;
+
+    Point tmp_vel = particle_coordinates - center;
+
+    return tmp_vel / magnitude(tmp_vel) * velocity;
 }
 
 Grid ball_in_vacuum::init(double step)
@@ -137,6 +150,12 @@ Grid ball_in_vacuum::init(double step)
     double radius = params.ball_init_radius;
 
     Grid init(params.grid_step_x, params.grid_step_y, params.grid_step_z, params.border1, params.border2);
+
+    std::ofstream part_file;
+    if(PRINT_FILE)
+    {
+        part_file.open(OUTPUT_PATH + "ball_init" + ".dat");
+    }
 
     double center_x = (params.border2.x - params.border1.x) / 2;
     double center_y = (params.border2.y - params.border1.y) / 2;
@@ -179,8 +198,7 @@ Grid ball_in_vacuum::init(double step)
                 Cell * cell = &(init.cells[i][j][k]);
                 for (Particle * particle : cell->get_all_particles())
                 {
-                    particle->mass = 1. / count;
-
+                    particle->mass = params.ball_mass / count;
                 }
             }
         }
@@ -188,6 +206,11 @@ Grid ball_in_vacuum::init(double step)
     std::cout << "------particles:" << count << std::endl;
 
     recalc_density(init, Particle::Kind::Gas);
+
+
+    //костыль из аналитики
+    double ddot_R = 2. * params.A * pow(3. * params.ball_mass / 4. / PI, 1. / 3.) / params.ball_init_radius
+                    / params.ball_init_radius;
 
     for (int i = 0; i < init.x_size; ++i)
     { // TODO foreach
@@ -199,7 +222,35 @@ Grid ball_in_vacuum::init(double step)
 
                 for(Particle * particle : cell.get_all_particles())
                 {
-                    particle->pressure = params.A * pow(particle->density, params.gamma);
+                    double r = distance(Point(particle->x, particle->y, particle->z), center);
+                    particle->pressure =  //- 100. / params.ball_init_radius / params.ball_init_radius * r * r + 100.;
+                                        //10. - 100. * r;
+                                        //1 - 100. * r * r;
+                            ball_analytic::pressure(r, params.ball_init_radius, ddot_R);
+                }
+            }
+        }
+    }
+
+    for(int i = 0; i < init.x_size; ++i)
+    { // TODO foreach
+        for(int j = 0; j < init.y_size; ++j)
+        {
+            for(int k = 0; k < init.z_size; ++k)
+            {
+                Cell & cell = init.cells[i][j][k];
+
+                for(Particle * particle : cell.get_all_particles())
+                {
+                    if(PRINT_FILE)
+                    {
+                        Point particle_point(particle->x, particle->y, particle->z);
+
+                        double r = distance(particle_point, center);
+
+                        part_file << r << " " << magnitude(particle->vx, particle->vy, particle->vz) <<
+                                   " " << particle->pressure << " " << particle->density << std::endl;
+                    }
                 }
             }
         }
@@ -211,14 +262,24 @@ Grid ball_in_vacuum::init(double step)
 Grid ball_in_vacuum::do_time_step(Grid & old_grid, int step_num)
 {
     std::ofstream part_file;
-    if(PRINT_FILE)
+    if(PRINT_FILE && ((step_num == 0) || (step_num == 1999)))
     {
         part_file.open(OUTPUT_PATH + "part_" + std::to_string(step_num) + ".dat");
     }
 
+    //std::ofstream diff_part;
+
+    //diff_part.open(OUTPUT_PATH + "diff_" + std::to_string(step_num) + ".dat");
+
     Params & params = Params::get_instance();
 
     Grid next_grid(params.grid_step_x, params.grid_step_y, params.grid_step_z, params.border1, params.border2);
+
+    double center_x = (params.border2.x - params.border1.x) / 2;
+    double center_y = (params.border2.y - params.border1.y) / 2;
+    double center_z = (params.border2.z - params.border1.z) / 2;
+
+    Point center(center_x, center_y, center_z);
 
     for(int i = 0; i < old_grid.x_size; ++i)
     { // TODO foreach
@@ -238,11 +299,15 @@ Grid ball_in_vacuum::do_time_step(Grid & old_grid, int step_num)
                     new_particle.dbg_state = 2;
 
                     new_particle.set_coordinates(new_coords.x, new_coords.y, new_coords.z);
+                    //new_particle.set_velocities(particle->vx, particle->vy, particle->vz);
                     new_particle.set_velocities(new_vel.x, new_vel.y, new_vel.z);
 
                     new_particle.pressure = ball_in_vacuum::find_pressure(particle, &cell);
+                    //new_particle.density = particle->density;
 
                     next_grid.with_copy_of(new_particle);
+
+                    //diff_part << particle->pressure - new_particle.pressure << std::endl;
                 }
             }
         }
@@ -260,11 +325,17 @@ Grid ball_in_vacuum::do_time_step(Grid & old_grid, int step_num)
 
                 for(Particle * particle : cell.get_all_particles())
                 {
-                    if(PRINT_FILE)
+                    if(PRINT_FILE && ((step_num == 0) || (step_num == 1999)))
                     {
-                        part_file << particle->x << " " << particle->y << " " << particle->z << " "
+                        Point particle_point(particle->x, particle->y, particle->z);
+
+                        double radius = distance(particle_point, center);
+                        double v_magn = magnitude(particle->vx, particle->vy, particle->vz);
+
+                        part_file << radius << " " << particle->x << " " << particle->y << " " << particle->z << " "
+                                  << v_magn << " "
                                   << particle->vx << " " << particle->vy << " " << particle->vz << " "
-                                  << particle->density << " " << particle->pressure << std::endl;
+                                  << particle->pressure << " " << particle->density << std::endl;
                     }
                 }
             }
