@@ -57,10 +57,10 @@ std::vector<Cell *> Cell::get_neighbours() {
     int from_x = max(0, i - offset_x);
     int to_x = min(grid->x_size - 1, i + offset_x);
 
-    int from_y = max(0, j - offset_x);
+    int from_y = max(0, j - offset_y);
     int to_y = min(grid->y_size - 1, j + offset_y);
 
-    int from_z = max(0, k - offset_x);
+    int from_z = max(0, k - offset_z);
     int to_z = min(grid->z_size - 1, k + offset_z);
 
     for (int id_x = from_x; id_x <= to_x; ++id_x) {
@@ -108,11 +108,4 @@ int Cell::get_drag_mode() const
 void Cell::set_drag_mode(int num)
 {
     this->drag_mode = num;
-}
-
-
-void Cell::clear_arrays()
-{
-    gas_particles.clear();
-    dust_particles.clear();
 }

@@ -109,11 +109,3 @@ void Grid::with_copy_of(Particle const & particle) {
     }
     cell->add_copy_of_particle(particle);
 }
-
-void Grid::clear_all_particles()
-{
-    for_each_cell([this](Cell & cell)
-    {
-        cell.clear_arrays();
-    });
-}

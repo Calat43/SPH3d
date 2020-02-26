@@ -4,7 +4,6 @@
 #include <functional>
 
 #include "Point.h"
-#include "Cell.h"
 
 
 class Cell;
@@ -40,8 +39,6 @@ public:
 
     void with_copy_of(Particle const & particle);
 
-    void clear_all_particles();
-
     /*void print(PrintWriter writer) {
        grid.for_each_cell(
                (c) -> c->for_each_particle(
@@ -50,6 +47,6 @@ public:
        );
    }*/
 
-private:
+public:
     bool encloses_point(Point point);
 };

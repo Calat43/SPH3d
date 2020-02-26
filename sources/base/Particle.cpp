@@ -25,6 +25,15 @@ Particle::Particle(Particle const & that) : Numbered(that) //WHY Numbered(that)?
     vy = that.vy;
     vz = that.vz;
     dbg_state = that.dbg_state;
+
+    ////TODO remove after debug
+    right_sum_x = that.right_sum_x;
+    right_sum_y = that.right_sum_y;
+    right_sum_z = that.right_sum_z;
+
+    right_an_x = that.right_an_x;
+    right_an_y = that.right_an_y;
+    right_an_z = that.right_an_z;
 }
 
 Particle & Particle::operator=(Particle const & that)
@@ -42,6 +51,17 @@ Particle & Particle::operator=(Particle const & that)
     vy = that.vy;
     vz = that.vz;
     dbg_state = that.dbg_state;
+
+    ////TODO remove after debug
+    right_sum_x = that.right_sum_x;
+    right_sum_y = that.right_sum_y;
+    right_sum_z = that.right_sum_z;
+
+    right_an_x = that.right_an_x;
+    right_an_y = that.right_an_y;
+    right_an_z = that.right_an_z;
+    ////
+
     return *this;
 }
 

@@ -26,6 +26,16 @@ public:
     double density = NAN;
     double energy = NAN;
 
+    ////TODO remove after debug
+    double right_sum_x = 1024;
+    double right_sum_y = 1024;
+    double right_sum_z = 1024;
+
+    double right_an_x = 2048;
+    double right_an_y = 2048;
+    double right_an_z = 2048;
+    /////
+
     double x = NAN;
     double y = NAN;
     double z = NAN;
