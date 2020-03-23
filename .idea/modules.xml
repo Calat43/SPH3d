@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/sph3d.iml" filepath="$PROJECT_DIR$/.idea/sph3d.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SPH3D-reworked.iml" filepath="$PROJECT_DIR$/.idea/SPH3D-reworked.iml" />
     </modules>
   </component>
 </project>
