@@ -50,7 +50,7 @@ include_directories(
 )
 
 set(Sph3dFiles
-  "../sources/Params.h"
+  "../sources/settings/Params.h"
   "../sources/base/Point.h"
   "../sources/base/Point.cpp"
   "../sources/base/Cell.h"
@@ -63,14 +63,14 @@ set(Sph3dFiles
   "../sources/base/Particle.cpp"
   "../sources/base/Numbered.h"
   "../sources/base/Numbered.cpp"
-  "../sources/base/Viscosity.cpp"
-  "../sources/base/Viscosity.h"
-        "../sources/Solver.h"
-  "../sources/Solver.cpp"
-  "../sources/SodTube3d.h"
-  "../sources/SodTube3d.cpp"
-        "../sources/BallInVacuum.cpp"
-  "../sources/BallInVacuum.h"
+  "../sources/tests/Viscosity.cpp"
+  "../sources/tests/Viscosity.h"
+        "../sources/tests/Solver.h"
+  "../sources/tests/Solver.cpp"
+  "../sources/tests/SodTube3d.h"
+  "../sources/tests/SodTube3d.cpp"
+        "../sources/tests/BallInVacuum.cpp"
+  "../sources/tests/BallInVacuum.h"
 )
 
 source_group("sources" FILES ${Sph3dFiles})
@@ -81,7 +81,7 @@ set(Sph3dLib
 
 add_library(Sph3d STATIC ${Sph3dLib})
 
-add_executable(Sph3dRunner "../sources/main.cpp")
+add_executable(Sph3dRunner "../sources/tests/main.cpp")
 target_link_libraries(Sph3dRunner Sph3d)
 if (NOT DEFINED MSVC)
   target_link_libraries(Sph3dRunner m)  # link libm math library

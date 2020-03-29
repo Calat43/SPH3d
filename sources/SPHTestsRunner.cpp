@@ -16,6 +16,7 @@
 #include "Point.h"
 #include "DustyShock1d.h"
 #include "BallInVacuum.h"
+#include "SPHSolver.h"
 
 
 
@@ -51,7 +52,7 @@ Grid do_time_step(Grid & old_grid, int step_num)
                     }
 
                     Particle new_particle(*particle);
-                    Point new_coords = find_new_coordinates(*particle);
+                    Point new_coords = find_new_coordinates_(*particle);
                     //Cell * new_particle_old_cell = old.grid.find_cell(new_particle);
                     //assert(new_particle_old_cell != nullptr);
 

@@ -1,17 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="SPH3D_reworked" targetName="SPH3D_reworked" />
+    </generated>
+  </component>
   <component name="CMakeSettings">
     <configurations>
       <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
     </configurations>
   </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c545454e-88b8-45b6-b852-47db5923cbc2" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/sources/tests/Params.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/BallInVacuum.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/BallInVacuum.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Params.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/SPHTestsRunner.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/SPHTestsRunner.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/SodTube3d.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/SodTube3d.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Solver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/Solver.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Solver.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/Solver.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/base/MathUtils.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/base/MathUtils.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/base/Particle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/base/Particle.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/base/Particle.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/base/Particle.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/base/Viscosity.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/base/Viscosity.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/settings/Params.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/settings/Params.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/solvers/SPHSolver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/solvers/SPHSolver.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/solvers/SPHSolver.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/solvers/SPHSolver.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/BallInVacuum.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/BallInVacuum.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/BallInVacuum.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/BallInVacuum.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/DustyShock1d.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/DustyShock1d.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/NonLinear.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/NonLinear.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/SodTube1d.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/SodTube1d.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/SodTube3d.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/SodTube3d.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/SodTube3d.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/SodTube3d.h" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectId" id="1ZWhmHC9u53OBf945BY0teNXwDw" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="CPPToolchains" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/sources/tests" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
   </component>
   <component name="RunManager">
     <configuration name="SPH3D_reworked" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SPH3D_reworked" TARGET_NAME="SPH3D_reworked" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SPH3D_reworked" RUN_TARGET_NAME="SPH3D_reworked">
@@ -19,5 +88,48 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c545454e-88b8-45b6-b852-47db5923cbc2" name="Default Changelist" comment="" />
+      <created>1584960914229</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1584960914229</updated>
+      <workItem from="1584960915485" duration="2955000" />
+      <workItem from="1585057726628" duration="9965000" />
+      <workItem from="1585235072893" duration="342000" />
+      <workItem from="1585290276922" duration="5036000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

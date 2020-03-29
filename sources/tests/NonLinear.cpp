@@ -37,7 +37,7 @@ double find_t_stop(Particle * gas_particle, Particle * dust_particle)
     double lambda = find_lambda(gas_particle->density);
     double Ma = mach_number(gas_particle, dust_particle);
     double Re = reynolds_number(gas_particle, dust_particle);
-    double c_s = sound_speed(gas_particle);
+    double sound_speed = sound_speed(gas_particle);
 
     double vel_ratio = fabs(gas_particle->vx - dust_particle->vx);
 
@@ -48,11 +48,11 @@ double find_t_stop(Particle * gas_particle, Particle * dust_particle)
 
     if(a < 9. / 4. * lambda || Ma == 0)
     {
-        result = a * particle_density / c_s / gas_particle->density;
+        result = a * particle_density / sound_speed / gas_particle->density;
     }
     else if(Re <= 1)
     {
-        result = 8. / 3. * 24. * 4. * a / lambda * a * particle_density / c_s / gas_particle->density;
+        result = 8. / 3. * 24. * 4. * a / lambda * a * particle_density / sound_speed / gas_particle->density;
                 // particle_density * Re / gas_particle->density / vel_ratio;
     }
     else if(Re <= 800)

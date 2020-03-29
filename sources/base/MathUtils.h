@@ -6,6 +6,7 @@
 #endif
 
 #include <cmath>
+#include "Cell.h"
 
 class Particle;
 class Point;
@@ -31,5 +32,3 @@ double distance(Point const & p1, Point const & p2);
 double dot_product(Point const point1, Point const point2);
 
 double vel_dot_grad_kernel(Particle const part1, Particle const part2);
-
-

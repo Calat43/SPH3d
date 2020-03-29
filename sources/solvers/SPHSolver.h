@@ -21,3 +21,5 @@ private:
     Grid* current_grid = 0;
     Grid* next_grid = 0;
 };
+
+Point find_new_coordinates_(Particle & particle);

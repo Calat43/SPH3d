@@ -9,6 +9,7 @@
 #include "Cell.h"
 #include "Params.h"
 #include "BallInVacuum.h"
+#include "DustyWave.h"
 
 
 void check_output_dir()
@@ -41,6 +42,7 @@ int main()
  */
     //ball_analytic::print_solution(0., 0.01, 0.00001, 0.00001);
 
+    /*
     Grid grid = ball_in_vacuum::init(0.05);
 
     clock_t startTime = clock();
@@ -63,6 +65,9 @@ int main()
     printf("Finished in %lf seconds.\n", executionTime);
 
     //print_vel_p_squared(0.4, 0.14, 0.001);
+*/
+
+    dusty_wave_init();
 
     return 0;
 }

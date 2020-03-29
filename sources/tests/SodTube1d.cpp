@@ -6,6 +6,7 @@
 #include "Grid.h"
 #include "Cell.h"
 #include "Viscosity.h"
+#include "SPHSolver.h"
 
 #include "SodTube1d.h"
 
@@ -127,7 +128,7 @@ Point find_new_velocity(Particle * particle, Cell * cell)
         }
     }
 
-    double term2 = - params.tau * particle->mass * params.c_s * params.c_s;
+    double term2 = - params.tau * particle->mass * params.sound_speed * params.sound_speed;
 
     vel = sum * term2 + prev_vel;
 
@@ -166,7 +167,7 @@ Point find_new_velocity_no_sort(Particle * particle, Grid * grid)
         }
     }
 
-    double term2 = - params.tau * particle->mass * params.c_s * params.c_s;
+    double term2 = - params.tau * particle->mass * params.sound_speed * params.sound_speed;
 
     vel = sum * term2 + prev_vel;
 
@@ -286,7 +287,7 @@ Grid Sod_tube_1d::do_time_step(Grid & old_grid, int step_num)
                     }
 
                     Particle new_particle(*particle);
-                    Point new_coords = find_new_coordinates(*particle);
+                    Point new_coords = find_new_coordinates_(*particle);
 
                     Point new_vel = Sod_tube_1d::find_new_velocity(particle, &cell);
                     new_particle.density = NAN;

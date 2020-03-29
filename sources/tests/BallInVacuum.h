@@ -19,6 +19,8 @@ namespace ball_analytic
     void print_solution(double exact_time, double step_r, double step_R, double defect);
 }
 
+void print_vel_p_squared(double t, double r_max, double r_step);
+
 namespace ball_in_vacuum
 {
     double find_pressure(Particle * particle, Cell * cell);

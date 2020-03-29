@@ -10,6 +10,7 @@
 #include "SodTube1d.h"
 #include "InitStates.h"
 #include "DustyShock1d.h"
+#include "SPHSolver.h"
 
 Grid Dusty_shock_1d::init()
 {
@@ -303,7 +304,7 @@ Grid Dusty_shock_1d::do_time_step(Grid & old_grid, int step_num)
                     }
 
                     Particle new_particle(particle);
-                    Point new_coords = find_new_coordinates(particle);
+                    Point new_coords = find_new_coordinates_(particle);
 
                     double new_vel = idic_1d::find_gas_velocity(&particle, &cell);
                     new_particle.density = NAN;
@@ -323,7 +324,7 @@ Grid Dusty_shock_1d::do_time_step(Grid & old_grid, int step_num)
                     }
 
                     Particle new_particle(particle);
-                    Point new_coords = find_new_coordinates(particle);
+                    Point new_coords = find_new_coordinates_(particle);
 
                     double new_vel = idic_1d::find_dust_velocity(&particle, &cell);
                     new_particle.density = NAN;

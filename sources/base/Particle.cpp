@@ -14,6 +14,7 @@ Particle::Particle(Particle::Kind kind, double x, double y, double z) : Numbered
 Particle::Particle(Particle const & that) : Numbered(that) //WHY Numbered(that)??
 {
     kind = that.kind;
+    is_border = that.is_border;
     x = that.x;
     y = that.y;
     z = that.z;
@@ -25,45 +26,9 @@ Particle::Particle(Particle const & that) : Numbered(that) //WHY Numbered(that)?
     vy = that.vy;
     vz = that.vz;
     dbg_state = that.dbg_state;
-
-    ////TODO remove after debug
-    right_sum_x = that.right_sum_x;
-    right_sum_y = that.right_sum_y;
-    right_sum_z = that.right_sum_z;
-
-    right_an_x = that.right_an_x;
-    right_an_y = that.right_an_y;
-    right_an_z = that.right_an_z;
 }
 
-Particle & Particle::operator=(Particle const & that)
-{
-    Numbered::operator=(that);
-    kind = that.kind;
-    x = that.x;
-    y = that.y;
-    z = that.z;
-    mass = that.mass;
-    pressure = that.pressure;
-    density = that.density;
-    energy = that.energy;
-    vx = that.vx;
-    vy = that.vy;
-    vz = that.vz;
-    dbg_state = that.dbg_state;
-
-    ////TODO remove after debug
-    right_sum_x = that.right_sum_x;
-    right_sum_y = that.right_sum_y;
-    right_sum_z = that.right_sum_z;
-
-    right_an_x = that.right_an_x;
-    right_an_y = that.right_an_y;
-    right_an_z = that.right_an_z;
-    ////
-
-    return *this;
-}
+Particle & Particle::operator=(Particle const & that) = default;
 
 void Particle::set_coordinates(double new_x, double new_y, double new_z)
 { // TODO maybe remove
