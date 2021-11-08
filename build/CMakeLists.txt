@@ -22,7 +22,7 @@ if (MSVC)
   add_definitions(-D_SCL_SECURE_NO_WARNINGS)
   add_definitions(-D_WINDOWS_SOURCE)
 else()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wno-long-long -Wextra -Wall -pedantic")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-long-long -Wextra -Wall -pedantic")
 endif()
 
 # define directories (put all configurations into single ./bin dir)
@@ -96,6 +96,10 @@ set(Sph3dFilesTests
   "../sources/tests/Viscosity.h"
   "../sources/tests/Viscosity.cpp"
   "../sources/SPHTestsRunner.cpp"
+  "../sources/tests/Solver.cpp"
+  "../sources/tests/Solver.h"
+  "../sources/DustyWave.h"
+  "../sources/DustyWave.cpp"
 )
 
 

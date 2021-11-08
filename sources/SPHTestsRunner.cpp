@@ -3,6 +3,7 @@
 #include <fstream>
 #include <time.h>
 
+#include "DustyWave.h"
 #include "Particle.h"
 #include "MathUtils.h"
 #include "Grid.h"
@@ -16,7 +17,7 @@
 #include "Point.h"
 #include "DustyShock1d.h"
 #include "BallInVacuum.h"
-
+#include "SPHSolver.h"
 
 
 //TODO empty grid constructor
@@ -51,7 +52,7 @@ Grid do_time_step(Grid & old_grid, int step_num)
                     }
 
                     Particle new_particle(*particle);
-                    Point new_coords = find_new_coordinates(*particle);
+                    Point new_coords = find_new_coordinates_(*particle);
                     //Cell * new_particle_old_cell = old.grid.find_cell(new_particle);
                     //assert(new_particle_old_cell != nullptr);
 
@@ -80,7 +81,7 @@ void check_output_dir()
     std::ofstream test_file(OUTPUT_PATH + "test");
     if (!test_file.is_open())
     {
-        std::cout << "Cant write to the output directory";
+        std::cerr << "Cant write to the output directory" << std::endl;
         std::exit(1);
     }
     else
@@ -139,49 +140,10 @@ Grid restore_saved_grid()
 
 int main()
 {
-    const bool FROM_SAVED = false;
-    const int SAVED_STEP = 34;
-
     check_output_dir();
 
     Params & params = Params::get_instance();
-/*
-    clock_t startTime = clock();
-    //ParticlesState state = ball_rand_init_state(0.1);
-    //Grid grid = squared_ball_init_state(0.1, 0.01); // FIXME squared_ball does not take n_gas into account !!
-    clock_t init_start = clock();
 
-
-    //Grid grid = Sod_tube_3d::init_with_boundaries();
-    //Grid grid = Sod_tube_1d::init();
-    Grid grid = FROM_SAVED ? restore_saved_grid() : Dusty_shock_3d::init();
-    //Grid grid = Dusty_shock_1d::init();
-
-    clock_t init_fin = clock();
-    std::cout << "Init: " << (double)(init_fin - init_start) / CLOCKS_PER_SEC << std::endl;
-
-    for (int frameId = FROM_SAVED ? SAVED_STEP + 1 : 0;
-         frameId < floor(params.t / params.tau); ++frameId)
-    {
-        clock_t step_start = clock();
-        //TODO PRINT
-        //grid = Sod_tube_3d::do_time_step_with_boundaries(grid, frameId);
-        grid = Dusty_shock_3d::do_time_step(grid, frameId, IS_IDIC);
-        //grid = Sod_tube_1d::do_time_step(grid, frameId);
-        //grid = Dusty_shock_1d::do_time_step(grid, frameId);
-        clock_t step_fin = clock();
-
-        double step_time = (double)(step_fin - step_start) / CLOCKS_PER_SEC;
-        std::cout << frameId << " " << step_time << " s" << std::endl;
-        break;
-    }
-
-    std::cout << "Done!" << std::endl;
-    clock_t finishTime = clock();
-
-    double executionTime = (double)(finishTime - startTime) / CLOCKS_PER_SEC;
-    printf("Finished in %lf seconds.\n", executionTime);
-*/
 /*
     std::cout << ball_analytic::time_through_R(0.9) << std::endl;
     std::cout << ball_analytic::time_through_R(0.87714) << std::endl;
@@ -190,16 +152,24 @@ int main()
     std::cout << ball_analytic::time_through_R(ball_analytic::R_bisection(0.2, 0.00001, 0.000001)) << std::endl;
 
  */
-    //ball_analytic::print_solution(0., 0.01, 0.00001, 0.00001);
+    //ball_analytic::print_solution(0.2, 0.01, 0.0001, 0.0001);
 
-    Grid grid = ball_in_vacuum::init(0.005);
 
+    //Grid grid = ball_in_vacuum::init(0.05);
+    Grid grid = DustyWave::init();
+    //Grid grid = Dusty_shock_1d::init();
+
+
+
+    std::cerr << "Init done" << std::endl;
     clock_t startTime = clock();
     for (int frameId = 0; frameId < floor(params.t / params.tau); ++frameId)
     {
         clock_t step_start = clock();
 
-        grid = ball_in_vacuum::do_time_step(grid, frameId);
+        //grid = ball_in_vacuum::do_time_step(grid, frameId);
+        grid = DustyWave::do_time_step(grid, frameId);
+        //grid = Dusty_shock_1d::do_time_step(grid, frameId);
         clock_t step_fin = clock();
 
         double step_time = (double)(step_fin - step_start) / CLOCKS_PER_SEC;
@@ -209,8 +179,8 @@ int main()
     std::cout << "Done!" << std::endl;
     clock_t finishTime = clock();
 
-    //double executionTime = (double)(finishTime - startTime) / CLOCKS_PER_SEC;
-    //printf("Finished in %lf seconds.\n", executionTime);
+    double executionTime = (double)(finishTime - startTime) / CLOCKS_PER_SEC;
+    printf("Finished in %lf seconds.\n", executionTime);
 
     return 0;
 }

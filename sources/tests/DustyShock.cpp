@@ -1,5 +1,6 @@
 
 #include <fstream>
+#include <solvers/SPHSolver.h>
 
 #include "Params.h"
 #include "Cell.h"
@@ -610,7 +611,7 @@ Grid Dusty_shock_3d::do_time_step(Grid & old_grid, int step_num, bool /*isIDIC*/
                 for(Particle & particle : cell.gas_particles)
                 {
                     Particle new_particle(particle);
-                    Point new_coords = find_new_coordinates(particle);
+                    Point new_coords = find_new_coordinates_(particle);
 
                     Point new_vel = {NAN, NAN, NAN};
 
@@ -669,7 +670,7 @@ Grid Dusty_shock_3d::do_time_step(Grid & old_grid, int step_num, bool /*isIDIC*/
                 for(Particle & particle : cell.dust_particles)
                 {
                     Particle new_particle(particle);
-                    Point new_coords = find_new_coordinates(particle);
+                    Point new_coords = find_new_coordinates_(particle);
 
                     Point new_vel = {NAN, NAN, NAN};
 

@@ -33,12 +33,6 @@ public:
 
     std::vector<Cell *> get_neighbours();
 
-    /*void for_each_particle(Consumer<Particle *> f) {
-        for (Particle * particle : get_all_particles()) {
-            f.accept(particle);
-        }
-    }*/
-
     int get_i() const;
 
     int get_j() const;
@@ -58,11 +52,8 @@ public:
         return gas_particles; // just to avoid warning
     }
 
-    void clear_arrays();
-
-
-private:
     Grid * grid;
+private:
     int i;
     int j;
     int k;

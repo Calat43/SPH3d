@@ -16,6 +16,8 @@ public:
 
     Kind kind;
 
+    bool is_border = false;
+
     double vx = NAN;
     double vy = NAN;
     double vz = NAN;
@@ -25,6 +27,7 @@ public:
     double pressure = NAN;
     double density = NAN;
     double energy = NAN;
+    double theta = NAN;
 
     double x = NAN;
     double y = NAN;

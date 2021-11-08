@@ -8,8 +8,8 @@ Grid::Grid(double step_x, double step_y, double step_z, Point const & border1, P
     : cells(),
     border1(border1), border2(border2), step_x(step_x), step_y(step_y), step_z(step_z),
     x_size((int) ceil((border2.x - border1.x) / step_x)), // TODO maybe support last cell of different size?
-    y_size((int) ceil((border2.y - border1.y) / step_y)),
-    z_size((int) ceil((border2.z - border1.z) / step_z))
+    y_size(1),//((int) ceil((border2.y - border1.y) / step_y)),
+    z_size(1)//((int) ceil((border2.z - border1.z) / step_z))
 {
     assert(this->border1.x <= this->border2.x);
     assert(this->border1.y <= this->border2.y);
@@ -36,16 +36,16 @@ Cell * Grid::find_cell(const Particle & particle) {
     double z_relative = particle.z - border1.z;
 
     int i = (int) floor(x_relative / step_x);
-    int j = (int) floor(y_relative / step_y);
-    int k = (int) floor(z_relative / step_z);
+    int j = 0;//(int) floor(y_relative / step_y);
+    int k = 0;//(int) floor(z_relative / step_z);
 
-    return & (cells[i][j][k]);
+    return & (cells.at(i).at(j).at(k));
 }
 
 bool Grid::encloses_point(Point point) {
     if (point.x < border1.x || border2.x <= point.x) return false;
-    if (point.y < border1.y || border2.y <= point.y) return false;
-    if (point.z < border1.z || border2.z <= point.z) return false;
+//    if (point.y < border1.y || border2.y <= point.y) return false;
+//    if (point.z < border1.z || border2.z <= point.z) return false;
     return true;
 }
 
@@ -108,12 +108,4 @@ void Grid::with_copy_of(Particle const & particle) {
         return;
     }
     cell->add_copy_of_particle(particle);
-}
-
-void Grid::clear_all_particles()
-{
-    for_each_cell([this](Cell & cell)
-    {
-        cell.clear_arrays();
-    });
 }

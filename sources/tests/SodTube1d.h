@@ -2,6 +2,7 @@
 
 class Cell;
 class Grid;
+class Point;
 
 double find_density(Particle * particle, Cell * cell);
 

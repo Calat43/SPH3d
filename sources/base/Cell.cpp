@@ -49,24 +49,24 @@ std::vector<Particle *> Cell::get_all_particles() {
 
 std::vector<Cell *> Cell::get_neighbours() {
     int offset_x = (int) ceil(Params::get_instance().smooth_radius / grid->step_x);
-    int offset_y = (int) ceil(Params::get_instance().smooth_radius / grid->step_y);
-    int offset_z = (int) ceil(Params::get_instance().smooth_radius / grid->step_z);
+    int offset_y = 0;//(int) ceil(Params::get_instance().smooth_radius / grid->step_y);
+    int offset_z = 0;//(int) ceil(Params::get_instance().smooth_radius / grid->step_z);
 
     std::vector<Cell *> neighbours;
 
     int from_x = max(0, i - offset_x);
     int to_x = min(grid->x_size - 1, i + offset_x);
 
-    int from_y = max(0, j - offset_x);
+    int from_y = max(0, j - offset_y);
     int to_y = min(grid->y_size - 1, j + offset_y);
 
-    int from_z = max(0, k - offset_x);
+    int from_z = max(0, k - offset_z);
     int to_z = min(grid->z_size - 1, k + offset_z);
 
     for (int id_x = from_x; id_x <= to_x; ++id_x) {
         for (int id_y = from_y; id_y <= to_y; ++id_y) {
             for (int id_z = from_z; id_z <= to_z; ++id_z) {
-                neighbours.push_back(&(grid->cells[id_x][id_y][id_z]));
+                neighbours.push_back(&(grid->cells.at(id_x).at(id_y).at(id_z)));
             }
         }
     }
@@ -108,11 +108,4 @@ int Cell::get_drag_mode() const
 void Cell::set_drag_mode(int num)
 {
     this->drag_mode = num;
-}
-
-
-void Cell::clear_arrays()
-{
-    gas_particles.clear();
-    dust_particles.clear();
 }

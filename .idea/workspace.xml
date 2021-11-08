@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="SPH3D_reworked" targetName="SPH3D_reworked" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="abd23e15-3a49-4159-95d6-a2579cf72b1e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/SPHTestsRunner.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/SPHTestsRunner.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/base/Cell.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/base/Cell.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/base/Grid.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/base/Grid.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/base/Particle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/base/Particle.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/base/Particle.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/base/Particle.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/settings/Params.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/settings/Params.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/solvers/SPHSolver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/solvers/SPHSolver.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/solvers/SPHSolver.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/solvers/SPHSolver.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/BallInVacuum.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/BallInVacuum.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/DustyShock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/DustyShock.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/DustyShock1d.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/DustyShock1d.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/DustyShock1d.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/DustyShock1d.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/InitStates.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/InitStates.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/SodTube1d.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/SodTube1d.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/SodTube1d.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/SodTube1d.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/SodTube3d.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/SodTube3d.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/SodTube3d.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/SodTube3d.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/Solver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/Solver.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/Solver.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/Solver.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/main.cpp" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1zOJ9o4yWMhh91x7LepjbWRWU0F" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="RunManager">
+    <configuration name="SPH3D_reworked" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SPH3D_reworked" TARGET_NAME="SPH3D_reworked" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SPH3D_reworked" RUN_TARGET_NAME="SPH3D_reworked">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="abd23e15-3a49-4159-95d6-a2579cf72b1e" name="Default Changelist" comment="" />
+      <created>1634013053474</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1634013053474</updated>
+      <workItem from="1634013055083" duration="406000" />
+      <workItem from="1635410148321" duration="635000" />
+      <workItem from="1635488397769" duration="4461000" />
+      <workItem from="1636344483107" duration="382000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="686" y="340" key="FileChooserDialogImpl" timestamp="1634013080197">
+      <screen x="0" y="0" width="2560" height="1404" />
+    </state>
+    <state x="686" y="340" key="FileChooserDialogImpl/0.0.2560.1404@0.0.2560.1404" timestamp="1634013080197" />
+  </component>
+</project>
