@@ -46,13 +46,7 @@ double find_density(Particle * particle, Cell * cell)
 double find_density_no_sort(Particle const & particle, Grid const & grid)
 {
     double density = 0;
-
     int nears = 0;
-
-    Params & params = Params::get_instance();
-    double center_x = (params.border2.x - params.border1.x) / 2;
-    double center_y = (params.border2.y - params.border1.y) / 2;
-    double center_z = (params.border2.z - params.border1.z) / 2;
 
     for(int i = 0; i < grid.x_size; ++i)
     {
@@ -73,12 +67,6 @@ double find_density_no_sort(Particle const & particle, Grid const & grid)
         }
     }
 
-    if((pow((particle.x - center_x), 2) + pow((particle.y - center_y), 2) + pow((particle.z - center_z), 2)) <= 0.0025)
-    {
-        std::cout << particle.get_id() << " " << nears << std::endl;
-    }
-
-
     return density;
 }
 
@@ -90,11 +78,11 @@ void recalc_density(Grid & grid, Particle::Kind kind)
         {
             for(int k = 0; k < grid.z_size; ++k)
             {
-                Cell & cell = grid.cells[i][j][k];
+                Cell & cell = grid.cells.at(i).at(j).at(k);
                 for(Particle & particle : cell.particles_of_kind(kind))
                 {
                     particle.density = find_density(&particle, &(cell));
-                    //particle->density = find_density_no_sort(*particle, state.grid);
+                    //particle.density = find_density_no_sort(particle, grid);
                     assert(!__isnan(particle.density));
                 }
             }
@@ -128,7 +116,7 @@ Point find_new_velocity(Particle * particle, Cell * cell)
         }
     }
 
-    double term2 = - params.tau * particle->mass * params.sound_speed * params.sound_speed;
+    double term2 = - params.tau * particle->mass * params.gas_sound_speed * params.gas_sound_speed;
 
     vel = sum * term2 + prev_vel;
 
@@ -167,7 +155,7 @@ Point find_new_velocity_no_sort(Particle * particle, Grid * grid)
         }
     }
 
-    double term2 = - params.tau * particle->mass * params.sound_speed * params.sound_speed;
+    double term2 = - params.tau * particle->mass * params.gas_sound_speed * params.gas_sound_speed;
 
     vel = sum * term2 + prev_vel;
 
@@ -208,7 +196,9 @@ Point Sod_tube_1d::find_new_velocity(Particle * particle, Cell * cell)
 
 double Sod_tube_1d::find_new_pressure(Particle * particle)
 {
-    return particle->density * particle->energy * (Params::get_instance().gamma - 1);
+    double result = particle->density * particle->energy * (Params::get_instance().gamma - 1);
+    assert(result >= 0);
+    return result;
 }
 
 void Sod_tube_1d::recalc_pressure(Grid & grid, Particle::Kind kind)
@@ -223,7 +213,6 @@ void Sod_tube_1d::recalc_pressure(Grid & grid, Particle::Kind kind)
                 for(Particle & particle : cell.particles_of_kind(kind))
                 {
                     particle.pressure = Sod_tube_1d::find_new_pressure(&particle);
-                    //particle->density = find_density_no_sort(*particle, state.grid);
                     assert(!__isnan(particle.pressure));
                 }
             }

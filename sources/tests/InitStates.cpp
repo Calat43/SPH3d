@@ -75,6 +75,64 @@ Grid Sod_tube_1d::init()
     double gas_image_left_lenght = image_coord.at(gas_image_left_p_num + gas_real_left_p_num) - image_coord.at(0);
     double mass = gas_image_left_lenght * shock_params.gas_dens_left / (gas_image_left_p_num + gas_real_left_p_num);
 
+    uint i = 0;
+    for (i = 0; i < gas_image_left_p_num; ++i)
+    {
+        Particle particle(Particle::Kind::Gas, image_coord.at(i), 0, 0);
+
+        particle.mass = mass;
+        particle.set_velocities(shock_params.gas_vel_left, 0, 0);
+        particle.density = shock_params.gas_dens_left;
+        particle.pressure = shock_params.gas_press_left;
+        particle.energy = shock_params.gas_ener_left;
+
+        particle.is_border = true;
+
+        init.with_copy_of(particle);
+    }
+    for(i = gas_image_left_p_num; i < real_particles + gas_image_left_p_num; ++i)
+    {
+        Particle particle(Particle::Kind::Gas, image_coord.at(i), 0, 0);
+
+        particle.mass = mass;
+        if(particle.x <= shock_params.membrane)
+        {
+            particle.set_velocities(shock_params.gas_vel_left, 0, 0);
+            particle.density = shock_params.gas_dens_left;
+            particle.pressure = shock_params.gas_press_left;
+            particle.energy = shock_params.gas_ener_left;
+        }
+        else
+        {
+            particle.set_velocities(shock_params.gas_vel_right, 0, 0);
+            particle.density = shock_params.gas_dens_right;
+            particle.pressure = shock_params.gas_press_right;
+            particle.energy = shock_params.gas_ener_right;
+        }
+
+        particle.is_border = false;
+
+        init.with_copy_of(particle);
+    }
+
+    for(i = real_particles + gas_image_left_p_num; i < all_particles; ++i)
+    {
+        Particle particle(Particle::Kind::Gas, image_coord.at(i), 0, 0);
+
+        particle.mass = mass;
+
+        particle.set_velocities(shock_params.gas_vel_right, 0, 0);
+        particle.density = shock_params.gas_dens_right;
+        particle.pressure = shock_params.gas_press_right;
+        particle.energy = shock_params.gas_ener_right;
+
+        particle.is_border = true;
+
+        init.with_copy_of(particle);
+    }
+
+//without marking borders
+    /*
     for(uint i = 0; i < all_particles; ++i)
     {
         Particle particle(Particle::Kind::Gas, image_coord.at(i), 0, 0);
@@ -97,7 +155,7 @@ Grid Sod_tube_1d::init()
 
         init.with_copy_of(particle);
     }
-
+*/
     recalc_density(init, Particle::Kind::Gas);
     Sod_tube_1d::recalc_pressure(init, Particle::Kind::Gas);
 

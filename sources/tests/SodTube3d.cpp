@@ -94,3 +94,7 @@ double Sod_tube_3d::find_new_energy(Particle * particle, Cell * cell)
 
     return result;
 }
+
+Grid Sod_tube_3d::init_with_boundaries() {
+    // TODO for some reason it was previsously removed in "unmerged..." commit
+}

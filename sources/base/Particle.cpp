@@ -22,6 +22,7 @@ Particle::Particle(Particle const & that) : Numbered(that) //WHY Numbered(that)?
     pressure = that.pressure;
     density = that.density;
     energy = that.energy;
+    theta = that.theta;
     vx = that.vx;
     vy = that.vy;
     vz = that.vz;

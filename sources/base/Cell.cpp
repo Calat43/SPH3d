@@ -49,8 +49,8 @@ std::vector<Particle *> Cell::get_all_particles() {
 
 std::vector<Cell *> Cell::get_neighbours() {
     int offset_x = (int) ceil(Params::get_instance().smooth_radius / grid->step_x);
-    int offset_y = (int) ceil(Params::get_instance().smooth_radius / grid->step_y);
-    int offset_z = (int) ceil(Params::get_instance().smooth_radius / grid->step_z);
+    int offset_y = 0;//(int) ceil(Params::get_instance().smooth_radius / grid->step_y);
+    int offset_z = 0;//(int) ceil(Params::get_instance().smooth_radius / grid->step_z);
 
     std::vector<Cell *> neighbours;
 
@@ -66,7 +66,7 @@ std::vector<Cell *> Cell::get_neighbours() {
     for (int id_x = from_x; id_x <= to_x; ++id_x) {
         for (int id_y = from_y; id_y <= to_y; ++id_y) {
             for (int id_z = from_z; id_z <= to_z; ++id_z) {
-                neighbours.push_back(&(grid->cells[id_x][id_y][id_z]));
+                neighbours.push_back(&(grid->cells.at(id_x).at(id_y).at(id_z)));
             }
         }
     }

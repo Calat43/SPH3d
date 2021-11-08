@@ -1,6 +1,8 @@
 #pragma once
 
 class Grid;
+class Point;
+class Particle;
 
 
 class SPHSolver
@@ -18,8 +20,8 @@ private:
 
     void swap_grids_and_clear_next();
     
-    Grid* current_grid = 0;
-    Grid* next_grid = 0;
+    Grid* current_grid = nullptr;
+    Grid* next_grid = nullptr;
 };
 
-Point find_new_coordinates_(Particle & particle);
+Point find_new_coordinates_(Particle const & particle);

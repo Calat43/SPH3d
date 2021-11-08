@@ -1,10 +1,10 @@
 #include <base/Particle.h>
+#include "SodTube1d.h"
 #include "Params.h"
 #include "Grid.h"
 #include "Cell.h"
 #include "MathUtils.h"
 #include "SodTube3d.h"
-#include "SodTube1d.h"
 #include "SPHSolver.h"
 
 SPHSolver::SPHSolver()
@@ -62,9 +62,12 @@ int SPHSolver::generate_ball_distribution()
     return 0;
 }
 
-Point find_new_coordinates_(Particle & particle)
-{
-    return {NAN, NAN, NAN};
+Point find_new_coordinates_(Particle const &particle) {
+    Params & params = Params::get_instance();
+    double x = particle.x + params.tau * particle.vx;
+    double y = particle.y + params.tau * particle.vy;
+    double z = particle.z + params.tau * particle.vz;
+    return {x, y, z};
 }
 
 int SPHSolver::do_time_step()
@@ -106,6 +109,14 @@ int SPHSolver::do_time_step()
     // swap grids and clear next grid (prepare for the next timestep)
     swap_grids_and_clear_next();
     return 0;
+}
+
+int SPHSolver::generate_initial_distribution() {
+    return 0; // TODO implement
+}
+
+void SPHSolver::swap_grids_and_clear_next() {
+    // TODO implement
 }
 
 /*

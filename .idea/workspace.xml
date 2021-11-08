@@ -11,36 +11,31 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c545454e-88b8-45b6-b852-47db5923cbc2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/sources/tests/Params.h" afterDir="false" />
+    <list default="true" id="abd23e15-3a49-4159-95d6-a2579cf72b1e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/BallInVacuum.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/BallInVacuum.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Params.h" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/SPHTestsRunner.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/SPHTestsRunner.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/SodTube3d.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/SodTube3d.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Solver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/Solver.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Solver.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/Solver.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/base/MathUtils.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/base/MathUtils.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/base/Cell.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/base/Cell.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/base/Grid.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/base/Grid.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/base/Particle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/base/Particle.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/base/Particle.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/base/Particle.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/base/Viscosity.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/base/Viscosity.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/settings/Params.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/settings/Params.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/solvers/SPHSolver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/solvers/SPHSolver.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/solvers/SPHSolver.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/solvers/SPHSolver.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/tests/BallInVacuum.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/BallInVacuum.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/tests/BallInVacuum.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/BallInVacuum.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/DustyShock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/DustyShock.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/tests/DustyShock1d.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/DustyShock1d.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/tests/NonLinear.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/NonLinear.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/DustyShock1d.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/DustyShock1d.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/InitStates.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/InitStates.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/tests/SodTube1d.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/SodTube1d.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/SodTube1d.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/SodTube1d.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/tests/SodTube3d.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/SodTube3d.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/tests/SodTube3d.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/SodTube3d.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/Solver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/Solver.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/Solver.h" beforeDir="false" afterPath="$PROJECT_DIR$/sources/tests/Solver.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/tests/main.cpp" beforeDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,83 +48,52 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
-  <component name="ProjectId" id="1ZWhmHC9u53OBf945BY0teNXwDw" />
+  <component name="ProjectId" id="1zOJ9o4yWMhh91x7LepjbWRWU0F" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="CPPToolchains" />
-  </component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/sources/tests" />
-    </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
-    <configuration name="SPH3D_reworked" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SPH3D_reworked" TARGET_NAME="SPH3D_reworked" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SPH3D_reworked" RUN_TARGET_NAME="SPH3D_reworked">
+    <configuration name="SPH3D_reworked" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SPH3D_reworked" TARGET_NAME="SPH3D_reworked" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SPH3D_reworked" RUN_TARGET_NAME="SPH3D_reworked">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
   </component>
-  <component name="SvnConfiguration">
-    <configuration />
-  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c545454e-88b8-45b6-b852-47db5923cbc2" name="Default Changelist" comment="" />
-      <created>1584960914229</created>
+      <changelist id="abd23e15-3a49-4159-95d6-a2579cf72b1e" name="Default Changelist" comment="" />
+      <created>1634013053474</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1584960914229</updated>
-      <workItem from="1584960915485" duration="2955000" />
-      <workItem from="1585057726628" duration="9965000" />
-      <workItem from="1585235072893" duration="342000" />
-      <workItem from="1585290276922" duration="5036000" />
+      <updated>1634013053474</updated>
+      <workItem from="1634013055083" duration="406000" />
+      <workItem from="1635410148321" duration="635000" />
+      <workItem from="1635488397769" duration="4461000" />
+      <workItem from="1636344483107" duration="382000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
-  <component name="Vcs.Log.History.Properties">
-    <option name="COLUMN_ORDER">
-      <list>
-        <option value="0" />
-        <option value="2" />
-        <option value="3" />
-        <option value="1" />
-      </list>
-    </option>
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
+  <component name="WindowStateProjectService">
+    <state x="686" y="340" key="FileChooserDialogImpl" timestamp="1634013080197">
+      <screen x="0" y="0" width="2560" height="1404" />
+    </state>
+    <state x="686" y="340" key="FileChooserDialogImpl/0.0.2560.1404@0.0.2560.1404" timestamp="1634013080197" />
   </component>
 </project>

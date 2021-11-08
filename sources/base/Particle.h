@@ -27,6 +27,7 @@ public:
     double pressure = NAN;
     double density = NAN;
     double energy = NAN;
+    double theta = NAN;
 
     double x = NAN;
     double y = NAN;

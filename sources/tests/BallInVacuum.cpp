@@ -6,8 +6,9 @@
 #include "Cell.h"
 #include "Grid.h"
 
-#include "Solver.h"
+#include "SPHSolver.h"
 #include "BallInVacuum.h"
+#include "SodTube1d.h"
 #include "SodTube3d.h"
 
 double ball_analytic::time_through_R(double R)
@@ -28,6 +29,10 @@ double ball_analytic::time_through_R(double R)
 
     double c1 = c0 * log(2. * sqrt(b) * r0 * sqrt(b - c0 / r0) + 2. * b * r0 - c0) / 2. / pow(b, 3. / 2.) +
                 r0 * sqrt(b - c0 / r0) / b;
+
+    std::cout << "c0: " << c0 << std::endl;
+    std::cout << "c1: " << c1 << std::endl;
+    std::cout << "b: " << b << std::endl;
 
     double result = c0 * log(2. * sqrt(b) * R * sqrt(b - c0 / R) + 2. * b * R - c0) / 2. / pow(b, 3. / 2.) +
                     R * sqrt(b - c0 / R) / b - c1;
@@ -168,9 +173,9 @@ Grid ball_in_vacuum::init(double step)
                 {
                     Particle particle(Particle::Kind::Gas, x, y, z);
 
-                    particle.vx = 0;//ball_in_vacuum::init_velocity(center, Point(particle.x, particle.y, particle.z)).x;
-                    particle.vy = 0;//ball_in_vacuum::init_velocity(center, Point(particle.x, particle.y, particle.z)).y;
-                    particle.vz = 0;//ball_in_vacuum::init_velocity(center, Point(particle.x, particle.y, particle.z)).z;
+                    particle.vx = ball_in_vacuum::init_velocity(center, Point(particle.x, particle.y, particle.z)).x;
+                    particle.vy = ball_in_vacuum::init_velocity(center, Point(particle.x, particle.y, particle.z)).y;
+                    particle.vz = ball_in_vacuum::init_velocity(center, Point(particle.x, particle.y, particle.z)).z;
 
                     init.with_copy_of(particle);
                     ++count;
@@ -190,7 +195,6 @@ Grid ball_in_vacuum::init(double step)
                 for (Particle * particle : cell->get_all_particles())
                 {
                     particle->mass = params.ball_mass / count;
-                    //particle->density = 3. * params.ball_mass / 4. / PI / pow(params.ball_init_radius, 3);
                 }
             }
         }
@@ -214,9 +218,8 @@ Grid ball_in_vacuum::init(double step)
 
                 for(Particle * particle : cell.get_all_particles())
                 {
-                    //double r = distance(Point(particle->x, particle->y, particle->z), center);
-                    particle->pressure = pow(params.sound_speed, 2) * particle->density; //ball_analytic::pressure(r, params.ball_init_radius, ddot_R);
-                                        //1. - 100. * r * r;
+                    double r = distance(Point(particle->x, particle->y, particle->z), center);
+                    particle->pressure = ball_analytic::pressure(r, params.ball_init_radius, ddot_R);
                 }
             }
         }
@@ -311,7 +314,7 @@ Grid ball_in_vacuum::do_time_step(Grid & old_grid, int step_num)
                 for(Particle * particle : cell.get_all_particles())
                 {
                     Particle new_particle(*particle);
-                    Point new_coords = find_new_coordinates(*particle);
+                    Point new_coords = find_new_coordinates_(*particle);
 
                     Point new_vel = Sod_tube_3d::find_new_velocity(particle, &cell, step_num);
                     new_particle.density = NAN;
@@ -346,7 +349,7 @@ Grid ball_in_vacuum::do_time_step(Grid & old_grid, int step_num)
 
                 for (Particle *particle : cell.get_all_particles())
                 {
-                    particle->pressure = pow(params.sound_speed, 2) * particle->density;
+                    particle->pressure = pow(params.gas_sound_speed, 2) * particle->density;
                 }
             }
         }
